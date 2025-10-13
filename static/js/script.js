@@ -34,3 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// ==== SEARCH OVERLAY LOGIC ====
+
+// Get the necessary elements from the DOM
+const openSearchButton = document.getElementById('open-search-btn');
+const searchOverlay = document.getElementById('search-overlay');
+const closeSearchButton = searchOverlay.querySelector('.close-btn');
+
+// When the search icon in the header is clicked...
+openSearchButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating
+    searchOverlay.classList.add('active'); // Show the overlay
+});
+
+// When the 'X' close button is clicked...
+closeSearchButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating
+    searchOverlay.classList.remove('active'); // Hide the overlay
+});

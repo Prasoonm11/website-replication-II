@@ -1,17 +1,16 @@
 /* ==== BASIC SETUP & FONT IMPORTS ==== */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Roboto:wght@400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
+@font-face {
+    font-family: 'Humble Signation'; /* This is the name you'll use for the font */
+    src: url('../fonts/HumbleSignation.ttf') format('truetype');
+}
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Use Roboto for all standard text */
     margin: 0;
     background-color: #f4f4f4;
-    color: #333;
     overflow-x: hidden;
-}
-.script-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: 3rem;
+    overflow-y: visible;
 }
 h5 {
     margin-left: 300px;
@@ -34,119 +33,92 @@ h6 {
 .container {
     width: 90%;
 }
-/* ==== HEADER (Updated to match original site) ==== */
+
+/* ==== HEADER ==== */
+/* ==== HEADER ==== */
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* This is key: pushes logo left, actions right */
     align-items: center;
-    padding: 1.5rem 3rem; /* Increased vertical padding */
+    padding: 1rem 3rem;
+    height: 5rem;
     background-color: white;
-    border-bottom: 1px solid #f2f3f5; /* Lighter border color */
-    position: relative; 
+    border-bottom: 1px solid #eee; /* A subtle border */
+    position: relative;
     z-index: 10;
 }
 
-.logo {
+/* 1. Logo Styling */
+header .logo img {
+    height: 50px; /* Adjust height as needed */
+    display: block;
+}
+
+/* 2. Navigation Styling */
+header nav {
+    flex-grow: 1; /* Allows nav to take up space but we'll center its content */
     display: flex;
-    align-items: center;
-    gap: 1.5rem;
+    justify-content: center; /* Centers the ul within the nav */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem; /* Space between nav items */
+    margin: 0;
+    padding: 0;
 }
 
 header nav a {
     text-decoration: none;
-    color: #4a4e57; /* Softer black for text */
-    font-weight: 700; /* Bolder font weight */
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 0.5rem 0;
+    color: #333;
+    font-weight: 700; /* Bolder font */
+    font-size: 1.2rem;
+    text-transform: uppercase; /* MAKES TEXT ALL CAPS */
+    letter-spacing: 0.5px;
     transition: color 0.3s ease;
 }
 
 header nav a:hover {
-    color: #e31837; /* The primary red from the original site */
+    color: #d90429; /* Red hover for links */
 }
 
+
+/* 3. Right-side Actions Styling */
+header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Space between button and icons */
+}
+
+/* Update the Apply Now button to be pill-shaped */
 header .apply-now {
-    background-color: #e31837; /* Primary red */
+    background-color: #c1121f; /* A strong red */
     color: white;
     border: none;
-    padding: 11px 23px; /* Specific padding from original site */
+    padding: 0.8rem 2rem; /* More horizontal padding */
     font-weight: bold;
     cursor: pointer;
-    border-radius: 30px; /* More rounded corners */
-    text-decoration: none; /* Add this for the <a> tag */
-    font-size: 0.9rem;
+    border-radius: 50px; /* This makes it a pill shape */
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap; /* Prevents text from wrapping */
     transition: background-color 0.3s ease;
 }
 
 header .apply-now:hover {
-    background-color: #c1121f; /* A slightly darker red on hover */
+    background-color: #9a031e; /* Darker red on hover */
 }
 
-
-/* ==== HERO SECTION (Updated to match original site) ==== */
-.hero {
-    display: flex;
-    height: 85vh;
-    min-height: 650px;
-    background-color: white;
+/* New style for the search and menu icons */
+.header-icon {
+    font-size: 1.4rem;
+    color: #333;
+    text-decoration: none;
 }
+/* ==== HEADER DROPDOWN STYLES ==== */
 
-/* Column 1: Red Text Box */
-.hero-content {
-    flex: 0 0 55%;
-    position: relative;
-    background: #e31837; /* Using the solid, primary red */
-    color: white;
-    padding: 2rem 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.hero-content .conference-id { 
-    font-size: 3.5rem;   
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-}
-
-.logo-red { color: #e31837; } /* Note: This won't be visible on a red background */
-.logo-black { color: #000000; }
-
-.hero-content .script-title { 
-    font-family: 'Alex Brush', cursive; 
-    font-size: 3.5rem; 
-    font-weight: normal; 
-    margin: 0; 
-    line-height: 1; 
-}
-
-.hero-content .main-title { 
-    font-size: 2.2rem; 
-    margin: 1rem 0;
-    font-weight: 700;
-}
-
-.hero-content .subtitle { 
-    font-size: 1.1rem; 
-    opacity: 0.9; 
-}
-
-.date-banner { 
-    background-color: #212934; /* Darker charcoal color */
-    display: inline-flex; 
-    align-items: center; 
-    gap: 1rem; 
-    padding: 0.8rem 1.5rem; 
-    margin-top: 2rem; 
-    font-weight: bold; 
-    width: fit-content; 
-    border-radius: 5px;
-}
-
+/* 1. Style the parent link container */
 .dropdown-link {
     position: relative; /* This is crucial for positioning the dropdown */
     display: inline-block;
@@ -158,6 +130,7 @@ header .apply-now:hover {
 .dropdown-menu {
     display: none; /* CRITICAL: This hides the menu by default */
     position: absolute;
+    font-size: 1rem;
     top: 100%;
     left: 0;
     background-color: #1a1a1a;
@@ -189,6 +162,79 @@ header .apply-now:hover {
     object-fit: cover; /* Ensures the image covers the area without distortion */
     border-radius: 5px;
 }
+
+
+.dropdown-links li a {
+    color: white;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    display: block;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-links li a:hover {
+    background-color: #333;
+}
+
+/* ==== HERO SECTION LAYOUT ==== */
+.hero {
+    display: flex; /* Using Flexbox for the two columns */
+    height: 300px;
+    width: 1650px;
+    background-color: white;
+}
+
+/* ==== COLUMN 1: RED TEXT BOX (.hero-content) ==== */
+.hero-content {
+    flex: 0 0 55%; /* Sets the width of this column to 55% */
+    position: relative;
+    background: linear-gradient(105deg, #c1121f, #9a031e);
+    color: white;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.hero-content .conference-id { font-size: 1.5rem; font-weight: 900; }
+.hero-content .main-title { font-size: 2.3rem; margin: 1rem 0; }
+.hero-content .subtitle { font-size: 1.1rem; opacity: 0.9; }
+.hero-content .script-title { 
+    font-family: 'Humble Signation', cursive; /* Use the new font */
+    font-size: 5rem; /* You may need to adjust the size for this font */
+    font-weight: normal; 
+    margin-left: 20px;
+    margin-bottom: 15px;
+    margin-top: 0;
+    line-height: 1; 
+}
+/* Update this entire rule */
+.date-banner {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    margin-top: 2em;
+    width: fit-content;
+    border-radius: 5px;
+    margin-left: 150px;
+}
+
+/* Add these new rules */
+.date-banner .date-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+    color: #d90429;
+}
+.date-banner .date-text {
+    font-weight: bold;
+    font-size: 2rem;
+}
 .title-divider {
     display: flex;
     align-items: center;
@@ -209,11 +255,13 @@ header .apply-now:hover {
 }
 
 .logo-text {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900; /* Extra bold */
-    font-size: 2.5rem;   /* Adjust size as needed */
-    line-height: 1.1;   /* Keeps the two lines close together */
-    margin-left: 100px;
+    font-family: 'Montserrat', sans-serif; /* The bold logo font */
+    font-weight: 700; 
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    margin-left: 300px;
 }
 
 .logo-red {
@@ -238,14 +286,21 @@ header .apply-now:hover {
 }
 
 /* This is the outer container for the border and shadow */
+/* This is the outer container for the border and shadow */
 .diamond-pic {
-    position: absolute; /* This allows top/left positioning */
-    width: 325px;
-    height: 325px;
-    background-color: rgba(105, 96, 96, 0.583); /* This is the border color */
-    padding: 5px; /* This is the border thickness */
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: white; /* This creates the white border */
     filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3));
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Default diamond shape */
+    
+    /* === KEY CHANGES START HERE === */
+    overflow: hidden; /* Hides parts of the inner image that spill out */
+    border-radius: 15%; /* This creates the rounded corners. Adjust value as needed. */
+    transform: rotate(45deg); /* Rotates the square into a diamond */
+    
+    /* REMOVE THIS LINE - No longer needed */
+    /* clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); */
 }
 
 /* This is the inner container for the image */
@@ -255,25 +310,34 @@ header .apply-now:hover {
     background-size: cover;
     background-position: center;
     filter: grayscale(100%);
-    clip-path: inherit; /* Inherits shape from its parent */
-    transition: filter 0.3s ease;
+    transition: all 0.3s ease;
+    
+    /* === KEY CHANGES START HERE === */
+    /* Un-rotates the image so it appears upright inside the diamond */
+    transform: rotate(-45deg) scale(1.42); /* Scale up to fill the container corners */
+    
+    /* REMOVE THIS LINE - It's handled by the parent now */
+    /* clip-path: inherit; */
 }
 
-/* Hover Effects */
-.diamond-pic:hover {
-    transform: scale(1.05);
-    z-index: 10;
-}
+/* Update hover effect to target the inner element for a smoother zoom */
 .diamond-pic:hover .diamond-inner {
     filter: none;
+    transform: rotate(-45deg) scale(1.5); /* Slightly larger scale for a zoom effect */
+}
+
+/* Remove the old hover effect from the parent */
+.diamond-pic:hover {
+    transform: rotate(45deg); /* Keeps it rotated, but removes the old scale effect */
+    z-index: 10;
 }
 
 
 /* --- FIX: RE-ADD THE POSITIONING AND Z-INDEX FOR EACH DIAMOND --- */
 #pic1 { top: -10%; left: -25%; z-index: 4; }
-#pic2 { top: -70%; left: 3%; z-index: 3; }
-#pic3 { top: 50%; left: 3%; z-index: 2; }
-#pic4 { top: -10%; left: 31%; z-index: 1; }
+#pic2 { top: -80%; left: 10%; z-index: 3; }
+#pic3 { top: 60%; left: 10%; z-index: 2; }
+#pic4 { top: -10%; left: 45%; z-index: 1; }
 
 
 /* --- SET THE UNIQUE SHAPES AND IMAGES --- */
@@ -335,7 +399,7 @@ header .apply-now:hover {
 /* ==== MAIN CONTENT SECTION ==== */
 
 .main-content {
-    padding: 0 4rem; /* Adds space on the left and right */
+    padding: 0 0rem; /* Adds space on the left and right */
     margin-top: -10vh; /* Pulls this section up to overlap the hero images */
     position: relative; /* Needed for z-index context */
     z-index: 5; /* Ensures this whole section is above the hero background */
@@ -394,10 +458,11 @@ header .apply-now:hover {
 
 /* Update this rule */
 .panel-heading {
-    font-size: 1.8rem;
+    font-size: 3rem;
     font-weight: 900;
     color: #c1121f;
-    margin: 0 0 1.5rem 0; /* Cleaned up margin */
+    margin-top: 8rem;
+    margin-bottom: 3rem;
     text-align: center;   /* Ensures the heading is always centered */
 }
 
@@ -541,40 +606,6 @@ footer {
 }
 
 
-/* Column 4: Newsletter */
-.newsletter-form {
-    background-color: #f4f4f4;
-    padding: 1.5rem;
-    border-radius: 8px;
-    color: #333;
-}
-.newsletter-form p {
-    font-weight: bold;
-    margin-top: 0;
-}
-.newsletter-form input {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box; /* Important for padding and width */
-}
-.newsletter-form button {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.newsletter-form button:hover {
-    background-color: #555;
-}
-
 
 /* Bottom Footer Bar */
 .footer-bottom {
@@ -617,12 +648,37 @@ footer {
 /* Styling for the embedded map in the footer */
 .map-col iframe {
     border-radius: 8px; /* Gives the map slightly rounded corners */
-    filter: grayscale(80%); /* Optional: makes the map black and white to match the theme */
     transition: filter 0.3s ease;
 }
 
-.map-col iframe:hover {
-    filter: grayscale(0%); /* Brings color back on hover */
+/* ==== STYLING FOR "ABOUT CONFERENCE" TAB ==== */
+
+#about.tab-content h3 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #c1121f; /* Use the primary theme red */
+    margin-top: 2rem; /* Add space above the heading (except the first one) */
+    margin-bottom: 1.5rem; /* Creates space between the heading and the paragraph */
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f2f5; /* A subtle separator line for elegance */
+}
+
+/* This rule prevents extra space above the very first heading ("Overview") */
+#about.tab-content h3:first-of-type {
+    margin-top: 0;
+}
+
+#about.tab-content p {
+    font-size: 1.1rem; /* Slightly larger text for better readability */
+    line-height: 1.7;  /* Generous spacing between lines of text */
+    color: #555;      /* A softer, more professional text color than pure black */
+    margin-bottom: 1.5rem; /* Consistent spacing between paragraphs */
+    text-align: justify;   /* Creates clean, block-like paragraphs for a formal look */
+}
+
+/* This rule removes the extra space after the very last paragraph in the section */
+#about.tab-content p:last-child {
+    margin-bottom: 0;
 }
 /* ==== KEYNOTE SPEAKER SECTION STYLES ==== */
 
@@ -685,16 +741,142 @@ footer {
     margin: 2rem 0;
 }
 
+/* ==== STYLING FOR "IMPORTANT DATES" TIMELINE ==== */
+
+#dates.tab-content h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 3rem;
+}
+
+.timeline-list {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+/* The vertical timeline bar */
+.timeline-list::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    height: calc(100% - 10px);
+    width: 4px;
+    background: #f0f2f5; /* Light grey bar */
+    border-radius: 2px;
+}
+
+.timeline-list li {
+    padding-left: 40px; /* Space for the line and dot */
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+/* The dot on the timeline for each event */
+.timeline-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 4px solid #c1121f; /* Red circle */
+    z-index: 1;
+}
+
+.timeline-list li strong {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.timeline-list li span {
+    display: block;
+    font-size: 1rem;
+    color: #777;
+    margin-top: 0.25rem;
+}
+
+/* ==== STYLING FOR "CONFERENCE COMMITTEES" TAB ==== */
+
+#committees.tab-content h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 3rem; /* Space before the first committee section */
+}
+
+/* Container for each committee group (e.g., "Patron") */
+.committee-section {
+    margin-bottom: 2.5rem; /* Space between each section */
+}
+
+/* The title of each section (e.g., "Chief Patron") */
+.committee-section h4 {
+    font-size: 1.4rem;
+    color: #c1121f; /* Theme red */
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f2f5; /* Subtle separator line */
+}
+
+/* The list of members */
+.committee-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* Each list item (a single person) */
+.committee-section li {
+    margin-bottom: 1.25rem; /* Space between members in the same list */
+}
+
+/* The person's name */
+.committee-section .member-name {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* The person's affiliation/title */
+.committee-section .member-affiliation {
+    display: block;
+    font-size: 1rem;
+    color: #666;
+    padding-left: 1rem; /* Indent for visual structure */
+    position: relative;
+    margin-top: 0.25rem;
+}
+
+/* Adds a small decorative vertical line before the affiliation */
+.committee-section .member-affiliation::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    height: 1rem;
+    width: 3px;
+    background-color: #c1121f;
+    border-radius: 2px;
+}
 /* ==== REGISTRATION TABLE STYLES ==== */
 
 /* This styles the main container for this tab */
-#registration.tab-content {
-    background-color: white;
-    padding: 2rem 3rem;
-    margin-top: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
+
 
 #registration.tab-content h3 {
     font-size: 1.8rem;
@@ -752,15 +934,6 @@ footer {
 /* ==== CALL FOR PAPERS (CFP) TAB STYLES ==== */
 
 /* This styles the main container for this tab */
-#papers.tab-content {
-    background-color: white;
-    padding: 2rem 3rem;
-    margin-top: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: left;
-}
-
 .cfp-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -779,6 +952,11 @@ footer {
 }
 
 /* Two-column grid for guidelines */
+.content-panel {
+    flex-grow: 1;
+    width: 100%;
+    padding: 0 2rem 2rem 2rem; /* Adds spacing on the sides and bottom */
+}
 .content-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -878,14 +1056,6 @@ footer {
 /* ==== CONTACT TAB STYLES ==== */
 
 /* This styles the main container for this tab */
-#contact.tab-content {
-    background-color: white;
-    padding: 2rem 3rem;
-    margin-top: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
 .contact-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -950,4 +1120,89 @@ footer {
 .logo-right {
     height: 40px; /* Match the height of your left logo */
     margin-left: 1.5rem; /* Add space between the icon and the new logo */
+}
+/* ==== SEARCH OVERLAY PANEL STYLES ==== */
+
+#search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Dark, semi-transparent background */
+    z-index: 1000; /* Ensure it's on top of everything */
+    
+    /* Center the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Hide by default and set up transition */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* "active" class to show the overlay */
+#search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* The 'X' close button */
+#search-overlay .close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-size: 3rem;
+    font-weight: 300;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+#search-overlay .close-btn:hover {
+    transform: scale(1.1);
+}
+
+/* The form container */
+#search-overlay .search-content {
+    width: 80%;
+    max-width: 800px;
+}
+
+#search-overlay form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* The search input field */
+#search-overlay input[type="search"] {
+    flex-grow: 1; /* Take up available space */
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #ccc;
+    color: white;
+    font-size: 2.5rem; /* Large, impactful text */
+    padding: 0.5rem 1rem;
+    outline: none; /* Remove default browser outline */
+    transition: border-color 0.3s ease;
+}
+
+#search-overlay input[type="search"]::placeholder {
+    color: #888;
+}
+
+#search-overlay input[type="search"]:focus {
+    border-bottom-color: #c1121f; /* Highlight with theme red on focus */
+}
+
+/* The search submit button */
+#search-overlay button[type="submit"] {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-left: -40px; /* Position it slightly over the input line */
 }
