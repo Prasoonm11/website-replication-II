@@ -1,0 +1,924 @@
+/* ==== BASIC SETUP & FONT IMPORTS ==== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Roboto:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    overflow-x: hidden;
+}
+.script-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+}
+h5 {
+    margin-left: 300px;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #cc0613;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+h6 {
+    font-size: 1.2rem;
+    text-align: center;
+
+}
+.black {
+  color: #000000;
+}
+
+.container {
+    width: 90%;
+}
+
+/* ==== HEADER ==== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: right;
+    padding: 1rem 3rem;
+    background-color: white;
+    border-bottom: 5px solid #eee;
+    position: relative; 
+    z-index: 10;
+}
+/* ==== HEADER DROPDOWN STYLES ==== */
+
+/* 1. Style the parent link container */
+.dropdown-link {
+    position: relative; /* This is crucial for positioning the dropdown */
+    display: inline-block;
+}
+
+/* 2. Style the dropdown menu itself (hidden by default) */
+/* Update this rule to make it a flex container */
+/* This is the main dropdown container */
+.dropdown-menu {
+    display: none; /* CRITICAL: This hides the menu by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #1a1a1a;
+    padding: 1.5rem;
+    border-top: 3px solid #d90429;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 100;
+    gap: 2rem;
+    min-width: 400px;
+}
+
+/* This rule shows the menu ONLY when you hover over the parent link */
+.dropdown-link:hover .dropdown-menu {
+    display: flex; /* This makes it visible on hover. It must match the above display type. */
+}
+/* Add this new rule for the links container */
+.dropdown-links {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+    flex: 1; /* Allows the link section to take available space */
+}
+
+/* Add this new rule for the image container */
+.dropdown-image img {
+    width: 150px; /* Set a fixed width for the image */
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-radius: 5px;
+}
+
+
+.dropdown-links li a {
+    color: white;
+    padding: 0.8rem 1rem;
+    display: block;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-links li a:hover {
+    background-color: #333;
+}
+header .logo img { height: 40px; }
+header nav ul { list-style: none; display: flex; gap: 2rem; margin: 0; }
+header nav a { text-decoration: none; color: #333; font-weight: bold; }
+header .apply-now { background-color: #d90429; color: white; border: none; padding: 0.8rem 1.5rem; font-weight: bold; cursor: pointer; border-radius: 5px; }
+header .header-right { display: flex; align-items: center; gap: 1.5rem; }
+
+/* ==== HERO SECTION LAYOUT ==== */
+.hero {
+    display: flex; /* Using Flexbox for the two columns */
+    height: 300px;
+    width: 1650px;
+    background-color: white;
+}
+
+/* ==== COLUMN 1: RED TEXT BOX (.hero-content) ==== */
+.hero-content {
+    flex: 0 0 55%; /* Sets the width of this column to 55% */
+    position: relative;
+    background: linear-gradient(105deg, #c1121f, #9a031e);
+    color: white;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content .conference-id { font-size: 1.5rem; font-weight: 900; }
+.hero-content .script-title { font-family: 'Alex Brush', cursive; font-size: 3.5rem; font-weight: normal; margin: 0; line-height: 1; }
+.hero-content .main-title { font-size: 2.3rem; margin: 1rem 0; }
+.hero-content .subtitle { font-size: 1.1rem; opacity: 0.9; }
+/* Update this entire rule */
+.date-banner {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    margin-top: 2rem;
+    width: fit-content;
+    border-radius: 5px;
+    margin-left: 150px;
+}
+
+/* Add these new rules */
+.date-banner .date-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    color: #d90429;
+}
+.date-banner .date-text {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.title-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 2px;
+    margin-bottom: 2px; /* Adds space above and below */
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    opacity: 1;
+}
+
+.title-divider::before,
+.title-divider::after {
+    content: '';
+    flex: 1; /* This makes the lines grow to fill available space */
+    border-bottom: 2px solid rgb(255, 255, 255); /* The line style */
+    margin-right: 500px;
+}
+
+.logo-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900; /* Extra bold */
+    font-size: 2.5rem;   /* Adjust size as needed */
+    line-height: 1.1;   /* Keeps the two lines close together */
+    margin-left: 100px;
+}
+
+.logo-red {
+    color: #c1121f; /* The red from your theme */
+}
+
+.logo-black {
+    color: #000000; /* Black */
+}
+/* Add a small gap between the text and the lines */
+.title-divider::before {
+    margin-right: 0.5em;
+}
+
+.title-divider::after {
+    margin-left: 0.5em;
+}
+/* ==== COLUMN 2: IMAGE COLLAGE (.hero-images-container) ==== */
+.hero-images-container {
+    flex: 1 1 45%; /* Takes up the remaining 45% */
+    position: relative;
+}
+
+/* This is the outer container for the border and shadow */
+.diamond-pic {
+    position: absolute; /* This allows top/left positioning */
+    width: 325px;
+    height: 325px;
+    background-color: rgba(105, 96, 96, 0.583); /* This is the border color */
+    padding: 5px; /* This is the border thickness */
+    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3));
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Default diamond shape */
+}
+
+/* This is the inner container for the image */
+.diamond-inner {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%);
+    clip-path: inherit; /* Inherits shape from its parent */
+    transition: filter 0.3s ease;
+}
+
+/* Hover Effects */
+.diamond-pic:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+.diamond-pic:hover .diamond-inner {
+    filter: none;
+}
+
+
+/* --- FIX: RE-ADD THE POSITIONING AND Z-INDEX FOR EACH DIAMOND --- */
+#pic1 { top: -10%; left: -25%; z-index: 4; }
+#pic2 { top: -70%; left: 3%; z-index: 3; }
+#pic3 { top: 50%; left: 3%; z-index: 2; }
+#pic4 { top: -10%; left: 31%; z-index: 1; }
+
+
+/* --- SET THE UNIQUE SHAPES AND IMAGES --- */
+/* Flat top diamond */
+#pic1 .diamond-inner { 
+    background-image: url('../images/h1.webp'); 
+}
+
+/* Regular diamonds (they use the default shape from .diamond-pic) */
+#pic2 .diamond-inner { 
+    background-image: url('../images/h2.jpg'); 
+}
+#pic3 .diamond-inner { 
+    background-image: url('../images/h3.png'); 
+}
+
+/* Flat bottom diamond */
+#pic4 .diamond-inner { 
+    background-image: url('../images/h4.jpeg'); 
+}
+
+/* ==== SIDE BUTTONS ==== */
+.side-buttons {
+    position: fixed;
+    top: 15%; /* Adjust this value to move buttons up or down */
+    right: 0;
+    transform: translateY(0);
+    display: flex;
+    flex-direction: column;
+    z-index: 100; /* Ensures buttons stay on top of other content */
+}
+
+.side-btn {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    background-color: #d90429; /* Red background */
+    color: white;
+    text-decoration: none;
+    padding: 1rem 0.5rem;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.side-btn:hover {
+    background-color: #a1031d; /* Darker red on hover */
+}
+
+/* Modifier class for the second button */
+.side-btn.enquiry {
+    background-color: #333; /* Black background */
+}
+
+.side-btn.enquiry:hover {
+    background-color: #000; /* Darker black on hover */
+}
+
+/* ==== MAIN CONTENT SECTION ==== */
+
+.main-content {
+    padding: 0 4rem; /* Adds space on the left and right */
+    margin-top: -10vh; /* Pulls this section up to overlap the hero images */
+    position: relative; /* Needed for z-index context */
+    z-index: 5; /* Ensures this whole section is above the hero background */
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: flex-start; /* Aligns columns to the top */
+    gap: 2rem;
+}
+
+/* Column 1: The Left Navigation Buttons */
+.content-nav {
+    flex: 0 0 250px; /* Sets a fixed width of 250px for the nav */
+}
+
+.content-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.content-nav a {
+    display: block;
+    padding: 1rem;
+    margin-bottom: 8px;
+    background-color: #f0f2f5; /* Light grey background */
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.content-nav a:hover {
+    background-color: #e0e2e5;
+}
+
+/* Style for the currently active button */
+.content-nav a.active {
+    background-color: #333; /* Dark background */
+    color: white;
+}
+
+
+/* Column 2: The Main Content Box */
+/* Update this rule */
+.content-wrapper {
+    display: flex;
+    flex-direction: column; /* This stacks the heading on top of the columns-container */
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Update this rule */
+.panel-heading {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #c1121f;
+    margin: 0 0 1.5rem 0; /* Cleaned up margin */
+    text-align: center;   /* Ensures the heading is always centered */
+}
+
+/* Update this rule */
+.columns-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    /* The text inside the columns will now default to left-align, which is correct */
+}
+
+/* The Left Navigation Buttons - No changes needed for .content-nav */
+.content-nav {
+    flex: 0 0 250px;
+}
+/* ... the styles for .content-nav a, etc. remain the same ... */
+
+
+/* Update this entire rule */
+.content-panel {
+    flex-grow: 1;
+    width: 100%; /* Still takes up the remaining space */
+    
+    /* REMOVED STYLES: All the box-like properties are now on the parent */
+}
+
+/* Add these new rules for the tabbed content */
+.tab-content {
+    display: none; /* Hide all content panels by default */
+}
+
+.tab-content.active {
+    display: block; /* Show only the active panel */
+}
+
+/* ==== FOOTER SECTION ==== */
+footer {
+    position: relative;
+    background-color: #222;
+    color: #ccc;
+    padding-top: 100px; /* Space for the wave */
+}
+
+/* Wavy Top Border */
+.footer-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: translateY(-1px); /* Prevents small gaps */
+}
+
+.footer-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 120px; /* Height of the wave */
+    /* NOTE: The path fill color in the SVG tag must match the footer background */
+}
+
+/* Main Footer Content */
+.footer-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 3rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 250px; /* Ensures columns wrap nicely on smaller screens */
+}
+
+.footer-col h3 {
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+/* Column 1: About & Social */
+.about-col .footer-logo {
+    margin-bottom: 1.5rem;
+    width: 250px;
+}
+
+.about-col p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0.8rem 0;
+}
+.about-col i {
+    font-size: 1.2rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+.social-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.social-icon:hover {
+    background-color: #d90429; /* Red hover */
+}
+
+
+/* Column 2 & 3: Links */
+.links-col .links-grid {
+    display: flex;
+    gap: 2rem;
+}
+.links-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.links-col a {
+    color: #ccc;
+    text-decoration: none;
+    line-height: 2.5;
+    transition: color 0.3s ease;
+}
+.links-col a:hover {
+    color: white;
+}
+
+
+/* Column 4: Newsletter */
+.newsletter-form {
+    background-color: #f4f4f4;
+    padding: 1.5rem;
+    border-radius: 8px;
+    color: #333;
+}
+.newsletter-form p {
+    font-weight: bold;
+    margin-top: 0;
+}
+.newsletter-form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Important for padding and width */
+}
+.newsletter-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.newsletter-form button:hover {
+    background-color: #555;
+}
+
+
+/* Bottom Footer Bar */
+.footer-bottom {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #000;
+}
+.footer-bottom p {
+    margin: 0;
+}
+
+/* Floating Action Buttons */
+.floating-btn {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+.floating-btn.whatsapp {
+    background-color: #25D366;
+    bottom: 20px;
+    left: 20px;
+}
+.floating-btn.to-top {
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Styling for the embedded map in the footer */
+.map-col iframe {
+    border-radius: 8px; /* Gives the map slightly rounded corners */
+    filter: grayscale(80%); /* Optional: makes the map black and white to match the theme */
+    transition: filter 0.3s ease;
+}
+
+.map-col iframe:hover {
+    filter: grayscale(0%); /* Brings color back on hover */
+}
+/* ==== KEYNOTE SPEAKER SECTION STYLES ==== */
+
+.speaker-profile {
+    display: flex;
+    align-items: flex-start; /* Aligns items to the top */
+    gap: 2rem; /* Space between the photo and the biography */
+    margin-bottom: 2rem;
+    text-align: left; /* Overrides any centered text from parent */
+}
+
+/* Column 1: Speaker Photo */
+.speaker-photo {
+    flex: 0 0 150px; /* Sets a fixed width of 150px for the photo column */
+}
+
+.speaker-photo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 5%; /* Makes the image a perfect circle */
+    object-fit: cover; /* Prevents the image from being stretched */
+}
+
+/* Column 2: Speaker Biography */
+.speaker-bio {
+    flex: 1; /* Allows the bio to take up the remaining space */
+}
+
+.speaker-bio .speaker-name {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0;
+    color: #c1121f; /* Red color for the name */
+}
+
+.speaker-bio .speaker-affiliation {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #555;
+    margin: 0.25rem 0 1.5rem 0;
+}
+
+.speaker-bio .speaker-title {
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.speaker-bio p {
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+    text-align: justify; /* Justifies the paragraph text */
+}
+
+/* Divider line between speakers */
+.speaker-divider {
+    border: none;
+    height: 1px;
+    background-color: #eee;
+    margin: 2rem 0;
+}
+
+/* ==== REGISTRATION TABLE STYLES ==== */
+
+/* This styles the main container for this tab */
+#registration.tab-content {
+    background-color: white;
+    padding: 2rem 3rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+#registration.tab-content h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Main table styling */
+.fees-table {
+    width: 100%;
+    border-collapse: collapse; /* Removes gaps between cells */
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden; /* Important for border-radius to work on tables */
+}
+
+/* Table Header styling */
+.fees-table th {
+    background-color: #333; /* Dark background for header */
+    color: white;
+    padding: 1rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 3px solid #c1121f; /* Red accent line */
+}
+
+/* Table Body styling */
+.fees-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+/* Zebra-striping for rows */
+.fees-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Styling for the section headers (e.g., "Indian Participants") */
+.section-header {
+    background-color: #fde8e9; /* Light red background */
+    font-weight: bold;
+    color: #c1121f;
+}
+
+.section-header-alt {
+    background-color: #e9ecef; /* Light grey background */
+    font-weight: bold;
+    color: #333;
+}
+/* ==== CALL FOR PAPERS (CFP) TAB STYLES ==== */
+
+/* This styles the main container for this tab */
+#papers.tab-content {
+    background-color: white;
+    padding: 2rem 3rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.cfp-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.cfp-header h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    margin-top: 0;
+}
+.cfp-header p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 1rem auto 0 auto;
+    line-height: 1.6;
+}
+
+/* Two-column grid for guidelines */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.guideline-item h4 {
+    font-size: 1.4rem;
+    color: #c1121f; /* Red for subheadings */
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 0.5rem;
+}
+.guideline-item h4 i {
+    margin-right: 0.5rem;
+}
+
+/* Checklist style with checkmark icons */
+.checklist {
+    list-style: none;
+    padding-left: 0;
+}
+.checklist li {
+    padding-left: 1.8rem;
+    position: relative;
+    margin-bottom: 0.8rem;
+}
+.checklist li::before {
+    content: '\f00c'; /* Font Awesome checkmark icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #2a9d8f; /* A nice green for the checkmark */
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+
+/* Conference Tracks section */
+.tracks-section {
+    margin-bottom: 3rem;
+}
+.tracks-section h4 {
+    font-size: 1.4rem;
+    color: #c1121f;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.tracks-list {
+    display: flex;
+    gap: 3rem;
+}
+.tracks-list ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Submission Buttons section */
+.submission-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+.btn-primary {
+    background-color: #d90429; /* Theme red */
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #a1031d; /* Darker red */
+}
+.btn-secondary {
+    background-color: white;
+    color: #333;
+    border-color: #ddd;
+}
+.btn-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #ccc;
+}
+.btn i {
+    margin-left: 0.5rem;
+}
+
+/* ==== CONTACT TAB STYLES ==== */
+
+/* This styles the main container for this tab */
+#contact.tab-content {
+    background-color: white;
+    padding: 2rem 3rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.contact-header h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #333;
+    margin-top: 0;
+}
+.contact-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* 2x2 grid for the contact cards */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background-color: #f8f9fa; /* Light grey background for cards */
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: #c1121f; /* Theme red for the icon */
+}
+
+.contact-details h4 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.contact-details p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+    color: #555;
+}
+
+.contact-details p small {
+    color: #777;
+    font-style: italic;
+}
+.logo-right {
+    height: 40px; /* Match the height of your left logo */
+    margin-left: 1.5rem; /* Add space between the icon and the new logo */
+}
