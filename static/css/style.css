@@ -34,21 +34,119 @@ h6 {
 .container {
     width: 90%;
 }
-
-/* ==== HEADER ==== */
+/* ==== HEADER (Updated to match original site) ==== */
 header {
     display: flex;
     justify-content: space-between;
-    align-items: right;
-    padding: 1rem 3rem;
+    align-items: center;
+    padding: 1.5rem 3rem; /* Increased vertical padding */
     background-color: white;
-    border-bottom: 5px solid #eee;
+    border-bottom: 1px solid #f2f3f5; /* Lighter border color */
     position: relative; 
     z-index: 10;
 }
-/* ==== HEADER DROPDOWN STYLES ==== */
 
-/* 1. Style the parent link container */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #4a4e57; /* Softer black for text */
+    font-weight: 700; /* Bolder font weight */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+header nav a:hover {
+    color: #e31837; /* The primary red from the original site */
+}
+
+header .apply-now {
+    background-color: #e31837; /* Primary red */
+    color: white;
+    border: none;
+    padding: 11px 23px; /* Specific padding from original site */
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 30px; /* More rounded corners */
+    text-decoration: none; /* Add this for the <a> tag */
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+header .apply-now:hover {
+    background-color: #c1121f; /* A slightly darker red on hover */
+}
+
+
+/* ==== HERO SECTION (Updated to match original site) ==== */
+.hero {
+    display: flex;
+    height: 85vh;
+    min-height: 650px;
+    background-color: white;
+}
+
+/* Column 1: Red Text Box */
+.hero-content {
+    flex: 0 0 55%;
+    position: relative;
+    background: #e31837; /* Using the solid, primary red */
+    color: white;
+    padding: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-content .conference-id { 
+    font-size: 3.5rem;   
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.logo-red { color: #e31837; } /* Note: This won't be visible on a red background */
+.logo-black { color: #000000; }
+
+.hero-content .script-title { 
+    font-family: 'Alex Brush', cursive; 
+    font-size: 3.5rem; 
+    font-weight: normal; 
+    margin: 0; 
+    line-height: 1; 
+}
+
+.hero-content .main-title { 
+    font-size: 2.2rem; 
+    margin: 1rem 0;
+    font-weight: 700;
+}
+
+.hero-content .subtitle { 
+    font-size: 1.1rem; 
+    opacity: 0.9; 
+}
+
+.date-banner { 
+    background-color: #212934; /* Darker charcoal color */
+    display: inline-flex; 
+    align-items: center; 
+    gap: 1rem; 
+    padding: 0.8rem 1.5rem; 
+    margin-top: 2rem; 
+    font-weight: bold; 
+    width: fit-content; 
+    border-radius: 5px;
+}
+
 .dropdown-link {
     position: relative; /* This is crucial for positioning the dropdown */
     display: inline-block;
@@ -90,75 +188,6 @@ header {
     height: 100%;
     object-fit: cover; /* Ensures the image covers the area without distortion */
     border-radius: 5px;
-}
-
-
-.dropdown-links li a {
-    color: white;
-    padding: 0.8rem 1rem;
-    display: block;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 5px;
-    transition: background-color 0.2s ease;
-}
-
-.dropdown-links li a:hover {
-    background-color: #333;
-}
-header .logo img { height: 40px; }
-header nav ul { list-style: none; display: flex; gap: 2rem; margin: 0; }
-header nav a { text-decoration: none; color: #333; font-weight: bold; }
-header .apply-now { background-color: #d90429; color: white; border: none; padding: 0.8rem 1.5rem; font-weight: bold; cursor: pointer; border-radius: 5px; }
-header .header-right { display: flex; align-items: center; gap: 1.5rem; }
-
-/* ==== HERO SECTION LAYOUT ==== */
-.hero {
-    display: flex; /* Using Flexbox for the two columns */
-    height: 300px;
-    width: 1650px;
-    background-color: white;
-}
-
-/* ==== COLUMN 1: RED TEXT BOX (.hero-content) ==== */
-.hero-content {
-    flex: 0 0 55%; /* Sets the width of this column to 55% */
-    position: relative;
-    background: linear-gradient(105deg, #c1121f, #9a031e);
-    color: white;
-    padding: 2rem 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.hero-content .conference-id { font-size: 1.5rem; font-weight: 900; }
-.hero-content .script-title { font-family: 'Alex Brush', cursive; font-size: 3.5rem; font-weight: normal; margin: 0; line-height: 1; }
-.hero-content .main-title { font-size: 2.3rem; margin: 1rem 0; }
-.hero-content .subtitle { font-size: 1.1rem; opacity: 0.9; }
-/* Update this entire rule */
-.date-banner {
-    display: flex;
-    align-items: center;
-    background-color: black;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    margin-top: 2rem;
-    width: fit-content;
-    border-radius: 5px;
-    margin-left: 150px;
-}
-
-/* Add these new rules */
-.date-banner .date-icon {
-    font-size: 1.5rem;
-    margin-right: 1rem;
-    color: #d90429;
-}
-.date-banner .date-text {
-    font-weight: bold;
-    font-size: 1.2rem;
 }
 .title-divider {
     display: flex;
