@@ -58,7 +58,8 @@ header .logo img {
 header nav {
     flex-grow: 1; /* Allows nav to take up space but we'll center its content */
     display: flex;
-    justify-content: center; /* Centers the ul within the nav */
+    justify-content: right; /* Centers the ul within the nav */
+    margin-right: 50px;
 }
 
 header nav ul {
@@ -72,7 +73,7 @@ header nav ul {
 header nav a {
     text-decoration: none;
     color: #333;
-    font-weight: 700; /* Bolder font */
+    font-weight: 500; /* Bolder font */
     font-size: 1.2rem;
     text-transform: uppercase; /* MAKES TEXT ALL CAPS */
     letter-spacing: 0.5px;
@@ -259,9 +260,19 @@ header .apply-now:hover {
     font-weight: 700; 
     font-size: 2.5rem;
     line-height: 1.1;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     margin-top: 1.5rem;
     margin-left: 300px;
+}
+
+.logo-text-2 {
+    font-family: 'Montserrat', sans-serif; /* The bold logo font */
+    font-weight: 700; 
+    font-size: 2.3rem;
+    line-height: 1.1;
+    margin-bottom: 2.5rem;
+    margin-top: 0;
+    margin-left: 370px;
 }
 
 .logo-red {
@@ -273,11 +284,12 @@ header .apply-now:hover {
 }
 /* Add a small gap between the text and the lines */
 .title-divider::before {
-    margin-right: 0.5em;
+    margin-right: 0.1em;
 }
 
 .title-divider::after {
-    margin-left: 0.5em;
+    margin-left: 0.1em;
+    
 }
 /* ==== COLUMN 2: IMAGE COLLAGE (.hero-images-container) ==== */
 .hero-images-container {
