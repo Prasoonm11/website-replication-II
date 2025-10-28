@@ -1,21 +1,25 @@
 /* ==== BASIC SETUP & FONT IMPORTS ==== */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Roboto:wght@400;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-@font-face {
+/* --- TOP OF YOUR CSS FILE --- */
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital@1&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}@font-face {
     font-family: 'Humble Signation'; /* This is the name you'll use for the font */
     src: url('../fonts/HumbleSignation.ttf') format('truetype');
 }
 body {
-    font-family: 'Roboto', sans-serif; /* Use Roboto for all standard text */
+    font-family: 'Montserrat', sans-serif; /* Use Roboto for all standard text */
     margin: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(90deg, #ffffff, #f4f4f4);
     overflow-x: hidden;
     overflow-y: visible;
 }
 h5 {
     margin-left: 300px;
     font-size: 3rem;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 2px;
     color: #cc0613;
     margin-top: 0px;
@@ -45,7 +49,7 @@ header {
     background-color: white;
     border-bottom: 1px solid #eee; /* A subtle border */
     position: relative;
-    z-index: 10;
+    z-index: 1000;
 }
 
 /* 1. Logo Styling */
@@ -72,7 +76,7 @@ header nav ul {
 
 header nav a {
     text-decoration: none;
-    color: #333;
+    color: #000000;
     font-weight: 500; /* Bolder font */
     font-size: 1.2rem;
     text-transform: uppercase; /* MAKES TEXT ALL CAPS */
@@ -98,7 +102,7 @@ header .apply-now {
     color: white;
     border: none;
     padding: 0.8rem 2rem; /* More horizontal padding */
-    font-weight: bold;
+    font-weight: 400;
     cursor: pointer;
     border-radius: 50px; /* This makes it a pill shape */
     text-decoration: none;
@@ -132,16 +136,18 @@ header .apply-now:hover {
     display: none; /* CRITICAL: This hides the menu by default */
     position: absolute;
     font-size: 1rem;
+    font-weight: 300px;
     top: 100%;
     left: 0;
     background-color: #1a1a1a;
     padding: 1.5rem;
     border-top: 3px solid #d90429;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 50px 50px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 100;
+    z-index: 1;
     gap: 2rem;
-    min-width: 400px;
+    min-width:  400px;
+    min-height: 400px;
 }
 
 /* This rule shows the menu ONLY when you hover over the parent link */
@@ -152,16 +158,16 @@ header .apply-now:hover {
 .dropdown-links {
     list-style: none;
     padding: 0;
-    margin-top: 30px;
+    margin-top: 0;
     flex: 1; /* Allows the link section to take available space */
 }
 
 /* Add this new rule for the image container */
 .dropdown-image img {
-    width: 150px; /* Set a fixed width for the image */
+    width: 200px; /* Set a fixed width for the image */
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the area without distortion */
-    border-radius: 5px;
+    object-fit:cover; /* Ensures the image covers the area without distortion */
+    border-radius: 0 0 50px 0;
 }
 
 
@@ -192,7 +198,7 @@ header .apply-now:hover {
 .hero-content {
     flex: 0 0 55%; /* Sets the width of this column to 55% */
     position: relative;
-    background: linear-gradient(105deg, #c1121f, #9a031e);
+    background: linear-gradient(180deg, #c1121f, #6c0115);
     color: white;
     padding: 2rem 3rem;
     display: flex;
@@ -207,7 +213,7 @@ header .apply-now:hover {
 .hero-content .script-title { 
     font-family: 'Humble Signation', cursive; /* Use the new font */
     font-size: 5rem; /* You may need to adjust the size for this font */
-    font-weight: normal; 
+    font-weight: 600; 
     margin-left: 20px;
     margin-bottom: 15px;
     margin-top: 0;
@@ -216,25 +222,68 @@ header .apply-now:hover {
 /* Update this entire rule */
 .date-banner {
     display: flex;
-    align-items: center;
-    background-color: black;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    margin-top: 2em;
-    width: fit-content;
-    border-radius: 5px;
-    margin-left: 150px;
+    justify-content: left; /* Center the boxes */
+    align-items: center; /* Makes boxes same height */
+    gap: 5px;               /* This creates the space between them */
+    padding: 0.8rem 2rem;           /* Padding around the boxes */
+    max-width: 600px;
+    margin:0;
+    margin-left: 100px;
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 10;
+    border-radius: 8px;
+}
+
+.black-box {
+    background-color: #000; /* Black background */
+    color: white;           /* White text */
+    text-align: center;
+    position: relative;
+    padding: 0.8rem 2rem;
+    border-radius: 2px;
+    transform: skewX(-30deg);     /* Rounded corners for the black boxes */
+}
+.red-box {
+    background-color: rgb(214, 3, 3); /* Black background */
+    color: white;           /* White text */
+    text-align: center;
+    position: relative;
+    padding: 0.8rem 2rem;
+    border-radius: 2px;
+    transform: skewX(-30deg);     /* Rounded corners for the black boxes */
+}
+.black-box .box-title {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #ccc; /* Lighter gray for the title */
+}
+
+.black-box .box-date {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #ffffff; /* Pure white for the date */
+}
+
+.part-1-icon i {
+    font-size: 1.9em;     /* Makes the icon large (3x text size) */
+    color: #fbfbfb;
+    transform: skewX(30deg);      /* Use the same red as the banner */
 }
 
 /* Add these new rules */
 .date-banner .date-icon {
     font-size: 2rem;
-    margin-right: 1rem;
+    margin: 2rem;
     color: #d90429;
 }
 .date-banner .date-text {
-    font-weight: bold;
-    font-size: 2rem;
+    font-weight: 700;
+    font-size: 2.3rem;
+    transform: skewX(20deg);
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .title-divider {
     display: flex;
@@ -242,37 +291,49 @@ header .apply-now:hover {
     text-align: center;
     margin-top: 2px;
     margin-bottom: 2px; /* Adds space above and below */
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: 200;
     opacity: 1;
 }
 
-.title-divider::before,
+.title-divider::before {
+    content: '';
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+    margin-right: 0.5em; /* Space next to text */
+    margin-left: -2em;
+    /* === KEY CHANGE === */
+    flex: 1; /* Takes up 1 part of the space */
+}
+
+/* Long line AFTER the text */
 .title-divider::after {
     content: '';
-    flex: 1; /* This makes the lines grow to fill available space */
-    border-bottom: 2px solid rgb(255, 255, 255); /* The line style */
-    margin-right: 500px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+    margin-left: 0.5em; /* Space next to text */
+    margin-right: 5em;
+    
+    /* === KEY CHANGE === */
+    flex: 4; /* Takes up 4 parts (making it 4x longer) */
 }
 
 .logo-text {
     font-family: 'Montserrat', sans-serif; /* The bold logo font */
-    font-weight: 700; 
+    font-weight: 900; 
     font-size: 2.5rem;
     line-height: 1.1;
     margin-bottom: 0.5rem;
     margin-top: 1.5rem;
-    margin-left: 300px;
+    margin-left: 220px;
 }
 
 .logo-text-2 {
     font-family: 'Montserrat', sans-serif; /* The bold logo font */
-    font-weight: 700; 
+    font-weight: 900; 
     font-size: 2.3rem;
     line-height: 1.1;
     margin-bottom: 2.5rem;
     margin-top: 0;
-    margin-left: 370px;
+    margin-left: 290px;
 }
 
 .logo-red {
@@ -303,16 +364,16 @@ header .apply-now:hover {
     position: absolute;
     width: 300px;
     height: 300px;
-    background-color: white; /* This creates the white border */
-    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.3));
+    border: 5px solid white;
+    filter: drop-shadow(4px 2px 4px rgba(0, 0, 0, 0.38));
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+    
     
     /* === KEY CHANGES START HERE === */
     overflow: hidden; /* Hides parts of the inner image that spill out */
     border-radius: 15%; /* This creates the rounded corners. Adjust value as needed. */
     transform: rotate(45deg); /* Rotates the square into a diamond */
-    
-    /* REMOVE THIS LINE - No longer needed */
-    /* clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); */
+
 }
 
 /* This is the inner container for the image */
@@ -347,8 +408,8 @@ header .apply-now:hover {
 
 /* --- FIX: RE-ADD THE POSITIONING AND Z-INDEX FOR EACH DIAMOND --- */
 #pic1 { top: -10%; left: -25%; z-index: 4; }
-#pic2 { top: -80%; left: 10%; z-index: 3; }
-#pic3 { top: 60%; left: 10%; z-index: 2; }
+#pic2 { top: -85%; left: 10%; z-index: 3; }
+#pic3 { top: 65%; left: 10%; z-index: 2; }
 #pic4 { top: -10%; left: 45%; z-index: 1; }
 
 
@@ -465,17 +526,17 @@ header .apply-now:hover {
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 /* Update this rule */
 .panel-heading {
-    font-size: 3rem;
-    font-weight: 900;
-    color: #c1121f;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: #d60c19;
     margin-top: 8rem;
     margin-bottom: 3rem;
     text-align: center;   /* Ensures the heading is always centered */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Update this rule */
@@ -1137,13 +1198,15 @@ footer {
 
 #search-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 100px;
+    left: 0%;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.95); /* Dark, semi-transparent background */
-    z-index: 1000; /* Ensure it's on top of everything */
-    
+    height: 20%;
+    background-color: rgba(0, 0, 0, 0.836); /* Dark, semi-transparent background */
+    z-index: 999; /* Ensure it's on top of everything */
+    border-bottom: 3px solid #c1121f;
+    box-shadow: 0 20px 15px rgba(0, 0, 0, 0.5);
+
     /* Center the content */
     display: flex;
     justify-content: center;
@@ -1178,14 +1241,14 @@ footer {
 
 /* The form container */
 #search-overlay .search-content {
-    width: 80%;
-    max-width: 800px;
+    width: 60%;
+    margin-right: 20%;
 }
 
 #search-overlay form {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 80%;
 }
 
 /* The search input field */
@@ -1217,4 +1280,262 @@ footer {
     font-size: 2rem;
     cursor: pointer;
     margin-left: -40px; /* Position it slightly over the input line */
+}
+
+.colour-red{
+    color: #c60528;
+    font-size: 1.8rem;
+}
+
+/*
+=========================================
+==== RESPONSIVE & MOBILE-FRIENDLY STYLES ====
+=========================================
+*/
+
+/* ==== TABLET (MEDIUM) SCREENS ==== */
+@media (max-width: 992px) {
+    
+    header {
+        padding: 1rem 1.5rem;
+    }
+
+    /* Hide desktop nav and show mobile toggle */
+    header nav {
+        display: none; /* Hide nav by default */
+        position: absolute;
+        top: 100%; /* Position below header */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-right: 0; /* Reset margin */
+    }
+
+    header nav.active {
+        display: flex; /* Show when active */
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+    }
+
+    header nav a {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Hide dropdowns within mobile menu for simplicity */
+    /* On mobile, you'd typically have a different nav structure */
+    .dropdown-link {
+        position: static;
+    }
+    .dropdown-menu {
+        display: none !important; /* Force-hide complex dropdowns on mobile */
+    }
+
+    /* Show hamburger menu icon */
+    #mobile-menu-toggle {
+        display: block;
+    }
+
+    .hero {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .hero-content {
+        flex-basis: auto;
+        padding: 2rem 1.5rem;
+    }
+
+    /* Hide the complex diamond collage on mobile */
+    .hero-images-container {
+        display: none;
+    }
+
+    .logo-text {
+        margin-left: 0;
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .logo-text-2 {
+        margin-left: 0;
+        text-align: center;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-content .script-title {
+        font-size: 3.5rem;
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .title-divider::before,
+    .title-divider::after {
+        flex-basis: 30%; /* Give some space around "on" */
+    }
+
+    .date-banner {
+        justify-content: center;
+        margin-left: 0;
+        padding: 0.8rem 1.5rem;
+    }
+
+    /* Stack the main content columns */
+    .columns-container {
+        flex-direction: column;
+    }
+
+    .content-nav {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    /* Make the tab nav horizontally scrollable */
+    .content-nav ul {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    }
+
+    .content-nav li {
+        flex-shrink: 0; /* Prevent items from shrinking */
+    }
+
+    .panel-heading {
+        font-size: 2rem;
+        margin-top: 4rem;
+    }
+
+    .content-panel {
+        padding: 0;
+    }
+    
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tracks-list {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .submission-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn {
+        text-align: center;
+    }
+
+    .footer-main {
+        padding: 3rem 1.5rem;
+    }
+
+    /* Search overlay on tablet */
+    #search-overlay .search-content {
+        width: 80%;
+        margin-right: 0;
+    }
+    #search-overlay form {
+        width: 100%;
+    }
+    #search-overlay input[type="search"] {
+        font-size: 2rem;
+    }
+}
+
+/* ==== MOBILE (SMALL) SCREENS ==== */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+    }
+
+    /* Hide the "Apply Now" button in the header, move to menu if needed */
+    header .apply-now {
+        display: none;
+    }
+
+    .date-banner {
+        /* Stack the boxes */
+        flex-direction: column;
+        gap: 10px;
+        max-width: 90%;
+        margin: 1.5rem auto 0 auto;
+    }
+    
+    .red-box, .black-box {
+        width: 100%;
+        text-align: center;
+    }
+
+    .date-banner .date-text {
+        font-size: 1.8rem;
+    }
+    
+    .content-wrapper {
+        padding: 1rem;
+    }
+
+    .panel-heading {
+        font-size: 1.8rem;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+    
+    .speaker-profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .speaker-bio p {
+        text-align: center;
+    }
+    
+    /* Search overlay on mobile */
+    #search-overlay {
+        top: 80px;
+        height: auto;
+        padding: 2rem 1rem;
+    }
+    
+    #search-overlay .search-content {
+        width: 95%;
+    }
+    
+    #search-overlay input[type="search"] {
+        font-size: 1.5rem;
+    }
+    
+    #search-overlay .close-btn {
+        top: 1rem;
+        right: 1rem;
+        font-size: 2.5rem;
+    }
+
+    .floating-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    .floating-btn.to-top {
+        right: 15px;
+        bottom: 15px;
+    }
 }
