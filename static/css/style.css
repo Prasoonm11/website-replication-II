@@ -1525,7 +1525,7 @@ body {
 
     .main-content {
         /* Use margin-top calculation based on exact dimensions */
-        margin-top: calc( 669.16px * (100vw / 1650px) - 20rem);
+        margin-top: calc( 669.16px * (100vw / 1650px) - 30rem);
         padding-top: 0; /* Add a small gap below the scaled hero */
     }
 
@@ -1577,7 +1577,7 @@ body {
 
     .main-content {
         /* Adjust margin-top for smaller screens */
-        margin-top: calc(669.16px * (100vw / 1440px)- 20rem);
+        margin-top: calc(669.16px * (100vw / 1440px)- 30rem);
         padding-top: 0rem; /* Smaller gap on small screens */
     }
 
