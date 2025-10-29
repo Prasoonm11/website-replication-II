@@ -1519,13 +1519,13 @@ body {
     .desktop-hero-wrapper {
         width: 1650px; /* Original width */
         /* margin: 0 auto; /* Centering might not be needed if scaling from top-left */
-        transform: scale(calc(100vw / 1440px));
+        transform: scale(calc(100vw / 1650px));
         transform-origin: top left;
     }
 
     .main-content {
         /* Use margin-top calculation based on exact dimensions */
-        margin-top: calc( 0.01px * (100vw / 1440px) - 20rem);
+        margin-top: calc( 669.16px * (100vw / 1650px) - 20rem);
         padding-top: 0; /* Add a small gap below the scaled hero */
     }
 
