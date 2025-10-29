@@ -1282,10 +1282,193 @@ footer {
     color: #c60528;
     font-size: 1.8rem;
 }
+
+/* ==== ENQUIRY MODAL STYLES ==== */
+#enquiry-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000; /* Higher than header */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#enquiry-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Dark background overlay */
+#enquiry-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* White content box */
+#enquiry-modal .modal-content {
+    position: relative;
+    background: white;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px; /* Adjust as needed */
+    max-height: 90vh; /* Make it scrollable on small screens */
+    overflow-y: auto;
+
+    /* Pop-in animation */
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+#enquiry-modal.active .modal-content {
+    transform: scale(1);
+}
+
+/* Close 'X' button */
+#enquiry-modal .modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.25rem;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #888;
+    text-decoration: none;
+    line-height: 1;
+}
+
+#enquiry-modal .modal-close:hover {
+    color: #000;
+}
+
+/* Form Styling */
+#enquiry-modal h3 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* Basic styles for inputs and selects */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Phone group */
+.form-group-phone {
+    display: flex;
+    gap: 8px;
+}
+.form-group-phone .phone-prefix {
+    flex-shrink: 0;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+.form-group-phone input {
+    flex-grow: 1;
+}
+
+/* State/City split group */
+.form-group-split {
+    display: flex;
+    gap: 1rem;
+}
+.form-group-split select {
+    width: 50%;
+}
+
+/* Captcha group */
+.form-group-captcha {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.form-group-captcha .captcha-code {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3d3d3d;
+    background: #f4f4f4;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    letter-spacing: 2px;
+}
+.form-group-captcha .captcha-refresh {
+    font-size: 1.2rem;
+    color: #555;
+}
+.form-group-captcha input {
+    flex-grow: 1;
+}
+
+/* Checkbox group */
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-group-checkbox input {
+    width: auto;
+}
+.form-group-checkbox label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Submit button */
+.modal-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #d90429; /* Theme red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.modal-submit-btn:hover {
+    background-color: #a1031d;
+}
+
+
 /* ==== DESKTOP HERO WRAPPER (FOR SHRINKING) ==== */
 .desktop-hero-wrapper {
-    /* Set a fixed width based on your design's widest element */
-    width: 1650px; 
+    /* Set a fixed width. 
+       Adjust this to the full width of your new hero design. 
+       (e.g., 1440px, 1600px, etc.) 
+    */
+    width: 1440px; 
     
     /* Center it for desktop if window is wider */
     margin: 0 auto; 
@@ -1332,25 +1515,17 @@ footer {
     
     /* 1. Scale the wrapper down to fit the screen */
     .desktop-hero-wrapper {
-        /* This is a dynamic scale. It divides the screen width (100vw) 
-           by the wrapper's fixed width (1650px).
-        */
-        transform: scale(calc(100vw / 1650));
+        /* Uses the EXACT width you provided */
+        transform: scale(calc(100vw / 1650px)); 
         
-        /* Reset margins for scaled element */
         margin: 0;
-        
-        /* Set origin to top-left for scaling */
         transform-origin: top left;
     }
 
     /* 2. Adjust the main content to sit below the shrunken hero */
     .main-content {
-        /* This calculates the shrunken height of the hero block
-           and adds 2rem of space below it.
-           (Based on your desktop layout, the hero content is ~500px tall)
-        */
-        margin-top: calc(500px * (100vw / 1650) + 2rem);
+        /* Uses the EXACT height and width you provided */
+        margin-top: calc(669.16px * (100vw / 1650px) + 2rem); 
     }
     
     /* === END HERO SECTION LOGIC === */
@@ -1448,8 +1623,8 @@ footer {
     
     /* We just need to adjust the content margin for this screen size */
     .main-content {
-        /* The formula is the same, it just recalculates for the new 100vw */
-        margin-top: calc(500px * (100vw / 1650) + 1.5rem);
+        /* Uses the EXACT height and width */
+        margin-top: calc(669.16px * (100vw / 1650px) + 1.5rem); 
     }
     
     .content-wrapper { padding: 0.5rem; }
