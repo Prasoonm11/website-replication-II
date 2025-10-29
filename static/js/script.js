@@ -19,13 +19,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = link.getAttribute('data-target');
             const targetPanel = document.getElementById(targetId);
 
+            // Hide all content panels (KEEP THIS PART)
             contentPanels.forEach(panel => {
                 panel.classList.remove('active');
+                // Optional: Move inactive panels back to original container if they stray
+                // document.querySelector('.content-panel').appendChild(panel); 
             });
-            targetPanel.classList.add('active');
+            
+            // --- NEW LOGIC TO MOVE & SHOW PANEL ---
+            const listItem = link.closest('li'); // Find the parent <li> of the clicked link
+
+            // Check if the window width is less than or equal to 992px (tablet/mobile breakpoint)
+            if (window.innerWidth <= 992 && listItem && targetPanel) {
+                // *** MOBILE/TABLET VIEW: Move panel for accordion effect ***
+                listItem.after(targetPanel); 
+            } else if (targetPanel) {
+                // *** DESKTOP VIEW: Put panel back in original container (if needed) ***
+                // This ensures panels don't get stuck under list items if resizing window
+                document.querySelector('.content-panel').appendChild(targetPanel); 
+            }
+
+            // Show the target panel (whether moved or not)
+            if (targetPanel) {
+                targetPanel.classList.add('active'); 
+            }
+            // --- END OF NEW LOGIC ---
         });
     });
-    // ==== END OF TAB LOGIC ====
+    // ==== END OF TAB LOGIC ====4
 
 
     // ==== SEARCH OVERLAY LOGIC (FIXED: Moved inside DOMContentLoaded) ====

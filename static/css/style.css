@@ -1524,9 +1524,12 @@ footer {
 
     /* 2. Adjust the main content to sit below the shrunken hero */
     .main-content {
-        /* Uses the EXACT height and width you provided */
-        margin-top: calc(669.16px * (100vw / 1650px) + 2rem); 
-    }
+    /* Pull the content section up - ADJUST -2rem AS NEEDED */
+    margin-top: -20rem; 
+    
+    /* Ensure no top padding is interfering */
+    padding-top: 0 !important; 
+}
     
     /* === END HERO SECTION LOGIC === */
 
@@ -1535,53 +1538,93 @@ footer {
     .content-wrapper {
         padding: 1rem;
         border-radius: 0;
+        /* Center align the content wrapper's children */
+        display: flex; /* Use flexbox to manage children */
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children horizontally */
     }
 
     .panel-heading {
         font-size: 2rem;
         font-weight: 700;
         color: #c1121f; /* Red color */
-        text-align: left;
-        margin: 1.5rem 0.5rem;
+        text-align: center; /* Center the heading text */
+        width: 100%; /* Ensure heading takes full width for centering */
+        margin: 1.5rem 0; /* Adjusted margin */
         padding-bottom: 1rem;
         border-bottom: 1px solid #eee;
         text-shadow: none; /* Remove desktop shadow */
     }
 
+    /* Remove the columns container, stack nav and panel directly */
     .columns-container {
-        flex-direction: column;
-        gap: 0;
+        display: contents; /* Effectively remove this container from layout */
     }
+
     .content-nav {
         flex-basis: auto;
         width: 100%;
+        max-width: 600px; /* Optional: Constrain width for centering */
+        margin-bottom: 0; /* Remove space below nav block */
     }
+
+    /* Style the list itself */
     .content-nav ul {
         display: block;
         overflow-x: hidden;
         white-space: normal;
-        padding-bottom: 0;
+        padding: 0;
+        margin: 0;
+        width: 100%; /* Ensure list takes full width */
     }
-    .content-nav li { flex-shrink: 1; }
+
+    .content-nav li {
+        flex-shrink: 1;
+        width: 100%; /* Make list items full width */
+        text-align: center; /* Center the links within */
+    }
+
+    /* Style for the light-grey buttons */
     .content-nav a {
         background-color: #f0f2f5;
         color: #333;
-        font-weight: 600;
+        font-weight: 600; /* Less bold */
         font-size: 1rem;
-        border-radius: 0;
-        margin-bottom: 1px;
+        border-radius: 5px; /* Add slight rounding */
+        margin-bottom: 5px; /* Space between buttons */
+        display: block; /* Make link fill the list item */
+        padding: 1rem;
+        text-align: center; /* Center text inside link */
+        border: 1px solid #e0e2e5; /* Add subtle border */
     }
+
+    /* Style for the dark active button */
     .content-nav a.active {
         background-color: #333;
         color: white;
+        border-color: #333;
     }
-    .content-panel { padding: 0; }
+
+    /* Style the content panel container */
+    .content-panel {
+        padding: 0;
+        width: 100%; /* Make panel take full width */
+        max-width: 600px; /* Match nav width if constrained */
+    }
+    
+    /* Hide inactive content panels */
+    .tab-content {
+         display: none;
+         padding: 1.5rem 1rem;
+         background-color: #fdfdfd;
+         border: 1px solid #eee;
+         border-radius: 5px; /* Match button rounding */
+         margin-bottom: 1rem; /* Space below content */
+    }
+
+    /* Show active tab content */
     .tab-content.active {
-        padding: 1.5rem 1rem;
-        background-color: #fdfdfd;
-        border: 1px solid #f0f2f5;
-        border-top: none;
-        margin-bottom: 1rem;
+        display: block;
     }
     
     /* (All other responsive styles for tabs, footer, etc.) */
@@ -1623,12 +1666,30 @@ footer {
     
     /* We just need to adjust the content margin for this screen size */
     .main-content {
-        /* Uses the EXACT height and width */
-        margin-top: calc(669.16px * (100vw / 1650px) + 1.5rem); 
+    /* Pull the content section up - ADJUST -2rem AS NEEDED */
+    margin-top: -25rem; 
+    
+    /* Ensure no top padding is interfering */
+    padding-top: 0 !important; 
+}
+    
+    .content-wrapper {
+        padding: 0.5rem;
+    }
+
+    .panel-heading {
+        font-size: 1.6rem;
+        margin: 1rem 0;
     }
     
-    .content-wrapper { padding: 0.5rem; }
-    .panel-heading { font-size: 1.6rem; margin: 1rem 0.5rem; }
+    /* Further adjustments if needed for very small screens */
+    .content-nav a {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+    .tab-content.active {
+        padding: 1rem 0.8rem;
+    }
     .speaker-bio p { text-align: center; }
     
     #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
@@ -1639,3 +1700,4 @@ footer {
     .floating-btn { width: 45px; height: 45px; font-size: 1.2rem; }
     .floating-btn.to-top { right: 15px; bottom: 15px; }
 }
+
