@@ -1517,7 +1517,7 @@ body {
     /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
 
     .desktop-hero-wrapper {
-        width: 1440px; /* Original width */
+        width: 1650px; /* Original width */
         /* margin: 0 auto; /* Centering might not be needed if scaling from top-left */
         transform: scale(calc(100vw / 1440px));
         transform-origin: top left;
