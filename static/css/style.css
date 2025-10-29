@@ -1495,8 +1495,7 @@ body {
 
 /* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
 @media (max-width: 992px) {
-    
-    /* === ADD OVERFLOW FIX === */
+
     body {
         overflow-x: hidden; /* Prevent horizontal scrollbars caused by scaling */
     }
@@ -1515,27 +1514,25 @@ body {
     #mobile-menu-toggle { display: block; }
 
 
-    /* === HERO SECTION SHRINK-TO-FIT LOGIC (Reverted to Scaling in Place) === */
-    
+    /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
+
     .desktop-hero-wrapper {
-        width: 1440px; /* Keep original width */
-        margin: 0 auto; /* Center on wider screens if needed, though scaling will handle most */
+        width: 1440px; /* Original width */
+        /* margin: 0 auto; /* Centering might not be needed if scaling from top-left */
         transform: scale(calc(100vw / 1440px));
         transform-origin: top left;
-        /* Remove position: absolute */
     }
 
     .main-content {
-        /* Use margin-top calculation again */
-        margin-top: -20rem;
-        padding-top: 1rem; /* Add a small gap */
-        /* Remove position: relative and z-index */
+        /* Use margin-top calculation based on exact dimensions */
+        margin-top: calc( 0.01px * (100vw / 1440px) - 20rem);
+        padding-top: 0; /* Add a small gap below the scaled hero */
     }
-    
+
     /* === END HERO SECTION LOGIC === */
 
 
-    /* === RESPONSIVE TAB LAYOUT === */
+    /* === RESPONSIVE TAB LAYOUT (Accordion Style) === */
     .content-wrapper { padding: 1rem; border-radius: 0; display: flex; flex-direction: column; align-items: center; }
     .panel-heading { font-size: 2rem; font-weight: 700; color: #c1121f; text-align: center; width: 100%; margin: 1.5rem 0; padding-bottom: 1rem; border-bottom: 1px solid #eee; text-shadow: none; }
     .columns-container { display: contents; }
@@ -1547,7 +1544,7 @@ body {
     .content-panel { padding: 0; width: 100%; max-width: 600px; }
     .tab-content { display: none; padding: 1.5rem 1rem; background-color: #fdfdfd; border: 1px solid #eee; border-radius: 5px; margin-bottom: 1rem; }
     .tab-content.active { display: block; }
-    
+
     /* (All other responsive styles for specific tabs, footer, etc.) */
     #dates.tab-content h3 { display: none; }
     .timeline-list { max-width: 100%; padding-left: 0; }
@@ -1577,17 +1574,17 @@ body {
     header .apply-now { display: none; }
 
     /* Hero scaling logic from above applies */
-    
+
     .main-content {
         /* Adjust margin-top for smaller screens */
-        margin-top: -20rem; 
-        padding-top: 0.5rem; /* Smaller gap on small screens */
+        margin-top: calc(669.16px * (100vw / 1440px)- 20rem);
+        padding-top: 0rem; /* Smaller gap on small screens */
     }
-    
+
     .content-wrapper { padding: 0.5rem; }
     .panel-heading { font-size: 1.6rem; margin: 1rem 0; }
     .speaker-bio p { text-align: center; }
-    
+
     #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
     #search-overlay .search-content { width: 95%; }
     #search-overlay input[type="search"] { font-size: 1.5rem; }
