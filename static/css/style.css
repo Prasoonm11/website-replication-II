@@ -1518,16 +1518,16 @@ body {
     /* === HERO SECTION SHRINK-TO-FIT LOGIC (Reverted to Scaling in Place) === */
     
     .desktop-hero-wrapper {
-        width: 1650px; /* Keep original width */
+        width: 1440px; /* Keep original width */
         margin: 0 auto; /* Center on wider screens if needed, though scaling will handle most */
-        transform: scale(calc(100vw / 1650px));
+        transform: scale(calc(100vw / 1440px));
         transform-origin: top left;
         /* Remove position: absolute */
     }
 
     .main-content {
         /* Use margin-top calculation again */
-        margin-top: calc(669.16px * (100vw / 1650px)); 
+        margin-top: -20rem;
         padding-top: 1rem; /* Add a small gap */
         /* Remove position: relative and z-index */
     }
@@ -1580,7 +1580,7 @@ body {
     
     .main-content {
         /* Adjust margin-top for smaller screens */
-        margin-top: calc(669.16px * (100vw / 1650px)); 
+        margin-top: -20rem; 
         padding-top: 0.5rem; /* Smaller gap on small screens */
     }
     
