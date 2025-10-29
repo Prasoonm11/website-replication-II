@@ -1476,6 +1476,13 @@ footer {
     /* This is crucial for the scaling math */
     transform-origin: top left;
 }
+.desktop-hero-wrapper {
+        /* Uses the EXACT width you provided */
+        transform: scale(calc(100vw / 1440px)); 
+        
+        margin: 0;
+        transform-origin: top left;
+    }
 
 /*
 =========================================
@@ -1525,7 +1532,7 @@ footer {
     /* 2. Adjust the main content to sit below the shrunken hero */
     .main-content {
     /* Pull the content section up - ADJUST -2rem AS NEEDED */
-    margin-top: -20rem; 
+    margin-top: -25rem; 
     
     /* Ensure no top padding is interfering */
     padding-top: 0 !important; 
@@ -1667,7 +1674,7 @@ footer {
     /* We just need to adjust the content margin for this screen size */
     .main-content {
     /* Pull the content section up - ADJUST -2rem AS NEEDED */
-    margin-top: -25rem; 
+    margin-top: -29rem; 
     
     /* Ensure no top padding is interfering */
     padding-top: 0 !important; 
