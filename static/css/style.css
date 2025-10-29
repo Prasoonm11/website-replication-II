@@ -1496,19 +1496,14 @@ body {
 /* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
 @media (max-width: 992px) {
     
-    header {
-    /* Make header fixed at the top */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1001; /* Higher than hero wrapper and main content */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for separation */
+    /* === ADD OVERFLOW FIX === */
+    body {
+        overflow-x: hidden; /* Prevent horizontal scrollbars caused by scaling */
+    }
 
-    /* Adjust padding for mobile if needed */
-    padding: 0.8rem 1rem; 
-    height: auto; /* Allow height to adjust */
-}
+    header {
+        padding: 1rem 1.5rem;
+    }
 
     /* --- Mobile Header --- */
     header nav { display: none; /* ... other mobile header styles ... */ }
@@ -1520,38 +1515,21 @@ body {
     #mobile-menu-toggle { display: block; }
 
 
-    /* === HERO SECTION POSITIONING FIX === */
+    /* === HERO SECTION SHRINK-TO-FIT LOGIC (Reverted to Scaling in Place) === */
     
-    /* Calculate the scale factor */
-    :root {
-        --hero-scale-factor: calc(100vw / 1650px);
-    }
-
     .desktop-hero-wrapper {
-        /* Use absolute positioning instead of scaling in place */
-        position: absolute;
-        top: 0; 
-        left: 0;
         width: 1650px; /* Keep original width */
-        height: 669.16px; /* Keep original height */
-        transform: scale(var(--hero-scale-factor));
+        margin: 0 auto; /* Center on wider screens if needed, though scaling will handle most */
+        transform: scale(calc(100vw / 1650px));
         transform-origin: top left;
-        z-index: 1; /* Keep it behind main content flow if needed */
-        pointer-events: none; /* Prevent interaction with scaled element */
+        /* Remove position: absolute */
     }
 
-    /* Add padding to the body (or a main wrapper) to push content down */
-    body {
-        /* Calculate padding based on scaled height */
-        padding-top: calc(669.16px * var(--hero-scale-factor)); 
-    }
-    
-    /* Ensure main-content starts right below the calculated space */
     .main-content {
-        margin-top: 0; /* Remove previous margin calculation */
-        padding-top: 1rem; /* Add some space above the content */
-        position: relative; /* Ensure it respects body padding */
-        z-index: 2; /* Make sure content is above absolute hero */
+        /* Use margin-top calculation again */
+        margin-top: calc(669.16px * (100vw / 1650px)); 
+        padding-top: 1rem; /* Add a small gap */
+        /* Remove position: relative and z-index */
     }
     
     /* === END HERO SECTION LOGIC === */
@@ -1598,10 +1576,12 @@ body {
     header { padding: 1rem; }
     header .apply-now { display: none; }
 
-    /* Hero positioning logic from above still applies */
+    /* Hero scaling logic from above applies */
     
     .main-content {
-        padding-top: 0.5rem; /* Adjust space above content on small screens */
+        /* Adjust margin-top for smaller screens */
+        margin-top: calc(669.16px * (100vw / 1650px)); 
+        padding-top: 0.5rem; /* Smaller gap on small screens */
     }
     
     .content-wrapper { padding: 0.5rem; }
