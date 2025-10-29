@@ -1484,6 +1484,9 @@ footer {
         transform-origin: top left;
     }
 
+body {
+    position: relative; /* Or add this to a main page container if you have one */
+}
 /*
 =========================================
 ==== RESPONSIVE & MOBILE-FRIENDLY STYLES ====
@@ -1498,18 +1501,7 @@ footer {
     }
 
     /* --- Mobile Header --- */
-    header nav {
-        display: none; /* Hide nav by default */
-        position: absolute;
-        top: 100%; /* Position below header */
-        left: 0;
-        width: 100%;
-        background-color: white;
-        flex-direction: column;
-        padding: 1rem 0;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        margin-right: 0;
-    }
+    header nav { display: none; /* ... other mobile header styles ... */ }
     header nav.active { display: flex; }
     header nav ul { flex-direction: column; gap: 0; width: 100%; }
     header nav a { padding: 1rem 1.5rem; border-bottom: 1px solid #f0f0f0; }
@@ -1518,139 +1510,66 @@ footer {
     #mobile-menu-toggle { display: block; }
 
 
-    /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
+    /* === HERO SECTION POSITIONING FIX === */
     
-    /* 1. Scale the wrapper down to fit the screen */
-    .desktop-hero-wrapper {
-        /* Uses the EXACT width you provided */
-        transform: scale(calc(100vw / 1440px)); 
-        
-        margin: 0;
-        transform-origin: top left;
+    /* Calculate the scale factor */
+    :root {
+        --hero-scale-factor: calc(100vw / 1650px);
     }
 
-    /* 2. Adjust the main content to sit below the shrunken hero */
-    .main-content {
-    /* Pull the content section up - ADJUST -2rem AS NEEDED */
-    margin-top: -28rem; 
+    .desktop-hero-wrapper {
+        /* Use absolute positioning instead of scaling in place */
+        position: absolute;
+        top: 0; 
+        left: 0;
+        width: 1650px; /* Keep original width */
+        height: 669.16px; /* Keep original height */
+        transform: scale(var(--hero-scale-factor));
+        transform-origin: top left;
+        z-index: 1; /* Keep it behind main content flow if needed */
+        pointer-events: none; /* Prevent interaction with scaled element */
+    }
+
+    /* Add padding to the body (or a main wrapper) to push content down */
+    body {
+        /* Calculate padding based on scaled height */
+        padding-top: calc(669.16px * var(--hero-scale-factor)); 
+    }
     
-    /* Ensure no top padding is interfering */
-    padding-top: 0 !important; 
-}
+    /* Ensure main-content starts right below the calculated space */
+    .main-content {
+        margin-top: 0; /* Remove previous margin calculation */
+        padding-top: 1rem; /* Add some space above the content */
+        position: relative; /* Ensure it respects body padding */
+        z-index: 2; /* Make sure content is above absolute hero */
+    }
     
     /* === END HERO SECTION LOGIC === */
 
 
     /* === RESPONSIVE TAB LAYOUT === */
-    .content-wrapper {
-        padding: 1rem;
-        border-radius: 0;
-        /* Center align the content wrapper's children */
-        display: flex; /* Use flexbox to manage children */
-        flex-direction: column; /* Stack children vertically */
-        align-items: center; /* Center children horizontally */
-    }
-
-    .panel-heading {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #c1121f; /* Red color */
-        text-align: center; /* Center the heading text */
-        width: 100%; /* Ensure heading takes full width for centering */
-        margin: 1.5rem 0; /* Adjusted margin */
-        padding-bottom: 1rem;
-        border-bottom: 1px solid #eee;
-        text-shadow: none; /* Remove desktop shadow */
-    }
-
-    /* Remove the columns container, stack nav and panel directly */
-    .columns-container {
-        display: contents; /* Effectively remove this container from layout */
-    }
-
-    .content-nav {
-        flex-basis: auto;
-        width: 100%;
-        max-width: 600px; /* Optional: Constrain width for centering */
-        margin-bottom: 0; /* Remove space below nav block */
-    }
-
-    /* Style the list itself */
-    .content-nav ul {
-        display: block;
-        overflow-x: hidden;
-        white-space: normal;
-        padding: 0;
-        margin: 0;
-        width: 100%; /* Ensure list takes full width */
-    }
-
-    .content-nav li {
-        flex-shrink: 1;
-        width: 100%; /* Make list items full width */
-        text-align: center; /* Center the links within */
-    }
-
-    /* Style for the light-grey buttons */
-    .content-nav a {
-        background-color: #f0f2f5;
-        color: #333;
-        font-weight: 600; /* Less bold */
-        font-size: 1rem;
-        border-radius: 5px; /* Add slight rounding */
-        margin-bottom: 5px; /* Space between buttons */
-        display: block; /* Make link fill the list item */
-        padding: 1rem;
-        text-align: center; /* Center text inside link */
-        border: 1px solid #e0e2e5; /* Add subtle border */
-    }
-
-    /* Style for the dark active button */
-    .content-nav a.active {
-        background-color: #333;
-        color: white;
-        border-color: #333;
-    }
-
-    /* Style the content panel container */
-    .content-panel {
-        padding: 0;
-        width: 100%; /* Make panel take full width */
-        max-width: 600px; /* Match nav width if constrained */
-    }
+    .content-wrapper { padding: 1rem; border-radius: 0; display: flex; flex-direction: column; align-items: center; }
+    .panel-heading { font-size: 2rem; font-weight: 700; color: #c1121f; text-align: center; width: 100%; margin: 1.5rem 0; padding-bottom: 1rem; border-bottom: 1px solid #eee; text-shadow: none; }
+    .columns-container { display: contents; }
+    .content-nav { flex-basis: auto; width: 100%; max-width: 600px; margin-bottom: 0; }
+    .content-nav ul { display: block; overflow-x: hidden; white-space: normal; padding: 0; margin: 0; width: 100%; }
+    .content-nav li { flex-shrink: 1; width: 100%; text-align: center; }
+    .content-nav a { background-color: #f0f2f5; color: #333; font-weight: 600; font-size: 1rem; border-radius: 5px; margin-bottom: 5px; display: block; padding: 1rem; text-align: center; border: 1px solid #e0e2e5; }
+    .content-nav a.active { background-color: #333; color: white; border-color: #333; }
+    .content-panel { padding: 0; width: 100%; max-width: 600px; }
+    .tab-content { display: none; padding: 1.5rem 1rem; background-color: #fdfdfd; border: 1px solid #eee; border-radius: 5px; margin-bottom: 1rem; }
+    .tab-content.active { display: block; }
     
-    /* Hide inactive content panels */
-    .tab-content {
-         display: none;
-         padding: 1.5rem 1rem;
-         background-color: #fdfdfd;
-         border: 1px solid #eee;
-         border-radius: 5px; /* Match button rounding */
-         margin-bottom: 1rem; /* Space below content */
-    }
-
-    /* Show active tab content */
-    .tab-content.active {
-        display: block;
-    }
-    
-    /* (All other responsive styles for tabs, footer, etc.) */
-    
+    /* (All other responsive styles for specific tabs, footer, etc.) */
     #dates.tab-content h3 { display: none; }
     .timeline-list { max-width: 100%; padding-left: 0; }
-    .timeline-list::before { display: none; }
-    .timeline-list li { padding-left: 0; }
-    .timeline-list li::before { display: none; }
+    .timeline-list::before, .timeline-list li::before { display: none; }
+    .timeline-list li { padding-left: 0; display: flex; flex-direction: column; line-height: 1.6; margin-bottom: 1rem; }
     .timeline-list li strong { font-size: 1.1rem; font-weight: 700; color: #000; }
     .timeline-list li span { font-size: 1.1rem; color: #333; font-weight: 400; margin-top: 0; padding-left: 0.5rem; }
-    .timeline-list li { display: flex; flex-direction: column; line-height: 1.6; margin-bottom: 1rem; }
     .timeline-list li strong::after { content: ":"; }
 
-    .content-grid, .contact-grid, .tracks-list {
-        grid-template-columns: 1fr;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+    .content-grid, .contact-grid, .tracks-list { grid-template-columns: 1fr; flex-direction: column; gap: 1.5rem; }
     .submission-buttons { flex-direction: column; gap: 1rem; }
     .btn { text-align: center; }
     .speaker-profile { flex-direction: column; align-items: center; text-align: center; }
@@ -1669,34 +1588,14 @@ footer {
     header { padding: 1rem; }
     header .apply-now { display: none; }
 
-    /* The hero wrapper logic from above still applies, no need to change */
+    /* Hero positioning logic from above still applies */
     
-    /* We just need to adjust the content margin for this screen size */
     .main-content {
-    /* Pull the content section up - ADJUST -2rem AS NEEDED */
-    margin-top: -30rem; 
-    
-    /* Ensure no top padding is interfering */
-    padding-top: 0 !important; 
-}
-    
-    .content-wrapper {
-        padding: 0.5rem;
-    }
-
-    .panel-heading {
-        font-size: 1.6rem;
-        margin: 1rem 0;
+        padding-top: 0.5rem; /* Adjust space above content on small screens */
     }
     
-    /* Further adjustments if needed for very small screens */
-    .content-nav a {
-        font-size: 0.9rem;
-        padding: 0.8rem;
-    }
-    .tab-content.active {
-        padding: 1rem 0.8rem;
-    }
+    .content-wrapper { padding: 0.5rem; }
+    .panel-heading { font-size: 1.6rem; margin: 1rem 0; }
     .speaker-bio p { text-align: center; }
     
     #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
@@ -1707,4 +1606,3 @@ footer {
     .floating-btn { width: 45px; height: 45px; font-size: 1.2rem; }
     .floating-btn.to-top { right: 15px; bottom: 15px; }
 }
-
