@@ -213,7 +213,7 @@ header .apply-now:hover {
 .hero-content .script-title { 
     font-family: 'Humble Signation', cursive; /* Use the new font */
     font-size: 5rem; /* You may need to adjust the size for this font */
-    font-weight: 600; 
+    font-weight: 300; 
     margin-left: 20px;
     margin-bottom: 15px;
     margin-top: 0;
@@ -435,7 +435,7 @@ header .apply-now:hover {
 /* ==== SIDE BUTTONS ==== */
 .side-buttons {
     position: fixed;
-    top: 15%; /* Adjust this value to move buttons up or down */
+    top: 22%; /* Adjust this value to move buttons up or down */
     right: 0;
     transform: translateY(0);
     display: flex;
@@ -449,8 +449,13 @@ header .apply-now:hover {
     background-color: #d90429; /* Red background */
     color: white;
     text-decoration: none;
+    /* Rounds the top-left and bottom-left corners */
+    border-radius: 0 15px 15px 0;
+    
+    /* Adds the shadow */
+    filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.837));
     padding: 1rem 0.5rem;
-    margin-bottom: 5px;
+    margin-bottom: 1.5rem;
     font-size: 0.9rem;
     font-weight: bold;
     transition: background-color 0.3s ease;
@@ -458,15 +463,6 @@ header .apply-now:hover {
 
 .side-btn:hover {
     background-color: #a1031d; /* Darker red on hover */
-}
-
-/* Modifier class for the second button */
-.side-btn.enquiry {
-    background-color: #333; /* Black background */
-}
-
-.side-btn.enquiry:hover {
-    background-color: #000; /* Darker black on hover */
 }
 
 /* ==== MAIN CONTENT SECTION ==== */
@@ -1538,4 +1534,158 @@ footer {
         right: 15px;
         bottom: 15px;
     }
+}
+/* ==== ENQUIRY MODAL STYLES ==== */
+#enquiry-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000; /* Higher than header */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#enquiry-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Dark background overlay */
+#enquiry-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.862);
+}
+
+/* White content box */
+#enquiry-modal .modal-content {
+    position: relative;
+    background: rgb(255, 255, 255);
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px; /* Adjust as needed */
+    max-height: 90vh; /* Make it scrollable on small screens */
+    overflow-y: auto;
+
+    /* Pop-in animation */
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+#enquiry-modal.active .modal-content {
+    transform: scale(1);
+}
+
+/* Close 'X' button */
+#enquiry-modal .modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.25rem;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #888;
+    text-decoration: none;
+    line-height: 1;
+}
+
+#enquiry-modal .modal-close:hover {
+    color: #000;
+}
+
+/* Form Styling */
+#enquiry-modal h3 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* Basic styles for inputs and selects */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 80%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Phone group */
+.form-group-phone {
+    display: flex;
+    gap: 8px;
+}
+.form-group-phone .phone-prefix {
+    flex-shrink: 0;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+.form-group-phone input {
+    flex-grow: 1;
+}
+
+/* State/City split group */
+.form-group-split {
+    display: flex;
+    gap: 1rem;
+}
+.form-group-split select {
+    width: 50%;
+}
+
+/* Checkbox group */
+.form-group-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-group-checkbox input {
+    width: auto;
+}
+.form-group-checkbox label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Submit button */
+.modal-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #d90429; /* Theme red */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.modal-submit-btn:hover {
+    background-color: #a1031d;
 }

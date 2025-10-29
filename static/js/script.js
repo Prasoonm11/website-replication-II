@@ -58,4 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // ==== END OF MOBILE MENU LOGIC ====
 
+    // ==== NEW: ENQUIRY MODAL LOGIC ====
+    const openEnquiryBtns = document.querySelectorAll('.side-btn.enquiry');
+    const enquiryModal = document.getElementById('enquiry-modal');
+    
+    // Check if the modal exists before adding listeners
+    if (enquiryModal) {
+        const closeEnquiryBtn = enquiryModal.querySelector('.modal-close');
+        const modalOverlay = enquiryModal.querySelector('.modal-overlay');
+
+        // Open modal when any "Make an Enquiry" button is clicked
+        openEnquiryBtns.forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                enquiryModal.classList.add('active');
+            });
+        });
+
+        // Close modal when the 'X' is clicked
+        closeEnquiryBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            enquiryModal.classList.remove('active');
+        });
+
+        // Close modal when clicking on the dark background
+        modalOverlay.addEventListener('click', function() {
+            enquiryModal.classList.remove('active');
+        });
+    }
+    // ==== END OF ENQUIRY MODAL LOGIC ====
+
 });

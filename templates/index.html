@@ -93,7 +93,7 @@
                 <h1 class="script-title">International Conference</h1>
                 <div class="title-divider">on</div>
                 <h2 class="main-title">
-                    <strong>Trusted Networks and Intelligent Systems</strong>
+                    Trusted Networks and Intelligent Systems
                 </h2>
             </div>
         </div>
@@ -485,6 +485,60 @@
         <form action="#">
             <input type="search" name="query" placeholder="Type to search..." autocomplete="off">
             <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    
+    <div class="side-buttons">
+        <a href="#" class="side-btn">Chat With a Student</a>
+        <a href="#" class="side-btn enquiry">Make an Enquiry</a>
+    </div>
+
+    <div id="enquiry-modal">
+    <div class="modal-overlay"></div>
+    
+    <div class="modal-content">
+        <a href="#" class="modal-close">&times;</a>
+        <h3>Submit your Enquiry</h3>
+
+        <form action="#">
+            <div class="form-group">
+                <input type="text" placeholder="Enter Student Full Name *">
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Enter Email Address *">
+            </div>
+            <div class="form-group form-group-phone">
+                <span class="phone-prefix">+91</span>
+                <input type="tel" placeholder="Enter Mobile Number *">
+            </div>
+            <div class="form-group form-group-split">
+                <select>
+                    <option value="">Select State *</option>
+                </select>
+                <select>
+                    <option value="">Select City *</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select>
+                    <option value="">Select Course *</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select>
+                    <option value="">Select Specialization *</option>
+                </select>
+            </div>
+            <div class="form-group form-group-checkbox">
+                <input type="checkbox" id="allow-contact">
+                <label for="allow-contact">I allow Manipal University Jaipur team to contact me</label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="modal-submit-btn">Submit</button>
+            </div>
         </form>
     </div>
     </div>
