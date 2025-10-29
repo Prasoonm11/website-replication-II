@@ -1497,8 +1497,18 @@ body {
 @media (max-width: 992px) {
     
     header {
-        padding: 1rem 1.5rem;
-    }
+    /* Make header fixed at the top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001; /* Higher than hero wrapper and main content */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add shadow for separation */
+
+    /* Adjust padding for mobile if needed */
+    padding: 0.8rem 1rem; 
+    height: auto; /* Allow height to adjust */
+}
 
     /* --- Mobile Header --- */
     header nav { display: none; /* ... other mobile header styles ... */ }
