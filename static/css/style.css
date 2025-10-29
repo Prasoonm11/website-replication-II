@@ -1674,7 +1674,7 @@ footer {
     /* We just need to adjust the content margin for this screen size */
     .main-content {
     /* Pull the content section up - ADJUST -2rem AS NEEDED */
-    margin-top: -29rem; 
+    margin-top: -30rem; 
     
     /* Ensure no top padding is interfering */
     padding-top: 0 !important; 
