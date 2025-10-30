@@ -1496,8 +1496,11 @@ body {
 /* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
 @media (max-width: 992px) {
 
+    .hide-on-mobile {
+        display: none !important;
+    }
     body {
-        overflow-x: hidden; /* Prevent horizontal scrollbars from scaling */
+        overflow-x: hidden; /* Prevent horizontal scrollbars caused by scaling */
     }
 
     header {
@@ -1523,9 +1526,6 @@ body {
     .dropdown-link { position: static; }
     .dropdown-menu { display: none !important; }
     #mobile-menu-toggle { display: block; }
-    
-    /* DO NOT HIDE BREAKS FOR SHRINK-TO-FIT */
-    /* .hide-on-mobile { display: none; } */
 
 
     /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
@@ -1539,17 +1539,22 @@ body {
         margin-bottom: 0 !important;
     }
 
-    .main-content {
-        /* This calculation pulls the content up to fill the empty space */
-        /* It automatically works for both portrait and landscape */
-        margin-top: calc(669.16px * ((100vw / 1650px) - 5)) !important;
-        
-        /* This adds back a small, predictable 1rem gap */
-        padding-top: 1rem !important; 
-        
-        /* Force other spacing to zero */
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
+    /* === ORIENTATION-BASED MARGINS === */
+    @media (orientation: portrait) {
+        .main-content {
+            margin-top: -20rem !important; /* Your -10 value for Portrait */
+            padding-top: 0.5rem !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    }
+    @media (orientation: landscape) {
+        .main-content {
+            margin-top: -13rem !important; /* Your -5 value for Landscape */
+            padding-top: 0.5rem !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
     }
     /* === END HERO SECTION LOGIC === */
     
@@ -1612,10 +1617,12 @@ body {
         color: white;
         border-color: #333;
     }
-    
-    /* This rule hides the original panel container, fixing the initial load gap */
-
-    
+    .content-panel {
+        padding: 0;
+        width: 100%;
+        max-width: 600px;
+        display: none;
+    }
     .tab-content {
         display: none; /* Hidden by default */
         padding: 1.5rem 1rem;
@@ -1624,7 +1631,7 @@ body {
         border-radius: 5px;
         margin-bottom: 1rem;
         width: 100%;
-        box-sizing: border-box;
+        box-sizing: border-box; /* Ensure padding doesn't break width */
     }
     .tab-content.active {
         display: block; /* JS makes this visible */
@@ -1662,13 +1669,14 @@ body {
     header { padding: 1rem; }
     header .apply-now { display: none; }
 
-    /* Hero scaling and margin logic from above still applies */
+    /* Hero scaling and orientation logic from above still applies */
 
+    /* Further adjust content */
     .content-wrapper { padding: 0.5rem; }
     .panel-heading { font-size: 1.6rem; margin: 1rem 0; }
     .speaker-bio p { text-align: center; }
     
-    #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
+    #search-overlay { top: 80px; height: auto; width: fill available; padding: 2rem 1rem; }
     #search-overlay .search-content { width: 95%; }
     #search-overlay input[type="search"] { font-size: 1.5rem; }
     #search-overlay .close-btn { top: 1rem; right: 1rem; font-size: 2.5rem; }

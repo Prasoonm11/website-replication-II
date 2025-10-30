@@ -5,22 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.content-nav a');
     const contentPanels = document.querySelectorAll('.tab-content');
 
-    // --- ADD THIS NEW BLOCK ---
-    // This fixes the initial page load on mobile
-    if (window.innerWidth <= 992) {
-        const initiallyActiveLink = document.querySelector('.content-nav a.active');
-        if (initiallyActiveLink) {
-            const targetId = initiallyActiveLink.getAttribute('data-target');
-            const targetPanel = document.getElementById(targetId);
-            const listItem = initiallyActiveLink.closest('li');
-
-            if (listItem && targetPanel) {
-                // Move the active panel to be right after its button
-                listItem.after(targetPanel); 
-            }
-        }
-    }
-    // --- END OF NEW BLOCK ---
 
     navLinks.forEach(link => {
         link.addEventListener('click', (event) => {
