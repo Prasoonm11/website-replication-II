@@ -1621,6 +1621,7 @@ body {
         padding: 0;
         width: 100%;
         max-width: 600px;
+        display: none;
     }
     .tab-content {
         display: none; /* Hidden by default */
