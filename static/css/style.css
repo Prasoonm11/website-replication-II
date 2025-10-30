@@ -1542,7 +1542,7 @@ body {
     
     /* Default margin for screens up to 992px (like landscape phone/tablet) */
     .main-content {
-        margin-top: -13rem; /* Your -5rem value */
+        margin-top: -15rem; /* Your -5rem value */
         
         padding-top: 1rem !important;
         margin-bottom: 0 !important;
@@ -1552,7 +1552,7 @@ body {
     /* Override for screens up to 700px (like portrait phone) */
     @media (max-width: 700px) {
         .main-content {
-            margin-top: -20rem; /* Your -10rem value */
+            margin-top: -25rem; /* Your -10rem value */
         }
     }
     /* === END HERO SECTION LOGIC === */
@@ -1656,7 +1656,7 @@ body {
 
     .footer-main { padding: 3rem 1.5rem; }
     footer h3 { font-size: 1.8rem; font-weight: 700; color: #c1121f; }
-    footer h3 { font-size: 1.2rem;}
+    footer h4 { font-size: 1.2rem;}
 
     #search-overlay .search-content { width: 80%; margin-right: 0; }
     #search-overlay form { width: 100%; }
@@ -1676,7 +1676,7 @@ body {
     .panel-heading { font-size: 1.6rem; margin: 1rem 0; }
     .speaker-bio p { text-align: center; }
     
-    #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
+    #search-overlay { top: 80px; height: auto;width: fit-content; padding: 2rem 1rem; }
     #search-overlay .search-content { width: 95%; }
     #search-overlay input[type="search"] { font-size: 1.5rem; }
     #search-overlay .close-btn { top: 1rem; right: 1rem; font-size: 2.5rem; }
