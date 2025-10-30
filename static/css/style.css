@@ -1614,9 +1614,7 @@ body {
     }
     
     /* This rule hides the original panel container, fixing the initial load gap */
-    .content-panel {
-        display: none !important; 
-    }
+
     
     .tab-content {
         display: none; /* Hidden by default */
