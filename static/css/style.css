@@ -1542,7 +1542,7 @@ body {
     
     /* Default margin for screens up to 992px (like landscape phone/tablet) */
     .main-content {
-        margin-top: -12rem !important; /* Your -5rem value */
+        margin-top: -13rem !important; /* Your -5rem value */
         
         padding-top: 1rem !important;
         margin-bottom: 0 !important;
@@ -1552,7 +1552,7 @@ body {
     /* Override for screens up to 700px (like portrait phone) */
     @media (max-width: 700px) {
         .main-content {
-            margin-top: -18rem !important; /* Your -10rem value */
+            margin-top: -22rem !important; /* Your -10rem value */
         }
     }
     /* === END HERO SECTION LOGIC === */
