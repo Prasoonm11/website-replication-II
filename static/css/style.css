@@ -1487,98 +1487,200 @@ footer {
 body {
     position: relative; /* Or add this to a main page container if you have one */
 }
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/*
+=========================================
+==== RESPONSIVE & MOBILE-FRIENDLY STYLES ====
+=========================================
+*/
+
+/* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
+@media (max-width: 992px) {
+
+    body {
+        overflow-x: hidden; /* Prevent horizontal scrollbars from scaling */
+    }
+
+    header {
+        padding: 1rem 1.5rem;
+    }
+
+    /* --- Mobile Header --- */
+    header nav {
+        display: none; /* Hide nav by default */
+        position: absolute;
+        top: 100%; /* Position below header */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-right: 0;
+    }
+    header nav.active { display: flex; }
+    header nav ul { flex-direction: column; gap: 0; width: 100%; }
+    header nav a { padding: 1rem 1.5rem; border-bottom: 1px solid #f0f0f0; }
+    .dropdown-link { position: static; }
+    .dropdown-menu { display: none !important; }
+    #mobile-menu-toggle { display: block; }
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+
+    /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
+    .desktop-hero-wrapper {
+        width: 1650px;
+        transform: scale(calc(100vw / 1650px));
+        transform-origin: top left;
+        
+        /* Force spacing to zero */
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* === NEW: WIDTH-BASED MARGINS === */
+    
+    /* Default margin for screens up to 992px (like landscape phone/tablet) */
+    .main-content {
+        margin-top: -5rem !important; /* Your -5rem value */
+        
+        padding-top: 1rem !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    /* Override for screens up to 700px (like portrait phone) */
+    @media (max-width: 700px) {
+        .main-content {
+            margin-top: -10rem !important; /* Your -10rem value */
+        }
+    }
+    /* === END HERO SECTION LOGIC === */
+    
+
+    /* === RESPONSIVE TAB LAYOUT (Accordion Style) === */
+    .content-wrapper {
+        padding: 1rem;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .panel-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #c1121f;
+        text-align: center;
+        width: 100%;
+        margin: 1.5rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+        text-shadow: none;
+    }
+    .columns-container {
+        display: contents; /* Remove from layout flow */
+    }
+    .content-nav {
+        flex-basis: auto;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 0;
+    }
+    .content-nav ul {
+        display: block;
+        overflow-x: hidden;
+        white-space: normal;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .content-nav li {
+        flex-shrink: 1;
+        width: 100%;
+        text-align: center;
+    }
+    .content-nav a {
+        background-color: #f0f2f5;
+        color: #333;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        display: block;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #e0e2e5;
+    }
+    .content-nav a.active {
+        background-color: #333;
+        color: white;
+        border-color: #333;
+    }
+    
+    /* This rule hides the original panel container, fixing the initial load gap */
+    .content-panel {
+        display: none !important; 
+    }
+    
+    .tab-content {
+        display: none; /* Hidden by default */
+        padding: 1.5rem 1rem;
+        background-color: #fdfdfd;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .tab-content.active {
+        display: block; /* JS makes this visible */
+    }
+    
+    /* (All other responsive styles for specific tabs, footer, etc.) */
+    #dates.tab-content h3 { display: none; }
+    .timeline-list { max-width: 100%; padding-left: 0; }
+    .timeline-list::before, .timeline-list li::before { display: none; }
+    .timeline-list li { padding-left: 0; display: flex; flex-direction: column; line-height: 1.6; margin-bottom: 1rem; }
+    .timeline-list li strong { font-size: 1.1rem; font-weight: 700; color: #000; }
+    .timeline-list li span { font-size: 1.1rem; color: #333; font-weight: 400; margin-top: 0; padding-left: 0.5rem; }
+    .timeline-list li strong::after { content: ":"; }
+
+    .content-grid, .contact-grid, .tracks-list {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .submission-buttons { flex-direction: column; gap: 1rem; }
+    .btn { text-align: center; }
+    .speaker-profile { flex-direction: column; align-items: center; text-align: center; }
+
+    .footer-main { padding: 3rem 1.5rem; }
+    footer h3 { font-size: 1.8rem; font-weight: 700; color: #c1121f; }
+
+    #search-overlay .search-content { width: 80%; margin-right: 0; }
+    #search-overlay form { width: 100%; }
+    #search-overlay input[type="search"] { font-size: 2rem; }
 }
 
-/* Hero Section */
-.hero {
-  display: flex;
-  flex-wrap: wrap;              /* ✅ allows stacking on smaller screens */
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;                  /* ✅ responsive width */
-  max-width: 1650px;            /* limits width for large desktops */
-  margin: 0 auto;               /* centers content */
-  min-height: 100vh;            /* takes full viewport height */
-  background-color: white;
-  padding: 2rem;                /* adds breathing room */
-  position: relative;
-  z-index: 2;
-}
 
-/* Hero Text Section */
-.hero-text {
-  flex: 1 1 500px;              /* ✅ flexible width */
-  padding: 1rem 2rem;
-}
-
-.hero-text h1 {
-  font-size: 2.5rem;
-  line-height: 1.2;
-}
-
-.hero-text p {
-  margin-top: 1rem;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* Hero Images Container */
-.hero-images-container {
-  flex: 1 1 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;             /* ✅ prevents overflow in desktop mode */
-  position: relative;
-}
-
-.hero-images-container img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-/* Main Content */
-.main-content {
-  position: relative;
-  z-index: 5;
-  margin-top: 0;                /* ✅ no overlap */
-  padding: 3rem 1.5rem;
-  background: #f9f9f9;
-}
-
-/* Optional: Keep a mild overlap on large screens only */
-@media (min-width: 1024px) {
-  .main-content {
-    margin-top: -5vh;           /* ✅ small aesthetic overlap for desktop */
-  }
-}
-
-/* Responsive Typography */
+/* ==== MOBILE (SMALL) SCREENS ==== */
+/* This block is still useful for small adjustments */
 @media (max-width: 768px) {
-  .hero-text h1 {
-    font-size: 2rem;
-  }
+    header { padding: 1rem; }
+    header .apply-now { display: none; }
 
-  .hero-text p {
-    font-size: 1rem;
-  }
-}
+    /* The 700px rule above will already handle the margin */
 
-/* Responsive Spacing for Very Small Screens */
-@media (max-width: 480px) {
-  .hero {
-    padding: 1rem;
-    flex-direction: column;     /* ✅ stack hero content */
-  }
+    .content-wrapper { padding: 0.5rem; }
+    .panel-heading { font-size: 1.6rem; margin: 1rem 0; }
+    .speaker-bio p { text-align: center; }
+    
+    #search-overlay { top: 80px; height: auto; padding: 2rem 1rem; }
+    #search-overlay .search-content { width: 95%; }
+    #search-overlay input[type="search"] { font-size: 1.5rem; }
+    #search-overlay .close-btn { top: 1rem; right: 1rem; font-size: 2.5rem; }
 
-  .hero-text {
-    text-align: center;
-    padding: 1rem 0;
-  }
+    .floating-btn { width: 45px; height: 45px; font-size: 1.2rem; }
+    .floating-btn.to-top { right: 15px; bottom: 15px; }
 }
