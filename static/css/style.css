@@ -1496,6 +1496,9 @@ body {
 /* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
 @media (max-width: 992px) {
 
+    .hide-on-mobile {
+        display: none;
+    }
     body {
         overflow-x: hidden; /* Prevent horizontal scrollbars caused by scaling */
     }
@@ -1539,7 +1542,7 @@ body {
     /* === ORIENTATION-BASED MARGINS === */
     @media (orientation: portrait) {
         .main-content {
-            margin-top: -31rem !important; /* Your -10 value for Portrait */
+            margin-top: -25rem !important; /* Your -10 value for Portrait */
             padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
@@ -1547,7 +1550,7 @@ body {
     }
     @media (orientation: landscape) {
         .main-content {
-            margin-top: -20rem !important; /* Your -5 value for Landscape */
+            margin-top: -18rem !important; /* Your -5 value for Landscape */
             padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
