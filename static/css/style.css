@@ -1496,9 +1496,9 @@ body {
 /* ==== TABLET & MOBILE (MEDIUM-LARGE) SCREENS ==== */
 @media (max-width: 992px) {
 
-    /*.hide-on-mobile {
+    .hide-on-mobile {
         display: none !important;
-    }*/
+    }
     body {
         overflow-x: hidden; /* Prevent horizontal scrollbars caused by scaling */
     }
@@ -1542,7 +1542,7 @@ body {
     /* === ORIENTATION-BASED MARGINS === */
     @media (orientation: portrait) {
         .main-content {
-            margin-top: -25rem !important; /* Your -10 value for Portrait */
+            margin-top: -20rem !important; /* Your -10 value for Portrait */
             padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
