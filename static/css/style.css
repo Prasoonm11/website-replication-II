@@ -1539,7 +1539,7 @@ body {
     /* === ORIENTATION-BASED MARGINS === */
     @media (orientation: portrait) {
         .main-content {
-            margin-top: -25rem !important; /* Your -10 value for Portrait */
+            margin-top: -30rem !important; /* Your -10 value for Portrait */
             padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
