@@ -1527,7 +1527,9 @@ body {
         display: none !important;
     }
 
-
+    .hide-on-mobile {
+    display: none;
+    }
     /* === HERO SECTION SHRINK-TO-FIT LOGIC === */
     .desktop-hero-wrapper {
         width: 1650px;
