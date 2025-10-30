@@ -1539,16 +1539,16 @@ body {
     /* === ORIENTATION-BASED MARGINS === */
     @media (orientation: portrait) {
         .main-content {
-            margin-top: -29rem !important; /* Your -10 value for Portrait */
-            padding-top: 1rem !important;
+            margin-top: -30rem !important; /* Your -10 value for Portrait */
+            padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
         }
     }
     @media (orientation: landscape) {
         .main-content {
-            margin-top: -19rem !important; /* Your -5 value for Landscape */
-            padding-top: 1rem !important;
+            margin-top: -20rem !important; /* Your -5 value for Landscape */
+            padding-top: 0.5rem !important;
             margin-bottom: 0 !important;
             padding-bottom: 0 !important;
         }
