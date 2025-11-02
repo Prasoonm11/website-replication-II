@@ -1696,6 +1696,24 @@ body {
 
     .floating-btn { width: 45px; height: 45px; font-size: 1.2rem; }
     .floating-btn.to-top { right: 15px; bottom: 15px; }
+
+    /* === NEW FOOTER SIZE RULES === */
+    .footer-main {
+        padding: 2rem 1rem; /* Reduce padding on main footer */
+    }
+    
+    .about-col p,
+    .links-col a {
+        font-size: 0.8rem; /* Smaller main footer text */
+    }
+
+    .footer-bottom-content p {
+        font-size: 0.7rem; /* Smaller copyright text */
+    }
+
+    .webdev-logo {
+        height: 15px; /* Smaller logo */
+    }
 }
 /* ==== MOBILE CONTENT MENU (Sidebar Overlay) ==== */
 
