@@ -469,7 +469,7 @@ header .apply-now:hover {
 
 .main-content {
     padding: 0 0rem; /* Adds space on the left and right */
-    margin-top: -10vh; /* Pulls this section up to overlap the hero images */
+    margin-top: -8vh; /* Pulls this section up to overlap the hero images */
     position: relative; /* Needed for z-index context */
     z-index: 5; /* Ensures this whole section is above the hero background */
 }
@@ -572,27 +572,8 @@ footer {
     position: relative;
     background-color: #222;
     color: #ccc;
-    padding-top: 100px; /* Space for the wave */
 }
 
-/* Wavy Top Border */
-.footer-wave {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: translateY(-1px); /* Prevents small gaps */
-}
-
-.footer-wave svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 120px; /* Height of the wave */
-    /* NOTE: The path fill color in the SVG tag must match the footer background */
-}
 
 /* Main Footer Content */
 .footer-main {
@@ -679,13 +660,35 @@ footer {
 /* Bottom Footer Bar */
 .footer-bottom {
     background-color: #ffffff;
-    text-align: center;
-    padding: 1rem;
+    color: #000000;
+    padding: 1.5rem 3rem;
     font-size: 0.9rem;
-    color: #000;
 }
-.footer-bottom p {
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-bottom-content p {
     margin: 0;
+}
+
+.footer-col-right {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    gap: 8px; /* Space between "Developed by:" and the logo */
+}
+
+/* This creates the little logo box */
+.footer-col-right .webdev-logo {
+    height: 20px;  /* Sets a specific height */
+    width: auto;   /* Lets the width adjust automatically */
+    vertical-align: middle;
 }
 
 /* Floating Action Buttons */
@@ -1487,6 +1490,14 @@ footer {
 body {
     position: relative; /* Or add this to a main page container if you have one */
 }
+
+/* --- Force Hamburger Icon to be Visible on All Screens --- */
+#mobile-menu-toggle {
+    display: block !important; /* Use !important to override other styles */
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
 /*
 =========================================
 ==== RESPONSIVE & MOBILE-FRIENDLY STYLES ====
@@ -1578,7 +1589,9 @@ body {
         text-shadow: none;
     }
     .columns-container {
-        display: contents; /* Remove from layout flow */
+        display: flex;
+        flex-direction: column; /* This stacks the columns */
+        width: 100%; /* Remove from layout flow */
     }
     .content-nav {
         flex-basis: auto;
@@ -1619,7 +1632,7 @@ body {
     
     /* This rule hides the original panel container, fixing the initial load gap */
     .content-panel {
-        display: none !important; 
+        display: none !important;
     }
     
     .tab-content {
@@ -1683,4 +1696,111 @@ body {
 
     .floating-btn { width: 45px; height: 45px; font-size: 1.2rem; }
     .floating-btn.to-top { right: 15px; bottom: 15px; }
+}
+/* ==== MOBILE CONTENT MENU (Sidebar Overlay) ==== */
+
+.mobile-content-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    
+    /* Hide by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Dark background overlay */
+.mobile-content-menu .mobile-menu-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent */
+}
+
+/* Red sidebar */
+.mobile-content-menu .mobile-menu-sidebar {
+    position: absolute;
+    top: 0;
+    right: -350px; /* Start off-screen */
+    width: 350px; /* Width of the sidebar */
+    max-width: 90%; /* Ensure it's not too wide on small screens */
+    height: 100%;
+    background-color: #c1121f; /* Your theme's red */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    transition: right 0.4s ease-in-out;
+    padding: 2rem 1.5rem;
+}
+
+/* Show menu (toggled by JS) */
+.mobile-content-menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+.mobile-content-menu.active .mobile-menu-sidebar {
+    right: 0; /* Slide in */
+}
+
+/* Close Button */
+.mobile-menu-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Menu Links */
+.mobile-content-menu ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 60px; /* Space below the close button */
+}
+
+.mobile-content-menu li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile-content-menu li a {
+    display: block;
+    padding: 1rem 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-content-menu li a i {
+    margin-right: 15px;
+    width: 20px; /* Ensures icons are aligned */
+    text-align: center;
+}
+
+/* Active/Hover states */
+.mobile-content-menu li a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.mobile-content-menu li a.active {
+    background-color: rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+}
+
+#mobile-menu-toggle {
+    display: block; /* Make it a block element so it's visible */
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #e31837; /* This is the current color */
+    margin-left: 1rem;
+    padding: 5px; /* Add padding to make it easier to click */
 }

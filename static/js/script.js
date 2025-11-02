@@ -1,95 +1,130 @@
-// Wait until the entire page is loaded before running the script
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ==== TAB SYSTEM LOGIC ====
-    const navLinks = document.querySelectorAll('.content-nav a');
+    // ==== TAB SYSTEM LOGIC (With Mobile Accordion Fix) ====
+    const navLinks = document.querySelectorAll('.content-nav a, .mobile-content-menu a');
     const contentPanels = document.querySelectorAll('.tab-content');
-
+    const mobileNav = document.getElementById('mobile-nav');
+    const desktopPanelContainer = document.querySelector('.content-panel'); // The desktop column
 
     navLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            event.preventDefault();
+            // 1. Prevent the default instant "jump"
+            event.preventDefault(); 
 
-            // --- Step 1: Update the buttons ---
-            navLinks.forEach(navLink => {
-                navLink.classList.remove('active');
-            });
-            link.classList.add('active');
-
-            // --- Step 2: Update the content panels ---
+            // 2. Get the target for switching content
             const targetId = link.getAttribute('data-target');
             const targetPanel = document.getElementById(targetId);
 
-            // Hide all content panels (KEEP THIS PART)
+            // 3. Get the target for scrolling
+            const href = link.getAttribute('href');
+            const scrollTargetId = href.substring(1); // Removes the '#'
+            const scrollTargetElement = document.getElementById(scrollTargetId);
+
+            // 4. Update the 'active' class on all links (desktop & mobile)
+            navLinks.forEach(navLink => {
+                navLink.classList.remove('active');
+                if (navLink.getAttribute('data-target') === targetId) {
+                    navLink.classList.add('active');
+                }
+            });
+
+            // 5. Hide all panels AND move them back to the desktop container
+            // This resets the layout on every click.
             contentPanels.forEach(panel => {
                 panel.classList.remove('active');
-                // Optional: Move inactive panels back to original container if they stray
-                // document.querySelector('.content-panel').appendChild(panel); 
+                if (desktopPanelContainer) { // Check if container exists
+                    desktopPanelContainer.appendChild(panel); // Return to hidden container
+                }
             });
             
-            // --- NEW LOGIC TO MOVE & SHOW PANEL ---
-            const listItem = link.closest('li'); // Find the parent <li> of the clicked link
-
-            // Check if the window width is less than or equal to 992px (tablet/mobile breakpoint)
-            if (window.innerWidth <= 992 && listItem && targetPanel) {
-                // *** MOBILE/TABLET VIEW: Move panel for accordion effect ***
-                listItem.after(targetPanel); 
-            } else if (targetPanel) {
-                // *** DESKTOP VIEW: Put panel back in original container (if needed) ***
-                // This ensures panels don't get stuck under list items if resizing window
-                document.querySelector('.content-panel').appendChild(targetPanel); 
-            }
-
-            // Show the target panel (whether moved or not)
+            // 6. Check if we are in mobile view
             if (targetPanel) {
-                targetPanel.classList.add('active'); 
+                const isMobileView = window.innerWidth <= 992;
+
+                // --- THIS IS THE FIX ---
+                // We must find the ON-PAGE accordion button, no matter which link was clicked
+                const onPageLink = document.querySelector(`.content-nav a[data-target="${targetId}"]`);
+                const onPageListItem = onPageLink ? onPageLink.closest('li') : null;
+
+                if (isMobileView && onPageListItem) {
+                    // On mobile, move the active panel to be *after* the on-page accordion button
+                    onPageListItem.after(targetPanel);
+                }
+                // --- END OF FIX ---
+                
+                // 7. Show the target panel (it's now in the right place)
+                targetPanel.classList.add('active');
             }
-            // --- END OF NEW LOGIC ---
+
+            // 8. Close the mobile menu (if it's open)
+            if (link.closest('#mobile-nav')) {
+                mobileNav.classList.remove('active');
+            }
+
+            // 9. Scroll to the element smoothly
+            if (scrollTargetElement) {
+                setTimeout(() => {
+                    scrollTargetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 300); // Delay to let menu close
+            }
         });
     });
-    // ==== END OF TAB LOGIC ====4
+    // ==== END OF TAB LOGIC ====
 
 
-    // ==== SEARCH OVERLAY LOGIC (FIXED: Moved inside DOMContentLoaded) ====
+    // ==== SEARCH OVERLAY LOGIC ====
     const openSearchButton = document.getElementById('open-search-btn');
     const searchOverlay = document.getElementById('search-overlay');
-    const closeSearchButton = searchOverlay.querySelector('.close-btn');
+    
+    if (openSearchButton && searchOverlay) {
+        const closeSearchButton = searchOverlay.querySelector('.close-btn');
 
-    openSearchButton.addEventListener('click', function(event) {
-        event.preventDefault(); 
-        searchOverlay.classList.add('active');
-    });
+        openSearchButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            searchOverlay.classList.add('active');
+        });
 
-    closeSearchButton.addEventListener('click', function(event) {
-        event.preventDefault(); 
-        searchOverlay.classList.remove('active');
-    });
+        if (closeSearchButton) {
+            closeSearchButton.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                searchOverlay.classList.remove('active');
+            });
+        }
+    }
     // ==== END OF SEARCH LOGIC ====
 
 
-    // ==== NEW: MOBILE MENU TOGGLE LOGIC ====
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const headerNav = document.querySelector('header nav');
+    // ==== MOBILE CONTENT MENU TOGGLE LOGIC ====
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const menuClose = document.getElementById('mobile-menu-close');
+    // const mobileNav is already defined above
 
-    if (mobileMenuToggle && headerNav) {
-        mobileMenuToggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            // This will toggle the 'active' class on the <nav> element
-            headerNav.classList.toggle('active');
+    if (menuToggle && mobileNav && menuClose) {
+        
+        // Open menu when hamburger icon (3 lines) is clicked
+        menuToggle.addEventListener('click', () => {
+            mobileNav.classList.add('active');
+        });
+
+        // Close menu when 'X' button is clicked
+        menuClose.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
         });
     }
     // ==== END OF MOBILE MENU LOGIC ====
 
-    // ==== NEW: ENQUIRY MODAL LOGIC ====
+
+    // ==== ENQUIRY MODAL LOGIC ====
     const openEnquiryBtns = document.querySelectorAll('.side-btn.enquiry');
     const enquiryModal = document.getElementById('enquiry-modal');
     
-    // Check if the modal exists before adding listeners
     if (enquiryModal) {
         const closeEnquiryBtn = enquiryModal.querySelector('.modal-close');
         const modalOverlay = enquiryModal.querySelector('.modal-overlay');
 
-        // Open modal when any "Make an Enquiry" button is clicked
         openEnquiryBtns.forEach(btn => {
             btn.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -97,16 +132,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Close modal when the 'X' is clicked
-        closeEnquiryBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            enquiryModal.classList.remove('active');
-        });
+        if (closeEnquiryBtn) {
+            closeEnquiryBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                enquiryModal.classList.remove('active');
+            });
+        }
 
-        // Close modal when clicking on the dark background
-        modalOverlay.addEventListener('click', function() {
-            enquiryModal.classList.remove('active');
-        });
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', function() {
+                enquiryModal.classList.remove('active');
+            });
+        }
     }
     // ==== END OF ENQUIRY MODAL LOGIC ====
 

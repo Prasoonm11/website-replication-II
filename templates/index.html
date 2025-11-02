@@ -17,7 +17,7 @@
 
     <header>
     <div class="logo">
-        <a href="#"><img src="static/images/mujheader.png" alt="Main Logo"></a>
+        <a href="#"><img src="static/images/MUJ-Logo.png" alt="Main Logo"></a>
         </div>
     <nav>
         <ul>
@@ -70,11 +70,28 @@
             </li>
         </ul>
     </nav>
+
     <div class="header-right">
         <a href="https://admissions.jaipur.manipal.edu" class="apply-now">Apply Now</a>
         <a href="#" id="open-search-btn" class="header-icon"><i class="fa-solid fa-magnifying-glass"></i></a>
-        <a href="#" class="colour-red"><i class="fa-solid fa-bars"></i></a>
+        <i class="fa-solid fa-bars" id="mobile-menu-toggle"></i>
     </div>
+    <div class="mobile-content-menu" id="mobile-nav">
+    <div class="mobile-menu-overlay"></div>
+
+    <div class="mobile-menu-sidebar">
+        <button class="mobile-menu-close" id="mobile-menu-close">&times;</button>
+        <ul>
+            <li><a href="#about" class="active" data-target="about"><i class="fa-solid fa-info-circle"></i> About Conference</a></li>
+            <li><a href="#dates" data-target="dates"><i class="fa-solid fa-calendar-days"></i> Important Dates</a></li>
+            <li><a href="#speakers" data-target="speakers"><i class="fa-solid fa-user-tie"></i> Keynote Speakers</a></li>
+            <li><a href="#committees" data-target="committees"><i class="fa-solid fa-users"></i> Conference Committees</a></li>
+            <li><a href="#registration" data-target="registration"><i class="fa-solid fa-id-card"></i> Registration</a></li>
+            <li><a href="#papers" data-target="papers"><i class="fa-solid fa-file-lines"></i> Call for Paper</a></li>
+            <li><a href="#contact" data-target="contact"><i class="fa-solid fa-phone"></i> Contact</a></li>
+        </ul>
+    </div>
+</div>
 </header>
 <div class="desktop-hero-wrapper">
     <div class="logo-text">
@@ -420,12 +437,7 @@
 
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <footer>
-        <div class="footer-wave">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-                <path fill="#222" fill-opacity="1" d="M0,160L48,181.3C96,203,192,245,288,240C384,235,480,181,576,149.3C672,117,768,107,864,128C960,149,1056,203,1152,213.3C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </svg>
-        </div>
-
+        
         <div class="footer-main">
             <div class="footer-col about-col">
                 <img src="static/images/mujfooterbg.png" alt="Logo" class="footer-logo">
@@ -478,8 +490,19 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© 2025 Manipal University Jaipur. All Rights Reserved.</p>
+    <div class="footer-bottom-content">
+        <div class="footer-col-left">
+            <p>© 2026. All rights reserved.</p>
         </div>
+        <div class="footer-col-right">
+            <p>Developed by:</p>
+            
+            <img src="static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
+            
+            <p>Prasoon Mathur</p>
+        </div>
+    </div>
+</div>
     </footer>
 
     <a href="#" class="floating-btn to-top"><i class="fa-solid fa-arrow-up"></i></a>
