@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <h1>TRUSTNET 2026 - Admin Dashboard</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </header>
+
+    <div class="admin-dash">
+
+        <section class="admin-section">
+            <h2>Manage Important Dates</h2>
+            
+            <h4>Add New Date</h4>
+            <form action="{{ url_for('add_date') }}" method="POST" class="admin-form">
+                <input type="text" name="name" placeholder="Event Name (e.g., Paper Deadline)" required>
+                <input type="text" name="date_str" placeholder="Date (e.g., February 15, 2026)" required>
+                <input type="submit" value="Add Date">
+            </form>
+
+            <h4 style="border-top: 1px dashed #ddd; padding-top: 1.5rem;">Edit/Delete Dates</h4>
+            <div class="manage-list">
+                {% for date in dates %}
+                <div class="manage-item">
+                    <div class="manage-item-main">
+                        <span>{{ date.name }}</span>
+                    </div>
+                    <form action="{{ url_for('edit_date', id=date.id) }}" method="POST">
+                        <input type="text" name="date_str" value="{{ date.date_str }}">
+                        <input type="submit" value="Update">
+                    </form>
+                    <a href="{{ url_for('delete_date', id=date.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="admin-section">
+            <h2>Manage Keynote Speakers</h2>
+            
+            <h4>Add New Speaker</h4>
+            <form action="{{ url_for('add_speaker') }}" method="POST" enctype="multipart/form-data" class="admin-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="affiliation">Affiliation:</label>
+                <input type="text" id="affiliation" name="affiliation">
+                
+                <label for="bio">Biography:</label>
+                <textarea id="bio" name="bio"></textarea>
+                
+                <label for="image">Speaker Image:</label>
+                <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
+                
+                <input type="submit" value="Add Speaker" style="margin-top: 1rem;">
+            </form>
+            
+            <h4 style="border-top: 1px dashed #ddd; padding-top: 1.5rem;">Current Speakers</h4>
+            <div class="manage-list">
+                {% for speaker in speakers %}
+                <div class="manage-item">
+                    <div class="manage-item-main">
+                        <span>{{ speaker.name }}</span>
+                        <small>{{ speaker.affiliation }}</small>
+                    </div>
+                    <div class="manage-item-actions">
+                        <a href="{{ url_for('edit_speaker', id=speaker.id) }}" class="btn btn-edit">Edit</a>
+                        <a href="{{ url_for('delete_speaker', id=speaker.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="footer-col-left">
+                <p>© 2026. All rights reserved.</p>
+            </div>
+            <div class="footer-col-right">
+                <p>Developed by:</p>
+                
+                <img src="static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
+                
+                <p><strong>Prasoon Mathur</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

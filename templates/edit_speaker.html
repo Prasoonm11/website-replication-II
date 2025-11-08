@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Speaker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body edit-page">
+    <header class="admin-header">
+        <h1>Edit Speaker</h1>
+        <a href="{{ url_for('admin') }}">Back to Dashboard</a>
+    </header>
+
+    <div class="admin-dash">
+        <section class="admin-section">
+            <h2>Editing: {{ speaker.name }}</h2>
+            
+            <form action="{{ url_for('edit_speaker', id=speaker.id) }}" method="POST" enctype="multipart/form-data" class="admin-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ speaker.name }}" required>
+                
+                <label for="affiliation">Affiliation:</label>
+                <input type="text" id="affiliation" name="affiliation" value="{{ speaker.affiliation }}">
+                
+                <label for="bio">Biography:</label>
+                <textarea id="bio" name="bio">{{ speaker.bio }}</textarea>
+                
+                <label for="image">Speaker Image:</label>
+                <p>Current image: {{ speaker.image_url }}</p>
+                <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
+                <small>Only upload a new image if you want to replace the current one.</small>
+                
+                <div class="form-actions">
+                    <input type="submit" value="Save Changes" style="margin-top: 1rem;">
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="footer-col-left">
+                <p>© 2026. All rights reserved.</p>
+            </div>
+            <div class="footer-col-right">
+                <p>Developed by:</p>
+                
+                <img src="static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
+                
+                <p><strong>Prasoon Mathur</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username(placeholder="Username") }}
+            </div>
+            <div>
+                {{ form.password(placeholder="Password") }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p style="color: #e31837; margin-top: 1rem;">{{ messages[0] }}</p>
+        {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

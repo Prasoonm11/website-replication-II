@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ==== TAB SYSTEM LOGIC (With Mobile Accordion Fix) ====
+    // ==== TAB SYSTEM LOGIC (Updated to ignore Admin Login link) ====
     const navLinks = document.querySelectorAll('.content-nav a, .mobile-content-menu a');
     const contentPanels = document.querySelectorAll('.tab-content');
     const mobileNav = document.getElementById('mobile-nav');
@@ -8,68 +8,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         link.addEventListener('click', (event) => {
-            // 1. Prevent the default instant "jump"
-            event.preventDefault(); 
-
+            
             // 2. Get the target for switching content
             const targetId = link.getAttribute('data-target');
-            const targetPanel = document.getElementById(targetId);
 
-            // 3. Get the target for scrolling
-            const href = link.getAttribute('href');
-            const scrollTargetId = href.substring(1); // Removes the '#'
-            const scrollTargetElement = document.getElementById(scrollTargetId);
+            // --- THIS IS THE FIX ---
+            // Only run this logic IF the link is part of the tab system
+            if (targetId) {
+                // 1. Prevent the default instant "jump"
+                event.preventDefault(); 
 
-            // 4. Update the 'active' class on all links (desktop & mobile)
-            navLinks.forEach(navLink => {
-                navLink.classList.remove('active');
-                if (navLink.getAttribute('data-target') === targetId) {
-                    navLink.classList.add('active');
-                }
-            });
+                const targetPanel = document.getElementById(targetId);
 
-            // 5. Hide all panels AND move them back to the desktop container
-            // This resets the layout on every click.
-            contentPanels.forEach(panel => {
-                panel.classList.remove('active');
-                if (desktopPanelContainer) { // Check if container exists
-                    desktopPanelContainer.appendChild(panel); // Return to hidden container
-                }
-            });
-            
-            // 6. Check if we are in mobile view
-            if (targetPanel) {
-                const isMobileView = window.innerWidth <= 992;
+                // 3. Get the target for scrolling
+                const href = link.getAttribute('href');
+                const scrollTargetId = href.substring(1); // Removes the '#'
+                const scrollTargetElement = document.getElementById(scrollTargetId);
 
-                // --- THIS IS THE FIX ---
-                // We must find the ON-PAGE accordion button, no matter which link was clicked
-                const onPageLink = document.querySelector(`.content-nav a[data-target="${targetId}"]`);
-                const onPageListItem = onPageLink ? onPageLink.closest('li') : null;
+                // 4. Update the 'active' class on all links (desktop & mobile)
+                navLinks.forEach(navLink => {
+                    navLink.classList.remove('active');
+                    if (navLink.getAttribute('data-target') === targetId) {
+                        navLink.classList.add('active');
+                    }
+                });
 
-                if (isMobileView && onPageListItem) {
-                    // On mobile, move the active panel to be *after* the on-page accordion button
-                    onPageListItem.after(targetPanel);
-                }
-                // --- END OF FIX ---
+                // 5. Hide all panels AND move them back to the desktop container
+                contentPanels.forEach(panel => {
+                    panel.classList.remove('active');
+                    if (desktopPanelContainer) { // Check if container exists
+                        desktopPanelContainer.appendChild(panel); // Return to hidden container
+                    }
+                });
                 
-                // 7. Show the target panel (it's now in the right place)
-                targetPanel.classList.add('active');
-            }
+                // 6. Check if we are in mobile view
+                if (targetPanel) {
+                    const isMobileView = window.innerWidth <= 992;
 
-            // 8. Close the mobile menu (if it's open)
-            if (link.closest('#mobile-nav')) {
-                mobileNav.classList.remove('active');
-            }
+                    const onPageLink = document.querySelector(`.content-nav a[data-target="${targetId}"]`);
+                    const onPageListItem = onPageLink ? onPageLink.closest('li') : null;
 
-            // 9. Scroll to the element smoothly
-            if (scrollTargetElement) {
-                setTimeout(() => {
-                    scrollTargetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 300); // Delay to let menu close
+                    if (isMobileView && onPageListItem) {
+                        // On mobile, move the active panel to be *after* the on-page accordion button
+                        onPageListItem.after(targetPanel);
+                    }
+                    
+                    // 7. Show the target panel (it's now in the right place)
+                    targetPanel.classList.add('active');
+                }
+
+                // 8. Close the mobile menu (if it's open)
+                if (link.closest('#mobile-nav')) {
+                    mobileNav.classList.remove('active');
+                }
+
+                // 9. Scroll to the element smoothly
+                if (scrollTargetElement) {
+                    setTimeout(() => {
+                        scrollTargetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 300); // Delay to let menu close
+                }
             }
+            // --- END OF FIX ---
+            // If the link has no 'data-target' (like Admin Login), the script does nothing
+            // and the link works normally.
         });
     });
     // ==== END OF TAB LOGIC ====

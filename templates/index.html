@@ -17,7 +17,7 @@
 
     <header>
     <div class="logo">
-        <a href="#"><img src="static/images/MUJ-Logo.png" alt="Main Logo"></a>
+        <a href="#"><img src="static/images/muj-logo-3.jpeg" alt="Main Logo"></a>
         </div>
     <nav>
         <ul>
@@ -89,6 +89,9 @@
             <li><a href="#registration" data-target="registration"><i class="fa-solid fa-id-card"></i> Registration</a></li>
             <li><a href="#papers" data-target="papers"><i class="fa-solid fa-file-lines"></i> Call for Paper</a></li>
             <li><a href="#contact" data-target="contact"><i class="fa-solid fa-phone"></i> Contact</a></li>
+            <li style="border-top: 1px solid #555; margin-top: 1rem;">
+            <a href="{{ url_for('login') }}"><i class="fa-solid fa-sign-in"></i> Admin Login</a>
+            </li>
         </ul>
     </div>
 </div>
@@ -171,56 +174,38 @@
                     <div id="dates" class="tab-content">
                         <h3>Important Dates</h3>
                         <ul class="timeline-list">
+                            {% for date in dates %}
                             <li>
-                                <strong>First Call for Papers</strong>
-                                <span>September 1, 2025</span>
+                                <strong>{{ date.name }}</strong>
+                                <span>{{ date.date_str }}</span>
                             </li>
+                            {% else %}
                             <li>
-                                <strong>Last Date for Submission</strong>
-                                <span>February 15, 2026</span>
+                                <span>Dates will be announced soon.</span>
                             </li>
-                            <li>
-                                <strong>Notification of Acceptance</strong>
-                                <span>April 15, 2026</span>
-                            </li>
-                            <li>
-                                <strong>Camera Ready Paper Submission</strong>
-                                <span>April 30, 2026</span>
-                            </li>
-                            <li>
-                                <strong>Registration Starts</strong>
-                                <span>May 5, 2026</span>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div id="speakers" class="tab-content">
-                    <div class="speaker-profile">
-                        <div class="speaker-photo">
-                            <img src="static/images/s1.png" alt="Speaker 1">
+                        <h3>Keynote Speakers</h3>
+                        
+                        {% for speaker in speakers %}
+                        <div class="speaker-profile">
+                            <div class="speaker-photo">
+                                <img src="{{ url_for('static', filename='images/speakers/' + speaker.image_url) }}" alt="{{ speaker.name }}">
+                            </div>
+                            <div class="speaker-bio">
+                                <h4 class="speaker-name">{{ speaker.name }}</h4>
+                                <p class="speaker-affiliation">{{ speaker.affiliation }}</p>
+                                <p class="speaker-title">Brief biography of the speaker</p>
+                                <p>{{ speaker.bio }}</p>
+                            </div>
                         </div>
-                        <div class="speaker-bio">
-                            <h4 class="speaker-name">Dr. André Eugenio Lazzaretti</h4>
-                            <p class="speaker-affiliation">Federal University of Technology - Paraná (UTFPR), Brazil</p>
-                            <p class="speaker-title">Brief biography of the speaker</p>
-                            <p>Dr. André Eugenio Lazzaretti is a distinguished researcher and professor at UTFPR, specializing in pattern recognition, machine learning, digital signal processing, embedded systems, and instrumentation. He has published extensively in top-tier journals and conferences, with over 100 peer-reviewed publications. His research focuses on developing innovative algorithms for signal processing applications, particularly in biomedical engineering and industrial automation. Dr. Lazzaretti has supervised numerous Ph.D. and M.Sc. students and has been actively involved in international research collaborations.</p>
-                        </div>
-                    </div>
-
-                    <hr class="speaker-divider">
-                    <div class="speaker-profile">
-                        <div class="speaker-photo">
-                            <img src="static/images/s2.png" alt="Speaker 2">
-                        </div>
-                        <div class="speaker-bio">
-                            <h4 class="speaker-name">Dr. Fausto Pedro García Márquez</h4>
-                            <p class="speaker-affiliation">University of Castilla-La Mancha, Spain</p>
-                            <p class="speaker-title">Brief biography of the speaker</p>
-                            <p>Fausto Pedro García Márquez is a leading expert in Artificial Intelligence, Maintenance, Management, Renewable Energy, Transport, Advanced Analytics, and Data Science. He holds a Ph.D. in Industrial Engineering and has published over 200 research papers in high-impact journals. His work focuses on integrating AI technologies across multiple domains to create sustainable and efficient solutions. Dr. García Márquez has led numerous international research projects and has been recognized for his contributions to renewable energy optimization and smart transportation systems.</p>
-                        </div>
-                    </div>
-
-                    <hr class="speaker-divider">
-
+                        <hr class="speaker-divider">
+                        
+                        {% else %}
+                            <p>Keynote speakers will be announced soon.</p>
+                        {% endfor %}
                     </div>
 
 
@@ -499,7 +484,7 @@
             
             <img src="static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
             
-            <p>Prasoon Mathur</p>
+            <p><strong>Prasoon Mathur</strong></p>
         </div>
     </div>
 </div>

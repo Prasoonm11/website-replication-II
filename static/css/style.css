@@ -39,7 +39,6 @@ h6 {
 }
 
 /* ==== HEADER ==== */
-/* ==== HEADER ==== */
 header {
     display: flex;
     justify-content: space-between; /* This is key: pushes logo left, actions right */
@@ -54,7 +53,7 @@ header {
 
 /* 1. Logo Styling */
 header .logo img {
-    height: 50px; /* Adjust height as needed */
+    height: 70px; /* Adjust height as needed */
     display: block;
 }
 
@@ -189,7 +188,7 @@ header .apply-now:hover {
 /* ==== HERO SECTION LAYOUT ==== */
 .hero {
     display: flex; /* Using Flexbox for the two columns */
-    height: 300px;
+    height: 290px;
     width: 1650px;
     background-color: white;
 }
@@ -212,7 +211,7 @@ header .apply-now:hover {
 .hero-content .subtitle { font-size: 1.1rem; opacity: 0.9; }
 .hero-content .script-title { 
     font-family: 'Humble Signation', cursive; /* Use the new font */
-    font-size: 5rem; /* You may need to adjust the size for this font */
+    font-size: 4.8rem; /* You may need to adjust the size for this font */
     font-weight: 300; 
     margin-left: 20px;
     margin-bottom: 15px;
@@ -229,7 +228,7 @@ header .apply-now:hover {
     max-width: 600px;
     margin:0;
     margin-left: 100px;
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
     position: relative;
     z-index: 100;
     border-radius: 8px;
@@ -416,20 +415,20 @@ header .apply-now:hover {
 /* --- SET THE UNIQUE SHAPES AND IMAGES --- */
 /* Flat top diamond */
 #pic1 .diamond-inner { 
-    background-image: url('../images/h1.webp'); 
+    background-image: url('../images/muj-pic-5.jpg'); 
 }
 
 /* Regular diamonds (they use the default shape from .diamond-pic) */
 #pic2 .diamond-inner { 
-    background-image: url('../images/h2.jpg'); 
+    background-image: url('../images/muj-pic-6.webp'); 
 }
 #pic3 .diamond-inner { 
-    background-image: url('../images/h3.png'); 
+    background-image: url('../images/muj-pic-2.jpg'); 
 }
 
 /* Flat bottom diamond */
 #pic4 .diamond-inner { 
-    background-image: url('../images/h4.jpeg'); 
+    background-image: url('../images/muj-pic.jpeg'); 
 }
 
 /* ==== SIDE BUTTONS ==== */
@@ -817,7 +816,7 @@ footer {
 
 #dates.tab-content h3 {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 900;
     color: #333;
     margin-top: 0;
@@ -873,7 +872,7 @@ footer {
 
 .timeline-list li span {
     display: block;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #777;
     margin-top: 0.25rem;
 }
@@ -1464,6 +1463,248 @@ footer {
     background-color: #a1031d;
 }
 
+/*
+=========================================
+==== ADMIN & LOGIN STYLES (Refined) ====
+=========================================
+*/
+
+/* === Body & Background === */
+/* This makes the admin pages use the same dotted background as your main site */
+body.admin-body {
+    background-color: #eef2f9;
+    background-image:
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.08) 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+/* === Login Page === */
+.login-container {
+    max-width: 450px;
+    margin: 15vh auto; /* Pushes the box down from the top */
+    padding: 2rem 3rem 3rem 3rem;
+    background: white;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    border-top: 5px solid #e31837; /* Red accent line */
+    text-align: center;
+}
+.login-container h1 {
+    color: #333; /* A darker, more professional color */
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    max-width: 100%;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+/* Adds a red highlight when you click an input */
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #e31837;
+    box-shadow: 0 0 5px rgba(227,24,55,0.3);
+    outline: none;
+}
+.login-container input[type="submit"] {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.8rem 1.5rem;
+}
+
+/* === Admin Header === */
+.admin-header {
+    background-color: #ffffff; /* A clean white header */
+    padding: 1rem 3rem;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-bottom: 1px solid #eee;
+}
+.admin-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+.admin-header a {
+    color: #e31837;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.admin-header a:hover {
+    text-decoration: underline;
+}
+
+/* === Main Admin Container === */
+.admin-dash {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: grid;
+    /* This creates a 2-column layout for your admin cards */
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+/* === Reusable Admin Card === */
+.admin-section {
+    background: white;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    border-radius: 12px;
+}
+.admin-section h2 {
+    color: #e31837;
+    margin-top: 0;
+    font-size: 1.6rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 0.5rem;
+}
+.admin-section h4 {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 0.5rem;
+}
+
+/* === Form Styles === */
+.admin-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+.admin-form input[type="text"],
+.admin-form textarea,
+.admin-form input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.admin-form textarea {
+    min-height: 100px;
+}
+.admin-form input[type="text"]:focus,
+.admin-form textarea:focus {
+    border-color: #e31837;
+    box-shadow: 0 0 5px rgba(227,24,55,0.3);
+    outline: none;
+}
+.admin-form input[type="submit"] {
+    margin-top: 1rem;
+}
+
+/* === Management List === */
+.manage-list {
+    margin-top: 1rem;
+}
+.manage-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.manage-item:last-child {
+    border-bottom: none;
+}
+.manage-item-main {
+    flex-grow: 1;
+}
+.manage-item-main span {
+    font-weight: bold;
+    display: block;
+}
+.manage-item-main small {
+    color: #666;
+    font-style: italic;
+}
+.manage-item-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0; /* Prevents buttons from wrapping */
+}
+.manage-item form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.manage-item form input[type="text"] {
+    margin-bottom: 0;
+    max-width: 200px;
+}
+.manage-item form input[type="submit"] {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+/* === General Button Styles === */
+input[type="submit"],
+.btn {
+    background-color: #e31837;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+input[type="submit"]:hover,
+.btn:hover {
+    background-color: #c1121f;
+}
+
+a.btn-delete, a.btn-edit {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: normal;
+    text-decoration: none;
+    border-radius: 5px;
+}
+a.btn-delete:hover {
+    background-color: #e31837;
+    border-color: #e31837;
+    color: white;
+}
+a.btn-edit:hover {
+    background-color: #212934;
+    border-color: #212934;
+    color: white;
+}
+/* Fix for edit page layout */
+.edit-page .admin-dash {
+    grid-template-columns: 1fr; /* Overrides the 2-column grid */
+}
+.admin-form .form-actions {
+    text-align: right;
+}
 
 /* ==== DESKTOP HERO WRAPPER (FOR SHRINKING) ==== */
 .desktop-hero-wrapper {
