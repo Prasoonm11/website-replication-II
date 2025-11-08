@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a-very-secret-key-that-you-must-change'
 # Creates the database file in your project folder
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/site.db'
 # Folder where speaker images will be saved
 app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
@@ -55,6 +55,9 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+with app.app_context():
+    db.create_all()
 
 # --- Main Public Route ---
 @app.route('/')
@@ -187,6 +190,4 @@ def edit_speaker(id):
 
 # --- Run the App ---
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all() # This creates the 'site.db' file if it doesn't exist
     app.run(debug=True)
