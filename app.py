@@ -12,7 +12,15 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a-very-secret-key-that-you-must-change'
 # Creates the database file in your project folder
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/site.db'
+# NEW
+# Get the database URL from Vercel's environment variables
+db_url = os.environ.get('POSTGRES_URL')
+
+# Vercel gives 'postgres://' but SQLAlchemy needs 'postgresql://'
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 # Folder where speaker images will be saved
 app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
