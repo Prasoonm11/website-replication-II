@@ -7,29 +7,27 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from vercel_blob import put # For Vercel Blob uploads
 
 # --- App Configuration ---
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a-very-secret-key-that-you-must-change'
+# Folder where speaker images will be *temporarily* held during upload
+app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
-# --- THIS IS THE FIX ---
+# --- Database Configuration ---
 # Get the database URL from Vercel's environment variables
 db_url = os.environ.get('POSTGRES_URL')
 
-# First, check if the URL was found
 if not db_url:
-    # If it's missing, use a local file for testing OR raise an error
+    # If VERCEL_URL is missing, fall back to a local SQLite file for testing
     print("WARNING: POSTGRES_URL not found. Using local sqlite db 'site.db'")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 else:
-    # If it was found, replace the protocol for SQLAlchemy
+    # Vercel gives 'postgres://' but SQLAlchemy needs 'postgresql://'
     if db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-# --- END OF FIX ---
-
-# Folder where speaker images will be saved
-app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -52,7 +50,8 @@ class Speaker(db.Model):
     name = db.Column(db.String(150), nullable=False)
     affiliation = db.Column(db.String(200))
     bio = db.Column(db.Text)
-    image_url = db.Column(db.String(200), default='default.jpg') 
+    # Stores the full public URL from Vercel Blob
+    image_url = db.Column(db.String(300), default=None) 
 
 class ImportantDate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -77,6 +76,7 @@ def create_default_admin():
         admin_user = User.query.filter_by(username='admin').first()
         if not admin_user:
             print("Admin user not found, creating one...")
+            # Change '12345' to your desired default password
             hashed_password = generate_password_hash('12345') 
             new_admin = User(username='admin', password_hash=hashed_password)
             db.session.add(new_admin)
@@ -137,26 +137,17 @@ def add_speaker():
     bio = request.form.get('bio')
     image_file = request.files['image']
 
-    filename = 'default.jpg' 
+    image_url = None # Default image
     if image_file and image_file.filename != '':
         filename = secure_filename(image_file.filename)
-        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
-        image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        image_file.save(image_path)
+        # Upload to Vercel Blob
+        blob_response = put(filename, image_file.read(), add_random_suffix=True)
+        image_url = blob_response['url'] # Get the public URL
 
-    new_speaker = Speaker(name=name, affiliation=affiliation, bio=bio, image_url=filename)
+    new_speaker = Speaker(name=name, affiliation=affiliation, bio=bio, image_url=image_url)
     db.session.add(new_speaker)
     db.session.commit()
     flash('Speaker added successfully!')
-    return redirect(url_for('admin'))
-
-@app.route('/admin/delete_speaker/<int:id>')
-@login_required
-def delete_speaker(id):
-    speaker = Speaker.query.get_or_404(id)
-    db.session.delete(speaker)
-    db.session.commit()
-    flash('Speaker deleted.')
     return redirect(url_for('admin'))
 
 @app.route('/admin/edit_speaker/<int:id>', methods=['GET', 'POST'])
@@ -167,17 +158,28 @@ def edit_speaker(id):
         speaker.name = request.form.get('name')
         speaker.affiliation = request.form.get('affiliation')
         speaker.bio = request.form.get('bio')
+        
         image_file = request.files.get('image')
         if image_file and image_file.filename != '':
+            # Upload new image to Vercel Blob
             filename = secure_filename(image_file.filename)
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            speaker.image_url = filename
+            blob_response = put(filename, image_file.read(), add_random_suffix=True)
+            speaker.image_url = blob_response['url'] # Update the image URL
+            
         db.session.commit()
         flash('Speaker updated successfully!')
         return redirect(url_for('admin'))
     return render_template('edit_speaker.html', speaker=speaker)
+
+@app.route('/admin/delete_speaker/<int:id>')
+@login_required
+def delete_speaker(id):
+    speaker = Speaker.query.get_or_404(id)
+    # Note: This does not delete the image from Vercel Blob, only the db record
+    db.session.delete(speaker)
+    db.session.commit()
+    flash('Speaker deleted.')
+    return redirect(url_for('admin'))
 
 # --- Date Management Routes ---
 @app.route('/admin/add_date', methods=['POST'])
@@ -210,6 +212,6 @@ def delete_date(id):
     flash('Date deleted.')
     return redirect(url_for('admin'))
 
-# --- Run the App ---
+# --- Run the App (for local development) ---
 if __name__ == '__main__':
     app.run(debug=True)

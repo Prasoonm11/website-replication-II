@@ -26,7 +26,8 @@
                 <textarea id="bio" name="bio">{{ speaker.bio }}</textarea>
                 
                 <label for="image">Speaker Image:</label>
-                <p>Current image: {{ speaker.image_url }}</p>
+                <p>Current image:</p>
+                <img src="{{ speaker.image_url }}" alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
                 <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
                 <small>Only upload a new image if you want to replace the current one.</small>
                 

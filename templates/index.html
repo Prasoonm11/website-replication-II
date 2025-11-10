@@ -192,7 +192,7 @@
                         {% for speaker in speakers %}
                         <div class="speaker-profile">
                             <div class="speaker-photo">
-                                <img src="{{ url_for('static', filename='images/speakers/' + speaker.image_url) }}" alt="{{ speaker.name }}">
+                                <img src="{{ speaker.image_url }}" alt="{{ speaker.name }}">
                             </div>
                             <div class="speaker-bio">
                                 <h4 class="speaker-name">{{ speaker.name }}</h4>
