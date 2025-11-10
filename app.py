@@ -11,16 +11,23 @@ from werkzeug.utils import secure_filename
 # --- App Configuration ---
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'a-very-secret-key-that-you-must-change'
-# Creates the database file in your project folder
-# NEW
+
+# --- THIS IS THE FIX ---
 # Get the database URL from Vercel's environment variables
 db_url = os.environ.get('POSTGRES_URL')
 
-# Vercel gives 'postgres://' but SQLAlchemy needs 'postgresql://'
-if db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
+# First, check if the URL was found
+if not db_url:
+    # If it's missing, use a local file for testing OR raise an error
+    print("WARNING: POSTGRES_URL not found. Using local sqlite db 'site.db'")
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+else:
+    # If it was found, replace the protocol for SQLAlchemy
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+# --- END OF FIX ---
 
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 # Folder where speaker images will be saved
 app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
@@ -45,13 +52,12 @@ class Speaker(db.Model):
     name = db.Column(db.String(150), nullable=False)
     affiliation = db.Column(db.String(200))
     bio = db.Column(db.Text)
-    # Stores the filename of the image (e.g., "prof_dua.jpg")
     image_url = db.Column(db.String(200), default='default.jpg') 
 
 class ImportantDate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    date_str = db.Column(db.String(100), nullable=False) # e.g., "February 15, 2026"
+    date_str = db.Column(db.String(100), nullable=False)
 
 # --- Login Manager Loader ---
 @login_manager.user_loader
@@ -64,16 +70,34 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
+# --- Create Database Tables and Default Admin ---
+def create_default_admin():
+    """Checks if admin user exists, if not, creates one."""
+    try:
+        admin_user = User.query.filter_by(username='admin').first()
+        if not admin_user:
+            print("Admin user not found, creating one...")
+            hashed_password = generate_password_hash('12345') 
+            new_admin = User(username='admin', password_hash=hashed_password)
+            db.session.add(new_admin)
+            db.session.commit()
+            print("Admin user created successfully.")
+        else:
+            print("Admin user already exists.")
+    except Exception as e:
+        print(f"Error creating admin user: {e}")
+        db.session.rollback() # Rollback in case of error
+
+# Create tables and admin user
 with app.app_context():
     db.create_all()
+    create_default_admin()
 
 # --- Main Public Route ---
 @app.route('/')
 def home():
-    # Fetch all speakers and dates from the database
     speakers = Speaker.query.all()
     dates = ImportantDate.query.all()
-    # Pass this data to the template
     return render_template('index.html', speakers=speakers, dates=dates)
 
 # --- Admin Auth Routes ---
@@ -98,7 +122,7 @@ def logout():
 
 # --- Admin Dashboard Routes ---
 @app.route('/admin')
-@login_required # This protects the page
+@login_required 
 def admin():
     speakers = Speaker.query.all()
     dates = ImportantDate.query.all()
@@ -113,10 +137,9 @@ def add_speaker():
     bio = request.form.get('bio')
     image_file = request.files['image']
 
-    filename = 'default.jpg' # Default image if none is uploaded
+    filename = 'default.jpg' 
     if image_file and image_file.filename != '':
         filename = secure_filename(image_file.filename)
-        # Ensure the upload folder exists
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
         image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         image_file.save(image_path)
@@ -131,11 +154,30 @@ def add_speaker():
 @login_required
 def delete_speaker(id):
     speaker = Speaker.query.get_or_404(id)
-    # You could also add logic here to delete the image file from the server
     db.session.delete(speaker)
     db.session.commit()
     flash('Speaker deleted.')
     return redirect(url_for('admin'))
+
+@app.route('/admin/edit_speaker/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_speaker(id):
+    speaker = Speaker.query.get_or_404(id)
+    if request.method == 'POST':
+        speaker.name = request.form.get('name')
+        speaker.affiliation = request.form.get('affiliation')
+        speaker.bio = request.form.get('bio')
+        image_file = request.files.get('image')
+        if image_file and image_file.filename != '':
+            filename = secure_filename(image_file.filename)
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image_file.save(image_path)
+            speaker.image_url = filename
+        db.session.commit()
+        flash('Speaker updated successfully!')
+        return redirect(url_for('admin'))
+    return render_template('edit_speaker.html', speaker=speaker)
 
 # --- Date Management Routes ---
 @app.route('/admin/add_date', methods=['POST'])
@@ -167,34 +209,6 @@ def delete_date(id):
     db.session.commit()
     flash('Date deleted.')
     return redirect(url_for('admin'))
-
-# Add this new route to your app.py
-@app.route('/admin/edit_speaker/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_speaker(id):
-    speaker = Speaker.query.get_or_404(id)
-    
-    if request.method == 'POST':
-        # Update the speaker's details from the form
-        speaker.name = request.form.get('name')
-        speaker.affiliation = request.form.get('affiliation')
-        speaker.bio = request.form.get('bio')
-        
-        image_file = request.files.get('image')
-        if image_file and image_file.filename != '':
-            # Save the new image if one is uploaded
-            filename = secure_filename(image_file.filename)
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) 
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-            speaker.image_url = filename # Update the image filename
-            
-        db.session.commit()
-        flash('Speaker updated successfully!')
-        return redirect(url_for('admin'))
-
-    # On GET request, show the edit page with current data
-    return render_template('edit_speaker.html', speaker=speaker)
 
 # --- Run the App ---
 if __name__ == '__main__':
