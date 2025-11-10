@@ -141,7 +141,7 @@ def add_speaker():
     if image_file and image_file.filename != '':
         filename = secure_filename(image_file.filename)
         # Upload to Vercel Blob
-        blob_response = put(filename, image_file.read(), add_random_suffix=True)
+        blob_response = put(filename, image_file.read())
         image_url = blob_response['url'] # Get the public URL
 
     new_speaker = Speaker(name=name, affiliation=affiliation, bio=bio, image_url=image_url)
@@ -163,7 +163,7 @@ def edit_speaker(id):
         if image_file and image_file.filename != '':
             # Upload new image to Vercel Blob
             filename = secure_filename(image_file.filename)
-            blob_response = put(filename, image_file.read(), add_random_suffix=True)
+            blob_response = put(filename, image_file.read())
             speaker.image_url = blob_response['url'] # Update the image URL
             
         db.session.commit()
