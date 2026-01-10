@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>TRUSTNET 2026 - Admin Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="admin-body">
     <header class="admin-header">
@@ -30,11 +31,11 @@
                     <div class="manage-item-main">
                         <span>{{ date.name }}</span>
                     </div>
-                    <form action="{{ url_for('edit_date', id=date.id) }}" method="POST">
+                    <form action="{{ url_for('edit_date', id=date.id) }}" method="POST" style="display: flex; gap: 5px;">
                         <input type="text" name="date_str" value="{{ date.date_str }}">
-                        <input type="submit" value="Update">
+                        <input type="submit" value="Update" class="btn-update">
                     </form>
-                    <a href="{{ url_for('delete_date', id=date.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a href="{{ url_for('delete_date', id=date.id) }}" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
                 {% endfor %}
             </div>
@@ -45,17 +46,17 @@
             
             <h4>Add New Speaker</h4>
             <form action="{{ url_for('add_speaker') }}" method="POST" enctype="multipart/form-data" class="admin-form">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <label>Name:</label>
+                <input type="text" name="name" required>
                 
-                <label for="affiliation">Affiliation:</label>
-                <input type="text" id="affiliation" name="affiliation">
+                <label>Affiliation:</label>
+                <input type="text" name="affiliation">
                 
-                <label for="bio">Biography:</label>
-                <textarea id="bio" name="bio"></textarea>
+                <label>Biography:</label>
+                <textarea name="bio"></textarea>
                 
-                <label for="image">Speaker Image:</label>
-                <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
+                <label>Speaker Image:</label>
+                <input type="file" name="image" accept="image/png, image/jpeg, image/jpg">
                 
                 <input type="submit" value="Add Speaker" style="margin-top: 1rem;">
             </form>
@@ -69,14 +70,104 @@
                         <small>{{ speaker.affiliation }}</small>
                     </div>
                     <div class="manage-item-actions">
-                        <a href="{{ url_for('edit_speaker', id=speaker.id) }}" class="btn btn-edit">Edit</a>
-                        <a href="{{ url_for('delete_speaker', id=speaker.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a href="{{ url_for('edit_speaker', id=speaker.id) }}" class="btn-edit">Edit</a>
+                        <a href="{{ url_for('delete_speaker', id=speaker.id) }}" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </section>
+
+        <section class="admin-section">
+            <h2>Manage Conference Committee</h2>
+            
+            <h4>Add Member</h4>
+            <form action="/admin/committee/add" method="POST" class="inline-add-form">
+                <input type="text" name="category" placeholder="Category (e.g., Patron)" required>
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="position" placeholder="Position/Affiliation" required>
+                <button type="submit" class="btn-save">Add</button>
+            </form>
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in committee %}
+                    <tr>
+                        <td>{{ member.category }}</td>
+                        <td>{{ member.name }}</td>
+                        <td>{{ member.position }}</td>
+                        <td><a href="/admin/committee/delete/{{ member.id }}" class="btn-delete">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="admin-section">
+            <h2>Edit Registration Fees</h2>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>IEEE (Online / Offline)</th>
+                        <th>Non-IEEE (Online / Offline)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fee in fees %}
+                    <tr>
+                        <form action="/admin/fees/update/{{ fee.id }}" method="POST">
+                            <td style="font-weight: bold; color: #333;">{{ fee.category }}</td>
+                            <td>
+                                <input type="text" name="ieee_online" value="{{ fee.ieee_online }}"> / 
+                                <input type="text" name="ieee_offline" value="{{ fee.ieee_offline }}">
+                            </td>
+                            <td>
+                                <input type="text" name="non_ieee_online" value="{{ fee.non_ieee_online }}"> / 
+                                <input type="text" name="non_ieee_offline" value="{{ fee.non_ieee_offline }}">
+                            </td>
+                            <td><button type="submit" class="btn-update">Update</button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </div>
+
+    <div class="admin-dash admin-grid" style="margin-top: 0; padding-top: 0;">
+        <section class="admin-section">
+            <h2>Call for Papers Text</h2>
+            {% for item in cfp %}
+            <form action="/admin/cfp/update/{{ item.id }}" method="POST" class="admin-form">
+                <label><i class="fa-solid fa-file-lines"></i> {{ item.section_title }}</label>
+                <textarea name="content" rows="6">{{ item.content }}</textarea>
+                <button type="submit" class="btn-save">Save changes</button>
+            </form>
+            {% endfor %}
+        </section>
+
+        <section class="admin-section">
+            <h2>Contact Information</h2>
+            {% for contact in contacts %}
+            <form action="/admin/contact/update/{{ contact.id }}" method="POST" class="admin-form">
+                <label><i class="fa-solid fa-address-book"></i> {{ contact.label }}</label>
+                <textarea name="value" rows="3">{{ contact.value }}</textarea>
+                <button type="submit" class="btn-save">Update Info</button>
+            </form>
+            {% endfor %}
+        </section>
+    </div>
+
     <div class="footer-bottom">
         <div class="footer-bottom-content">
             <div class="footer-col-left">
@@ -84,9 +175,7 @@
             </div>
             <div class="footer-col-right">
                 <p>Developed by:</p>
-                
-                <img src="static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
-                
+                <img src="/static/images/sdc-logo-black.png" alt="WebDev Logo" class="webdev-logo">
                 <p><strong>Prasoon Mathur</strong></p>
             </div>
         </div>

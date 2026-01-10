@@ -2063,3 +2063,127 @@ body {
     margin-left: 1rem;
     padding: 5px; /* Add padding to make it easier to click */
 }
+/* =========================================
+   ==== NEW ADMIN DASHBOARD EXTENSIONS ====
+   ========================================= */
+
+/* --- Grid for Side-by-Side Sections (CFP & Contacts) --- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* --- Enhanced Admin Tables (Committee & Fees) --- */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    background: white;
+    font-size: 0.95rem;
+}
+
+.admin-table th {
+    background-color: #333; /* Matches your dark footer/header */
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.admin-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* --- Inline Table Inputs (For Registration Fees) --- */
+.admin-table input[type="text"] {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    width: 80px; /* Small width for price boxes */
+    text-align: center;
+}
+
+.admin-table input[type="text"]:focus {
+    border-color: #c1121f;
+    outline: none;
+    box-shadow: 0 0 4px rgba(193, 18, 31, 0.2);
+}
+
+/* --- Inline Form for Adding Committee --- */
+.inline-add-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+}
+
+.inline-add-form input {
+    flex: 1;
+}
+
+/* --- Reusable Admin Button Variations --- */
+.btn-update {
+    background-color: #c1121f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-update:hover {
+    background-color: #9a031e;
+}
+
+/* --- Textarea Styling for CFP & Contacts --- */
+.admin-section textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1rem;
+    resize: vertical;
+}
+
+.admin-section label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* --- Responsive Adjustments for Admin Grid --- */
+@media (max-width: 992px) {
+    .admin-grid {
+        grid-template-columns: 1fr; /* Stacks Paper/Contact on tablet/mobile */
+        gap: 1rem;
+    }
+    
+    .admin-table {
+        display: block;
+        overflow-x: auto; /* Makes table scrollable on small phones */
+    }
+    
+    .inline-add-form {
+        flex-direction: column;
+    }
+}
