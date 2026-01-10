@@ -11,14 +11,17 @@ from vercel_blob import put
 
 # --- App Configuration ---
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-key-for-dev')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a-very-secret-key-that-you-must-change')
 app.config['UPLOAD_FOLDER'] = 'static/images/speakers' 
 
 # --- Database Configuration ---
 db_url = os.environ.get('POSTGRES_URL')
+
 if not db_url:
+    # Local fallback
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 else:
+    # Vercel Postgres compatibility fix
     if db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
@@ -40,7 +43,7 @@ class Speaker(db.Model):
     name = db.Column(db.String(150), nullable=False)
     affiliation = db.Column(db.String(200))
     bio = db.Column(db.Text)
-    image_url = db.Column(db.String(300))
+    image_url = db.Column(db.String(300)) 
 
 class ImportantDate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -83,35 +86,38 @@ class LoginForm(FlaskForm):
 
 # --- Initialization & Auto-Seeding ---
 def seed_production_data():
-    """Initializes basic data if tables are empty."""
+    """Seeds the DB if empty."""
     if not RegistrationFee.query.first():
         fees = [
             RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
-            RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000")
+            RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
+            RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
+            RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
+            RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
         ]
         db.session.add_all(fees)
     
     if not ContactInfo.query.first():
         contacts = [
             ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu"),
-            ContactInfo(label="Phone Support", value="+91-141-3999100")
+            ContactInfo(label="Phone Support", value="+91-141-3999100"),
+            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan")
         ]
         db.session.add_all(contacts)
     
     if not CallForPaper.query.first():
-        db.session.add(CallForPaper(section_title="Paper Formatting", content="IEEE conference format..."))
+        db.session.add(CallForPaper(section_title="Paper Formatting", content="IEEE conference format (two-column layout)..."))
         
     db.session.commit()
 
 with app.app_context():
     db.create_all()
-    # Create admin if not exists
     if not User.query.filter_by(username='admin').first():
         db.session.add(User(username='admin', password_hash=generate_password_hash('12345')))
         db.session.commit()
     seed_production_data()
 
-# --- Main Public Route ---
+# --- Routes ---
 @app.route('/')
 def home():
     return render_template('index.html', 
@@ -122,7 +128,6 @@ def home():
                            cfp=CallForPaper.query.all(),
                            contacts=ContactInfo.query.all())
 
-# --- Authentication Routes ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated: return redirect(url_for('admin'))
@@ -140,7 +145,6 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-# --- Admin Dashboard ---
 @app.route('/admin')
 @login_required 
 def admin():
@@ -152,12 +156,12 @@ def admin():
                            cfp=CallForPaper.query.all(),
                            contacts=ContactInfo.query.all())
 
-# --- Management Routes (Speakers, Dates, Committee, Fees, etc.) ---
+# --- Management Routes ---
 
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
 def add_speaker():
-    image_file = request.files['image']
+    image_file = request.files.get('image')
     image_url = None
     if image_file and image_file.filename != '':
         blob_response = put(secure_filename(image_file.filename), image_file.read())
@@ -166,6 +170,29 @@ def add_speaker():
     new_speaker = Speaker(name=request.form.get('name'), affiliation=request.form.get('affiliation'), 
                           bio=request.form.get('bio'), image_url=image_url)
     db.session.add(new_speaker)
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/edit_speaker/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_speaker(id):
+    speaker = Speaker.query.get_or_404(id)
+    if request.method == 'POST':
+        speaker.name = request.form.get('name')
+        speaker.affiliation = request.form.get('affiliation')
+        speaker.bio = request.form.get('bio')
+        image_file = request.files.get('image')
+        if image_file and image_file.filename != '':
+            blob_response = put(secure_filename(image_file.filename), image_file.read())
+            speaker.image_url = blob_response['url']
+        db.session.commit()
+        return redirect(url_for('admin'))
+    return render_template('edit_speaker.html', speaker=speaker)
+
+@app.route('/admin/delete_speaker/<int:id>')
+@login_required
+def delete_speaker(id):
+    db.session.delete(Speaker.query.get(id))
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -209,7 +236,6 @@ def update_contact(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-# Date routes (keep existing add_date, edit_date, delete_date)
 @app.route('/admin/add_date', methods=['POST'])
 @login_required
 def add_date():
