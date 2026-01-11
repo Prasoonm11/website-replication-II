@@ -100,11 +100,13 @@ def seed_production_data():
     
     if not ContactInfo.query.first():
         contacts = [
-            ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu"),
-            ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200"),
-            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan 303007")
+            ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu\nRegistration: stesi@jaipur.manipal.edu\nFor general conference information and registration support"),
+            ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200\nAvailable Monday to Friday, 9:00 AM - 6:00 PM IST"),
+            ContactInfo(label="Conference Venue", value="Manipal University Jaipur\nJaipur-Ajmer Express Highway, Dehmi Kalan, Near GVK Toll Plaza, Jaipur, Rajasthan 303007, India\nBeautiful campus with state-of-the-art conference facilities"),
+            ContactInfo(label="Office Hours", value="Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nOur team is available during these hours for immediate assistance")
         ]
         db.session.add_all(contacts)
+        db.session.commit()
     
     if not CallForPaper.query.first():
         db.session.add(CallForPaper(section_title="Paper Formatting", content="IEEE conference format (two-column layout)..."))
@@ -256,9 +258,10 @@ def update_cfp(id):
 @app.route('/admin/contact/update/<int:id>', methods=['POST'])
 @login_required
 def update_contact(id):
-    contact = ContactInfo.query.get(id)
-    contact.value = request.form['value']
+    contact = ContactInfo.query.get_or_404(id)
+    contact.value = request.form.get('value')
     db.session.commit()
+    flash('Contact info updated!')
     return redirect(url_for('admin'))
 
 # --- Important Dates Management ---

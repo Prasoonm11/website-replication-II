@@ -309,23 +309,30 @@
     </div>
 </div>
                     <div id="contact" class="tab-content">
-    <div class="contact-header">
-        <h3>Contact Information</h3>
-        <p>Reach out to us through any of the following channels for assistance.</p>
-    </div>
-    <div class="contact-grid">
-        {% for contact in contacts %}
-        <div class="contact-card">
-            <div class="contact-details">
-                <h4>{{ contact.label }}</h4>
-                <p>{{ contact.value }}</p>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-                </article>
+                        <div class="contact-header">
+                            <h3>Contact Information</h3>
+                            <p>Reach out to us through any of the following channels for assistance.</p>
+                        </div>
 
+                        <div class="contact-grid">
+                            {% for contact in contacts %}
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    {% if "General" in contact.label %}<i class="fa-solid fa-envelope"></i>
+                                    {% elif "Phone" in contact.label %}<i class="fa-solid fa-phone"></i>
+                                    {% elif "Venue" in contact.label %}<i class="fa-solid fa-location-dot"></i>
+                                    {% else %}<i class="fa-solid fa-clock"></i>{% endif %}
+                                </div>
+                                <div class="contact-details">
+                                    <h4>{{ contact.label }}</h4>
+                                    {# Splits by line breaks to style the first lines differently if needed #}
+                                    <p>{{ contact.value | replace('\n', '<br>') | safe }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
