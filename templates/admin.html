@@ -166,29 +166,48 @@
 
     <div class="admin-dash admin-grid" style="margin-top: 0; padding-top: 0;">
         <section class="admin-section">
-            <h2>Call for Papers Text</h2>
-            {% for item in cfp %}
-            <form action="/admin/cfp/update/{{ item.id }}" method="POST" class="admin-form">
-                <label><i class="fa-solid fa-file-lines"></i> {{ item.section_title }}</label>
-                <textarea name="content" rows="6">{{ item.content }}</textarea>
-                <button type="submit" class="btn-save">Save changes</button>
-            </form>
-            {% endfor %}
-        </section>
+            <h2>Manage Call for Papers</h2>
 
-        <section class="admin-section">
-            <h2>Contact Information</h2>
-            <div class="admin-grid">
-                {% for contact in contacts %}
-                <form action="/admin/contact/update/{{ contact.id }}" method="POST" class="admin-form" style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                    <label><strong>{{ contact.label }}</strong></label>
-                    <textarea name="value" rows="4" style="width: 100%; margin-top: 10px;">{{ contact.value }}</textarea>
-                    <div style="margin-top: 10px;">
-                        <button type="submit" class="btn-update">Update</button>
-                    </div>
-                </form>
-                {% endfor %}
+            {% for section in cfp_sections %}
+            <div style="margin-bottom: 2rem; border-bottom: 2px solid #eee; padding-bottom: 1rem;">
+                <h4 style="color: #c1121f;">{{ section.title }}</h4>
+                
+                <table class="admin-table">
+                    {% for point in cfp_points if point.section_id == section.id %}
+                    <tr>
+                        <form action="/admin/cfp/point/update/{{ point.id }}" method="POST">
+                            <td><input type="text" name="content" value="{{ point.content }}" style="width: 100%;"></td>
+                            <td style="width: 150px;">
+                                <button type="submit" class="btn-update">Update</button>
+                                <a href="/admin/cfp/point/delete/{{ point.id }}" class="btn-delete" style="display:block; margin-top:5px; text-align:center;">Delete</a>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    
+                    <tr style="background: #fdf2f2;">
+                        <form action="/admin/cfp/point/add" method="POST">
+                            <input type="hidden" name="section_id" value="{{ section.id }}">
+                            <td><input type="text" name="content" placeholder="Add new bullet point..." required></td>
+                            <td><button type="submit" class="btn-save" style="width:100%;">Add Point</button></td>
+                        </form>
+                    </tr>
+                </table>
             </div>
+            {% endfor %}
+
+            <h4>External Links (Buttons)</h4>
+            <table class="admin-table">
+                {% for btn in cfp_buttons %}
+                <tr>
+                    <form action="/admin/cfp/button/update/{{ btn.id }}" method="POST">
+                        <td><input type="text" name="label" value="{{ btn.label }}" style="font-weight:bold;"></td>
+                        <td><input type="text" name="url" value="{{ btn.url }}"></td>
+                        <td><button type="submit" class="btn-update">Update Link</button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </table>
         </section>
     </div>
 

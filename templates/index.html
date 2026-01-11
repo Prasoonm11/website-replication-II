@@ -277,49 +277,28 @@
                     <div id="papers" class="tab-content">
                         <div class="cfp-header">
                             <h3>Call for Papers</h3>
-                            <p>Submit your research contributions to STESI 2026 and join the global community of researchers advancing Smart Technologies for Energy, Sustainability & Industry.</p>
+                            <p>Submit your research contributions to TRUSTNET 2026 and join the global community.</p>
                         </div>
 
                         <div class="content-grid">
+                            {% for section in cfp_sections %}
                             <div class="guideline-item">
-                                <h4><i class="fa-solid fa-file-lines"></i> Paper Formatting</h4>
+                                <h4><i class="fa-solid {{ section.icon_class }}"></i> {{ section.title }}</h4>
                                 <ul class="checklist">
-                                    <li>IEEE conference format (two-column layout)</li>
-                                    <li>Maximum 6 pages including references</li>
-                                    <li>Times New Roman, 10pt font for body text</li>
-                                    <li>Single line spacing with 0.75 inch margins</li>
+                                    {% for point in cfp_points if point.section_id == section.id %}
+                                    <li>{{ point.content }}</li>
+                                    {% endfor %}
                                 </ul>
                             </div>
-                            <div class="guideline-item">
-                                <h4><i class="fa-solid fa-user-secret"></i> Submission Requirements</h4>
-                                <ul class="checklist">
-                                    <li>Submit via Microsoft CMT submission system</li>
-                                    <li>PDF format only (no Word documents)</li>
-                                    <li>Remove author names and affiliations for blind review</li>
-                                    <li>Include complete references in IEEE citation style</li>
-                                </ul>
-                            </div>
+                            {% endfor %}
                         </div>
 
-                        <div class="tracks-section">
-                            <h4>Conference Tracks</h4>
-                            <div class="tracks-list">
-                                <ul>
-                                    <li>Smart Grids & Green Energy</li>
-                                    <li>Signal Processing & Intelligent Systems</li>
-                                    <li>Energy Policy, Regulation, and Electricity Markets</li>
-                                </ul>
-                                <ul>
-                                    <li>Smart Technologies for Industries</li>
-                                    <li>Advanced Computing and Intelligent Technologies</li>
-                                    <li>IOT and Automation</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
                         <div class="submission-buttons">
-                            <a href="#" class="btn btn-primary">Submit Paper via CMT <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="#" class="btn btn-secondary">Download IEEE Templates <i class="fa-solid fa-download"></i></a>
+                            {% for btn in cfp_buttons %}
+                            <a href="{{ btn.url }}" class="btn btn-primary" target="_blank">
+                                {{ btn.label }} <i class="fa-solid {{ btn.icon_class }}"></i>
+                            </a>
+                            {% endfor %}
                         </div>
                     </div>
                     <div id="contact" class="tab-content">

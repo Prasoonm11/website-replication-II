@@ -65,10 +65,24 @@ class RegistrationFee(db.Model):
     non_ieee_online = db.Column(db.String(50))
     non_ieee_offline = db.Column(db.String(50))
 
-class CallForPaper(db.Model):
+# --- Updated Call for Papers Models ---
+class CFPSection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    section_title = db.Column(db.String(100))
-    content = db.Column(db.Text)
+    title = db.Column(db.String(100), nullable=False) # e.g., "Paper Formatting"
+    icon_class = db.Column(db.String(100)) # e.g., "fa-file-lines"
+    sort_order = db.Column(db.Integer, default=0)
+
+class CFPPoint(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    section_id = db.Column(db.Integer, db.ForeignKey('cfp_section.id'), nullable=False)
+    content = db.Column(db.String(500), nullable=False)
+    sort_order = db.Column(db.Integer, default=0)
+
+class CFPButton(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.String(100), nullable=False) # e.g., "Submit Paper via CMT"
+    url = db.Column(db.String(300), nullable=False)
+    icon_class = db.Column(db.String(100)) # e.g., "fa-arrow-up-right-from-square"
 
 class ContactInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -249,12 +263,40 @@ def update_fees(id):
     flash('Prices updated successfully!')
     return redirect(url_for('admin'))
 
-# --- Call for Papers Management ---
-@app.route('/admin/cfp/update/<int:id>', methods=['POST'])
+# --- CFP Management Routes ---
+@app.route('/admin/cfp/point/add', methods=['POST'])
 @login_required
-def update_cfp(id):
-    item = CallForPaper.query.get(id)
-    item.content = request.form['content']
+def add_cfp_point():
+    new_point = CFPPoint(
+        section_id=request.form.get('section_id'),
+        content=request.form.get('content'),
+        sort_order=request.form.get('sort_order', 0)
+    )
+    db.session.add(new_point)
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/cfp/point/update/<int:id>', methods=['POST'])
+@login_required
+def update_cfp_point(id):
+    point = CFPPoint.query.get_or_404(id)
+    point.content = request.form.get('content')
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/cfp/point/delete/<int:id>')
+@login_required
+def delete_cfp_point(id):
+    db.session.delete(CFPPoint.query.get(id))
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/cfp/button/update/<int:id>', methods=['POST'])
+@login_required
+def update_cfp_button(id):
+    btn = CFPButton.query.get_or_404(id)
+    btn.label = request.form.get('label')
+    btn.url = request.form.get('url')
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -309,18 +351,15 @@ def reset_committee():
 # Add this at the bottom of app.py
 @app.route('/reset_all')
 def reset_all():
-    try:
-        # 1. Drop the specific tables that need updating
-        CommitteeMember.__table__.drop(db.engine)
-        RegistrationFee.__table__.drop(db.engine)
-        ContactInfo.__table__.drop(db.engine)
-        
-        # 2. Recreate all tables (this adds the missing columns like sort_order)
-        db.create_all()
-        
-        # 3. Re-run the seeding logic to fill the 5 Fee rows and 4 Contact blocks
-        seed_production_data()
-        
-        return "Success! Committee, Fees (5 rows), and Contacts (4 blocks) have been reset. Go to /admin."
-    except Exception as e:
-        return f"An error occurred during reset: {e}"
+    # Drops all relevant tables to apply new schema
+    CommitteeMember.__table__.drop(db.engine)
+    RegistrationFee.__table__.drop(db.engine)
+    ContactInfo.__table__.drop(db.engine)
+    # Drop new CFP tables
+    db.engine.execute("DROP TABLE IF EXISTS cfp_point CASCADE")
+    db.engine.execute("DROP TABLE IF EXISTS cfp_section CASCADE")
+    db.engine.execute("DROP TABLE IF EXISTS cfp_button CASCADE")
+    
+    db.create_all()
+    seed_production_data()
+    return "Database fully reset with dynamic Call for Papers structure!"
