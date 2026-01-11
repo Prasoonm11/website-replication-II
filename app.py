@@ -26,6 +26,12 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # --- Models ---
+# --- Forms ---
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -158,8 +164,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('admin'))
     
-    # Initialize the form
-    form = LoginForm() 
+    form = LoginForm() # This is where the error was occurring
     
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -168,7 +173,6 @@ def login():
             return redirect(url_for('admin'))
         flash('Invalid username or password')
         
-    # Pass 'form' to the template so 'form.hidden_tag()' works
     return render_template('login.html', form=form)
 
 @app.route('/admin')

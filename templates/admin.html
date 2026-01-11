@@ -169,45 +169,40 @@
             <h2>Manage Call for Papers</h2>
 
             {% for section in cfp_sections %}
-            <div style="margin-bottom: 2rem; border-bottom: 2px solid #eee; padding-bottom: 1rem;">
+            <div style="margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem;">
                 <h4 style="color: #c1121f;">{{ section.title }}</h4>
                 
                 <table class="admin-table">
-                    {% for point in cfp_points if point.section_id == section.id %}
-                    <tr>
-                        <form action="/admin/cfp/point/update/{{ point.id }}" method="POST">
-                            <td><input type="text" name="content" value="{{ point.content }}" style="width: 100%;"></td>
-                            <td style="width: 150px;">
-                                <button type="submit" class="btn-update">Update</button>
-                                <a href="/admin/cfp/point/delete/{{ point.id }}" class="btn-delete" style="display:block; margin-top:5px; text-align:center;">Delete</a>
-                            </td>
-                        </form>
-                    </tr>
-                    {% endfor %}
-                    
-                    <tr style="background: #fdf2f2;">
-                        <form action="/admin/cfp/point/add" method="POST">
-                            <input type="hidden" name="section_id" value="{{ section.id }}">
-                            <td><input type="text" name="content" placeholder="Add new bullet point..." required></td>
-                            <td><button type="submit" class="btn-save" style="width:100%;">Add Point</button></td>
-                        </form>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Point Content</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for point in cfp_points if point.section_id == section.id %}
+                        <tr>
+                            <form action="/admin/cfp/point/update/{{ point.id }}" method="POST">
+                                <td><input type="text" name="content" value="{{ point.content }}" style="width: 100%;"></td>
+                                <td style="width: 150px;">
+                                    <button type="submit" class="btn-update" style="margin-bottom: 10px;">Update</button>
+                                    <a href="/admin/cfp/point/delete/{{ point.id }}" class="btn-delete" onclick="return confirm('Delete this point?')">Delete</a>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                        
+                        <tr style="background: #fdf2f2;">
+                            <form action="/admin/cfp/point/add" method="POST">
+                                <input type="hidden" name="section_id" value="{{ section.id }}">
+                                <td><input type="text" name="content" placeholder="Add new bullet point..." required></td>
+                                <td><button type="submit" class="btn-save" style="width: 100%;">Add Point</button></td>
+                            </form>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             {% endfor %}
-
-            <h4>External Links (Buttons)</h4>
-            <table class="admin-table">
-                {% for btn in cfp_buttons %}
-                <tr>
-                    <form action="/admin/cfp/button/update/{{ btn.id }}" method="POST">
-                        <td><input type="text" name="label" value="{{ btn.label }}" style="font-weight:bold;"></td>
-                        <td><input type="text" name="url" value="{{ btn.url }}"></td>
-                        <td><button type="submit" class="btn-update">Update Link</button></td>
-                    </form>
-                </tr>
-                {% endfor %}
-            </table>
         </section>
     </div>
 
