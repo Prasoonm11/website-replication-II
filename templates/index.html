@@ -208,31 +208,29 @@
                         {% endfor %}
                     </div>
 
+                    <div id="committees" class="tab-content">
+                        <h3>Conference Committees</h3>
 
-        <div id="committees" class="tab-content">
-            <h3>Conference Committees</h3>
-
-            <div class="committee-container">
-                {% set current_cat = [] %}
-                {% for member in committee %}
-                    {# This logic helps group members under a single heading if they share a category #}
-                    {% if member.category not in current_cat %}
-                        <h4 class="committee-section">{{ member.category }}</h4>
-                        {% set _ = current_cat.append(member.category) %}
-                    {% endif %}
-                    
-                    <div class="committee-member">
-                        <span class="member-name">{{ member.name }}</span>
-                        <span class="member-affiliation">{{ member.position }}</span>
+                        <div class="committee-container">
+                            {% set current_cat = [] %}
+                            {% for member in committee %}
+                                {# This logic helps group members under a single heading if they share a category #}
+                                {% if member.category not in current_cat %}
+                                    <h4 class="committee-section">{{ member.category }}</h4>
+                                    {% set _ = current_cat.append(member.category) %}
+                                {% endif %}
+                                
+                                <div class="committee-member">
+                                    <span class="member-name">{{ member.name }}</span>
+                                    <span class="member-affiliation">{{ member.position }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                {% endfor %}
-            </div>
-        </div>
                     <div id="registration" class="tab-content">
                         <h3>Registration</h3>
-                        <h6>Secure your spot at TRUSTNET 2026. Choose from our flexible registration options and join the premier conference on Smart Technologies for Energy, Sustainability & Industry.</h6>
+                        <h6>Secure your spot at TRUSTNET 2026. Choose from our flexible registration options and join the premier conference on Trusted Networks and Intelligent Systems.</h6>
                         <h3>Registration Fees</h3>
-
                         <table class="fees-table">
                             <thead>
                                 <tr>
@@ -248,9 +246,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for fee in fees %}
+                                <tr class="section-header">
+                                    <td colspan="5">Indian Participants</td>
+                                </tr>
+                                {% for fee in fees if 'Indian' in fee.category %}
                                 <tr>
-                                    <td class="participant-name">{{ fee.category }}</td>
+                                    <td>{{ fee.category | replace('(Indian)', '') }}</td>
+                                    <td>{{ fee.ieee_online }}</td>
+                                    <td>{{ fee.ieee_offline }}</td>
+                                    <td>{{ fee.non_ieee_online }}</td>
+                                    <td>{{ fee.non_ieee_offline }}</td>
+                                </tr>
+                                {% endfor %}
+
+                                <tr class="section-header-alt">
+                                    <td colspan="5">Foreign Participants</td>
+                                </tr>
+                                {% for fee in fees if 'Foreign' in fee.category %}
+                                <tr>
+                                    <td>{{ fee.category | replace('(Foreign)', '') }}</td>
                                     <td>{{ fee.ieee_online }}</td>
                                     <td>{{ fee.ieee_offline }}</td>
                                     <td>{{ fee.non_ieee_online }}</td>
@@ -261,53 +275,53 @@
                         </table>
                     </div>
                     <div id="papers" class="tab-content">
-    <div class="cfp-header">
-        <h3>Call for Papers</h3>
-        <p>Submit your research contributions to STESI 2026 and join the global community of researchers advancing Smart Technologies for Energy, Sustainability & Industry.</p>
-    </div>
+                        <div class="cfp-header">
+                            <h3>Call for Papers</h3>
+                            <p>Submit your research contributions to STESI 2026 and join the global community of researchers advancing Smart Technologies for Energy, Sustainability & Industry.</p>
+                        </div>
 
-    <div class="content-grid">
-        <div class="guideline-item">
-            <h4><i class="fa-solid fa-file-lines"></i> Paper Formatting</h4>
-            <ul class="checklist">
-                <li>IEEE conference format (two-column layout)</li>
-                <li>Maximum 6 pages including references</li>
-                <li>Times New Roman, 10pt font for body text</li>
-                <li>Single line spacing with 0.75 inch margins</li>
-            </ul>
-        </div>
-        <div class="guideline-item">
-            <h4><i class="fa-solid fa-user-secret"></i> Submission Requirements</h4>
-            <ul class="checklist">
-                <li>Submit via Microsoft CMT submission system</li>
-                <li>PDF format only (no Word documents)</li>
-                <li>Remove author names and affiliations for blind review</li>
-                <li>Include complete references in IEEE citation style</li>
-            </ul>
-        </div>
-    </div>
+                        <div class="content-grid">
+                            <div class="guideline-item">
+                                <h4><i class="fa-solid fa-file-lines"></i> Paper Formatting</h4>
+                                <ul class="checklist">
+                                    <li>IEEE conference format (two-column layout)</li>
+                                    <li>Maximum 6 pages including references</li>
+                                    <li>Times New Roman, 10pt font for body text</li>
+                                    <li>Single line spacing with 0.75 inch margins</li>
+                                </ul>
+                            </div>
+                            <div class="guideline-item">
+                                <h4><i class="fa-solid fa-user-secret"></i> Submission Requirements</h4>
+                                <ul class="checklist">
+                                    <li>Submit via Microsoft CMT submission system</li>
+                                    <li>PDF format only (no Word documents)</li>
+                                    <li>Remove author names and affiliations for blind review</li>
+                                    <li>Include complete references in IEEE citation style</li>
+                                </ul>
+                            </div>
+                        </div>
 
-    <div class="tracks-section">
-        <h4>Conference Tracks</h4>
-        <div class="tracks-list">
-            <ul>
-                <li>Smart Grids & Green Energy</li>
-                <li>Signal Processing & Intelligent Systems</li>
-                <li>Energy Policy, Regulation, and Electricity Markets</li>
-            </ul>
-            <ul>
-                <li>Smart Technologies for Industries</li>
-                <li>Advanced Computing and Intelligent Technologies</li>
-                <li>IOT and Automation</li>
-            </ul>
-        </div>
-    </div>
-    
-    <div class="submission-buttons">
-        <a href="#" class="btn btn-primary">Submit Paper via CMT <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-        <a href="#" class="btn btn-secondary">Download IEEE Templates <i class="fa-solid fa-download"></i></a>
-    </div>
-</div>
+                        <div class="tracks-section">
+                            <h4>Conference Tracks</h4>
+                            <div class="tracks-list">
+                                <ul>
+                                    <li>Smart Grids & Green Energy</li>
+                                    <li>Signal Processing & Intelligent Systems</li>
+                                    <li>Energy Policy, Regulation, and Electricity Markets</li>
+                                </ul>
+                                <ul>
+                                    <li>Smart Technologies for Industries</li>
+                                    <li>Advanced Computing and Intelligent Technologies</li>
+                                    <li>IOT and Automation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="submission-buttons">
+                            <a href="#" class="btn btn-primary">Submit Paper via CMT <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <a href="#" class="btn btn-secondary">Download IEEE Templates <i class="fa-solid fa-download"></i></a>
+                        </div>
+                    </div>
                     <div id="contact" class="tab-content">
                         <div class="contact-header">
                             <h3>Contact Information</h3>

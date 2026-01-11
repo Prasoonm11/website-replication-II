@@ -239,10 +239,13 @@ def delete_committee(id):
 @app.route('/admin/fees/update/<int:id>', methods=['POST'])
 @login_required
 def update_fees(id):
-    fee = RegistrationFee.query.get(id)
-    fee.ieee_online, fee.ieee_offline = request.form['ieee_online'], request.form['ieee_offline']
-    fee.non_ieee_online, fee.non_ieee_offline = request.form['non_ieee_online'], request.form['non_ieee_offline']
+    fee = RegistrationFee.query.get_or_404(id)
+    fee.ieee_online = request.form.get('ieee_online')
+    fee.ieee_offline = request.form.get('ieee_offline')
+    fee.non_ieee_online = request.form.get('non_ieee_online')
+    fee.non_ieee_offline = request.form.get('non_ieee_offline')
     db.session.commit()
+    flash('Prices updated successfully!')
     return redirect(url_for('admin'))
 
 # --- Call for Papers Management ---

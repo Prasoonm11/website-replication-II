@@ -2323,3 +2323,69 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* --- Professional Registration Table --- */
+.registration-container {
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+.fees-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Montserrat', sans-serif;
+    background-color: white;
+}
+
+/* Header Styling */
+.fees-table thead th {
+    background-color: #333; /* Dark background */
+    color: white;
+    padding: 15px;
+    border: 1px solid #444;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Red accent line under Member headers */
+.fees-table thead tr:first-child th:nth-child(2),
+.fees-table thead tr:first-child th:nth-child(3) {
+    border-bottom: 3px solid #c1121f;
+}
+
+/* Participant Category Column */
+.fees-table td:first-child {
+    font-weight: 600;
+    background-color: #fcfcfc;
+    width: 30%;
+}
+
+/* Row Styling */
+.fees-table td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #eee;
+    color: #444;
+}
+
+/* Indian/Foreign Participants Headers */
+.section-header {
+    background-color: #fdf2f2 !important;
+    color: #c1121f;
+    font-weight: 700 !important;
+    text-align: center !important;
+    font-size: 1.1rem;
+}
+
+.section-header-alt {
+    background-color: #f4f4f4 !important;
+    color: #333;
+    font-weight: 700 !important;
+    text-align: center !important;
+}
+
+/* Zebra striping */
+.fees-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
