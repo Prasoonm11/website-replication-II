@@ -217,7 +217,7 @@
                 {% for member in committee %}
                     {# This logic helps group members under a single heading if they share a category #}
                     {% if member.category not in current_cat %}
-                        <h4 class="committee-category-heading">{{ member.category }}</h4>
+                        <h4 class="committee-section">{{ member.category }}</h4>
                         {% set _ = current_cat.append(member.category) %}
                     {% endif %}
                     
@@ -332,6 +332,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    
                 </article>
             </div>
         </div>

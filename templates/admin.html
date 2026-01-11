@@ -176,13 +176,17 @@
 
         <section class="admin-section">
             <h2>Contact Information</h2>
-            {% for contact in contacts %}
-            <form action="/admin/contact/update/{{ contact.id }}" method="POST" class="admin-form">
-                <label><i class="fa-solid fa-address-book"></i> {{ contact.label }}</label>
-                <textarea name="value" rows="3">{{ contact.value }}</textarea>
-                <button type="submit" class="btn-save">Update Info</button>
-            </form>
-            {% endfor %}
+            <div class="admin-grid">
+                {% for contact in contacts %}
+                <form action="/admin/contact/update/{{ contact.id }}" method="POST" class="admin-form" style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
+                    <label><strong>{{ contact.label }}</strong></label>
+                    <textarea name="value" rows="4" style="width: 100%; margin-top: 10px;">{{ contact.value }}</textarea>
+                    <div style="margin-top: 10px;">
+                        <button type="submit" class="btn-update">Update</button>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
         </section>
     </div>
 

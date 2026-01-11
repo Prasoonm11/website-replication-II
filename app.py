@@ -301,3 +301,12 @@ def reset_committee():
         return "Committee table reset successfully with 'sort_order' column! You can now go back to /admin."
     except Exception as e:
         return f"An error occurred: {e}"
+
+# Add this at the bottom of app.py
+@app.route('/reset_contact')
+def reset_all():
+    # This deletes the existing contact data so the 4 new blocks can be seeded
+    ContactInfo.__table__.drop(db.engine)
+    db.create_all()
+    seed_production_data() 
+    return "Success! Contact table recreated with 4 blocks. Now go to /admin."
