@@ -275,29 +275,26 @@
                         </table>
                     </div>
                     <div id="papers" class="tab-content">
-                        <div class="cfp-header">
-                            <h3>Call for Papers</h3>
-                            <p>Submit your research contributions to TRUSTNET 2026 and join the global community.</p>
-                        </div>
-
                         <div class="content-grid">
                             {% for section in cfp_sections %}
                             <div class="guideline-item">
                                 <h4><i class="fa-solid {{ section.icon_class }}"></i> {{ section.title }}</h4>
-                                <ul class="checklist">
-                                    {% for point in cfp_points if point.section_id == section.id %}
-                                    <li>{{ point.content }}</li>
-                                    {% endfor %}
-                                </ul>
+                                
+                                {# Use different styling for the "Conference Tracks" section to match screenshot #}
+                                {% if section.title == "Conference Tracks" %}
+                                    <ul class="tracks-list">
+                                        {% for point in cfp_points if point.section_id == section.id %}
+                                        <li>{{ point.content }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <ul class="checklist">
+                                        {% for point in cfp_points if point.section_id == section.id %}
+                                        <li>{{ point.content }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="submission-buttons">
-                            {% for btn in cfp_buttons %}
-                            <a href="{{ btn.url }}" class="btn btn-primary" target="_blank">
-                                {{ btn.label }} <i class="fa-solid {{ btn.icon_class }}"></i>
-                            </a>
                             {% endfor %}
                         </div>
                     </div>

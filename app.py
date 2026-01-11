@@ -130,6 +130,26 @@ def seed_production_data():
     
     db.session.commit()
 
+    if not CFPSection.query.first():
+            s1 = CFPSection(title="Paper Formatting", icon_class="fa-file-lines", sort_order=1)
+            s2 = CFPSection(title="Submission Requirements", icon_class="fa-user-secret", sort_order=2)
+            # ADDED: Conference Tracks Section
+            s3 = CFPSection(title="Conference Tracks", icon_class="fa-list", sort_order=3) 
+            
+            db.session.add_all([s1, s2, s3])
+            db.session.commit()
+            
+            # Initial Points for Tracks
+            db.session.add(CFPPoint(section_id=s3.id, content="Smart Grids & Green Energy"))
+            db.session.add(CFPPoint(section_id=s3.id, content="Signal Processing & Intelligent Systems"))
+            db.session.add(CFPPoint(section_id=s3.id, content="IOT and Automation"))
+            
+            # Initial Points for other sections
+            db.session.add(CFPPoint(section_id=s1.id, content="IEEE conference format (two-column layout)"))
+            db.session.add(CFPPoint(section_id=s2.id, content="Submit via Microsoft CMT submission system"))
+
+    db.session.commit()
+
 # --- Utility Reset ---
 @app.route('/reset_all')
 def reset_all():
