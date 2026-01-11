@@ -81,6 +81,16 @@
         <section class="admin-section">
             <h2>Manage Conference Committee</h2>
             
+            <h4>Add New Member</h4>
+            <form action="/admin/committee/add" method="POST" class="inline-add-form">
+                <input type="number" name="sort_order" placeholder="Seq (1, 2, 3)" style="width: 80px;" required>
+                <input type="text" name="category" placeholder="Category (e.g., Patron)" required>
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="position" placeholder="Position/Affiliation" required>
+                <button type="submit" class="btn-save">Add Member</button>
+            </form>
+
+            <h4 style="border-top: 1px dashed #ddd; padding-top: 1.5rem; margin-top: 1.5rem;">Current Members (Edit/Arrange)</h4>
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -109,7 +119,7 @@
                             </td>
                             <td>
                                 <button type="submit" class="btn-update">Update</button>
-                                <a href="/admin/committee/delete/{{ member.id }}" class="btn-delete" style="padding: 5px 10px;">Delete</a>
+                                <a href="/admin/committee/delete/{{ member.id }}" class="btn-delete" style="padding: 5px 10px;" onclick="return confirm('Delete this member?')">Delete</a>
                             </td>
                         </form>
                     </tr>
@@ -117,6 +127,7 @@
                 </tbody>
             </table>
         </section>
+
 
         <section class="admin-section">
             <h2>Edit Registration Fees</h2>

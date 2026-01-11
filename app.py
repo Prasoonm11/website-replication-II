@@ -208,10 +208,11 @@ def add_committee():
         category=request.form['category'], 
         name=request.form['name'], 
         position=request.form['position'],
-        sort_order=request.form.get('sort_order', 0)
+        sort_order=request.form.get('sort_order', 0) # Gets the sequence number
     )
     db.session.add(member)
     db.session.commit()
+    flash('Committee member added!')
     return redirect(url_for('admin'))
 
 @app.route('/admin/committee/update/<int:id>', methods=['POST'])
