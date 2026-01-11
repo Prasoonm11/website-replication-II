@@ -2414,3 +2414,47 @@ body {
     font-size: 0.85rem;
     width: 80px;
 }
+
+/* --- Admin Edit Fee Table Styles --- */
+.fee-category-cell {
+    color: #c1121f;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 200px;
+}
+
+.price-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Vertical gap between Online and Offline inputs */
+}
+
+.price-input-group input {
+    width: 100px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* --- Admin Button Spacing --- */
+.admin-table td .btn-update {
+    display: block;
+    margin-bottom: 12px; /* Adds space below Update button */
+    background-color: #c1121f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admin-table td .btn-delete {
+    display: block;
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 6px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
