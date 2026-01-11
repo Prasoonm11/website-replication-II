@@ -90,12 +90,9 @@ def seed_production_data():
     """Initializes basic data if the database tables are empty."""
     if not RegistrationFee.query.first():
         fees = [
-            # Indian Participants
             RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
             RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
             RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
-            
-            # Foreign Participants
             RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
             RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
         ]
@@ -312,8 +309,18 @@ def reset_committee():
 # Add this at the bottom of app.py
 @app.route('/reset_all')
 def reset_all():
-    # This deletes the existing contact data so the 4 new blocks can be seeded
-    ContactInfo.__table__.drop(db.engine)
-    db.create_all()
-    seed_production_data() 
-    return "Success! Contact table recreated with 4 blocks. Now go to /admin."
+    try:
+        # 1. Drop the specific tables that need updating
+        CommitteeMember.__table__.drop(db.engine)
+        RegistrationFee.__table__.drop(db.engine)
+        ContactInfo.__table__.drop(db.engine)
+        
+        # 2. Recreate all tables (this adds the missing columns like sort_order)
+        db.create_all()
+        
+        # 3. Re-run the seeding logic to fill the 5 Fee rows and 4 Contact blocks
+        seed_production_data()
+        
+        return "Success! Committee, Fees (5 rows), and Contacts (4 blocks) have been reset. Go to /admin."
+    except Exception as e:
+        return f"An error occurred during reset: {e}"
