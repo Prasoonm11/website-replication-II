@@ -47,9 +47,9 @@ class ImportantDate(db.Model):
 
 class CommitteeMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category = db.Column(db.String(100), nullable=False) # e.g., Chief Patron
+    category = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(150), nullable=False)
-    position = db.Column(db.String(200)) # e.g., Chairperson, MUJ
+    position = db.Column(db.String(200))
     sort_order = db.Column(db.Integer, default=0)
 
 class RegistrationFee(db.Model):
@@ -92,7 +92,44 @@ class LoginForm(FlaskForm):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# --- Public Routes ---
+# --- Seeding Logic ---
+def seed_production_data():
+    if not RegistrationFee.query.first():
+        fees = [
+            RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
+            RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
+            RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
+            RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
+            RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
+        ]
+        db.session.add_all(fees)
+    
+    if not ContactInfo.query.first():
+        contacts = [
+            ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu\nRegistration: stesi@jaipur.manipal.edu"),
+            ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200"),
+            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan 303007"),
+            ContactInfo(label="Office Hours", value="Monday - Friday: 9:00 AM - 6:00 PM")
+        ]
+        db.session.add_all(contacts)
+
+    if not CFPSection.query.first():
+        s1 = CFPSection(title="Paper Formatting", icon_class="fa-file-lines", sort_order=1)
+        s2 = CFPSection(title="Submission Requirements", icon_class="fa-user-secret", sort_order=2)
+        s3 = CFPSection(title="Conference Tracks", icon_class="fa-list", sort_order=3)
+        db.session.add_all([s1, s2, s3])
+        db.session.commit()
+        db.session.add(CFPPoint(section_id=s1.id, content="IEEE conference format (two-column layout)"))
+        db.session.add(CFPPoint(section_id=s2.id, content="Submit via Microsoft CMT submission system"))
+        db.session.add(CFPPoint(section_id=s3.id, content="Smart Grids & Green Energy"))
+
+    if not CFPButton.query.first():
+        db.session.add(CFPButton(label="Submit Paper via CMT", url="#", icon_class="fa-arrow-up-right-from-square"))
+        db.session.add(CFPButton(label="Download Templates", url="#", icon_class="fa-download"))
+    
+    db.session.commit()
+
+# --- Core Routes ---
 @app.route('/')
 def home():
     committee = CommitteeMember.query.order_by(CommitteeMember.sort_order).all()
@@ -132,83 +169,7 @@ def admin():
         cfp_points=CFPPoint.query.all(),
         cfp_buttons=CFPButton.query.all())
 
-# --- Committee Management Routes ---
-
-@app.route('/admin/committee/add', methods=['POST'])
-@login_required
-def add_committee():
-    new_member = CommitteeMember(
-        category=request.form.get('category'),
-        name=request.form.get('name'),
-        position=request.form.get('position'),
-        sort_order=request.form.get('sort_order', 0)
-    )
-    db.session.add(new_member)
-    db.session.commit()
-    flash('Committee member added successfully!')
-    return redirect(url_for('admin'))
-
-@app.route('/admin/committee/update/<int:id>', methods=['POST'])
-@login_required
-def update_committee(id):
-    member = CommitteeMember.query.get_or_404(id)
-    member.category = request.form.get('category')
-    member.name = request.form.get('name')
-    member.position = request.form.get('position')
-    member.sort_order = request.form.get('sort_order', 0)
-    db.session.commit()
-    flash('Member updated successfully!')
-    return redirect(url_for('admin'))
-
-@app.route('/admin/committee/delete/<int:id>')
-@login_required
-def delete_committee(id):
-    member = CommitteeMember.query.get_or_404(id)
-    db.session.delete(member)
-    db.session.commit()
-    flash('Member removed.')
-    return redirect(url_for('admin'))
-
-# --- Rest of CRUD (Speaker, Date, Fees, CFP, Contacts) ---
-# --- Routes ---
-@app.route('/')
-def home():
-    return render_template('index.html',
-        speakers=Speaker.query.all(),
-        dates=ImportantDate.query.all(),
-        committee=CommitteeMember.query.order_by(CommitteeMember.sort_order).all(),
-        fees=RegistrationFee.query.all(),
-        contacts=ContactInfo.query.all(),
-        cfp_sections=CFPSection.query.order_by(CFPSection.sort_order).all(),
-        cfp_points=CFPPoint.query.all(),
-        cfp_buttons=CFPButton.query.all())
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated: return redirect(url_for('admin'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user)
-            return redirect(url_for('admin'))
-        flash('Invalid Credentials')
-    return render_template('login.html', form=form)
-
-@app.route('/admin')
-@login_required
-def admin():
-    return render_template('admin.html',
-        speakers=Speaker.query.all(),
-        dates=ImportantDate.query.all(),
-        committee=CommitteeMember.query.order_by(CommitteeMember.sort_order).all(),
-        fees=RegistrationFee.query.all(),
-        contacts=ContactInfo.query.all(),
-        cfp_sections=CFPSection.query.order_by(CFPSection.sort_order).all(),
-        cfp_points=CFPPoint.query.all(),
-        cfp_buttons=CFPButton.query.all())
-
-# --- Management Routes ---
+# --- Speaker Management ---
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
 def add_speaker():
@@ -221,6 +182,22 @@ def add_speaker():
     db.session.commit()
     return redirect(url_for('admin'))
 
+@app.route('/admin/edit_speaker/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_speaker(id):
+    speaker = Speaker.query.get_or_404(id)
+    if request.method == 'POST':
+        speaker.name = request.form['name']
+        speaker.affiliation = request.form['affiliation']
+        speaker.bio = request.form['bio']
+        image_file = request.files.get('image')
+        if image_file and image_file.filename != '':
+            blob_response = put(secure_filename(image_file.filename), image_file.read())
+            speaker.image_url = blob_response['url']
+        db.session.commit()
+        return redirect(url_for('admin'))
+    return render_template('edit_speaker.html', speaker=speaker)
+
 @app.route('/admin/delete_speaker/<int:id>')
 @login_required
 def delete_speaker(id):
@@ -228,6 +205,31 @@ def delete_speaker(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Committee Management ---
+@app.route('/admin/committee/add', methods=['POST'])
+@login_required
+def add_committee():
+    db.session.add(CommitteeMember(category=request.form['category'], name=request.form['name'], position=request.form['position'], sort_order=request.form.get('sort_order', 0)))
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/committee/update/<int:id>', methods=['POST'])
+@login_required
+def update_committee(id):
+    member = CommitteeMember.query.get_or_404(id)
+    member.category, member.name, member.position = request.form['category'], request.form['name'], request.form['position']
+    member.sort_order = request.form.get('sort_order', 0)
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/committee/delete/<int:id>')
+@login_required
+def delete_committee(id):
+    db.session.delete(CommitteeMember.query.get_or_404(id))
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+# --- Data Management ---
 @app.route('/admin/add_date', methods=['POST'])
 @login_required
 def add_date():
@@ -245,7 +247,7 @@ def delete_date(id):
 @app.route('/admin/fees/update/<int:id>', methods=['POST'])
 @login_required
 def update_fees(id):
-    f = RegistrationFee.query.get(id)
+    f = RegistrationFee.query.get_or_404(id)
     f.ieee_online, f.ieee_offline = request.form['ieee_online'], request.form['ieee_offline']
     f.non_ieee_online, f.non_ieee_offline = request.form['non_ieee_online'], request.form['non_ieee_offline']
     db.session.commit()
@@ -289,20 +291,20 @@ def update_contact(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
-
 @app.route('/reset_all')
 def reset_all():
     db.drop_all()
     db.create_all()
     if not User.query.filter_by(username='admin').first():
         db.session.add(User(username='admin', password_hash=generate_password_hash('12345')))
+    seed_production_data()
     db.session.commit()
-    return "Database reset! You can now add committee members in /admin."
+    return "Database fully reset! Visit /admin."
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():
