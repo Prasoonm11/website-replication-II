@@ -284,3 +284,16 @@ def delete_date(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# --- TEMPORARY DATABASE FIX ---
+# Visit your-site-url/reset_committee once to fix the UndefinedColumn error
+@app.route('/reset_committee')
+def reset_committee():
+    try:
+        # Drops the old table that is missing the 'sort_order' column
+        CommitteeMember.__table__.drop(db.engine)
+        # Recreates all tables, including the updated CommitteeMember table
+        db.create_all()
+        return "Committee table reset successfully with 'sort_order' column! You can now go back to /admin."
+    except Exception as e:
+        return f"An error occurred: {e}"
