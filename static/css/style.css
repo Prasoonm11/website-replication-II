@@ -2488,3 +2488,61 @@ body {
         grid-template-columns: 1fr; /* Stacks on mobile */
     }
 }
+/* --- Admin Grid for Side-by-Side Cards --- */
+.admin-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two equal columns */
+    gap: 30px; /* Space between the left and right cards */
+    margin-top: 20px;
+}
+
+.contact-edit-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.contact-card-title {
+    color: #c1121f;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #fdf2f2;
+    padding-bottom: 10px;
+}
+
+.admin-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.btn-update-contact {
+    width: 100%;
+    background-color: #c1121f;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-update-contact:hover {
+    background-color: #a00d17;
+}
+
+/* Mobile Responsive: Stack them on small screens */
+@media (max-width: 992px) {
+    .admin-grid-container {
+        grid-template-columns: 1fr;
+    }
+}

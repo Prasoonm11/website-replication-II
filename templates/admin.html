@@ -241,18 +241,17 @@
     </div>
     <section class="admin-section">
         <h2 class="admin-title">Manage Contact Information</h2>
-        <div class="contact-admin-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        
+        <div class="admin-grid-container">
             {% for contact in contacts %}
-            <div class="contact-edit-card" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <h4 style="color: #c1121f; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
-                    {{ contact.label }}
-                </h4>
+            <div class="contact-edit-card">
+                <h4 class="contact-card-title">{{ contact.label }}</h4>
                 <form action="{{ url_for('update_contact', id=contact.id) }}" method="POST">
                     <div class="form-group">
-                        <label style="display: block; font-size: 0.85rem; color: #666; margin-bottom: 5px;">Content:</label>
-                        <textarea name="value" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; resize: vertical;" required>{{ contact.value }}</textarea>
+                        <label>Content:</label>
+                        <textarea name="value" rows="5" class="admin-textarea" required>{{ contact.value }}</textarea>
                     </div>
-                    <button type="submit" class="btn-update" style="margin-top: 15px; width: 100%; background-color: #c1121f; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                    <button type="submit" class="btn-update-contact">
                         Update {{ contact.label }}
                     </button>
                 </form>
@@ -260,7 +259,6 @@
             {% endfor %}
         </div>
     </section>
-
     <div class="footer-bottom">
         <div class="footer-bottom-content">
             <div class="footer-col-left">
