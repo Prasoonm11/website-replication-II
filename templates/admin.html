@@ -130,36 +130,37 @@
 
         <section class="admin-section">
             <h2>Edit Registration Fees</h2>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>IEEE (On/Off)</th>
-                        <th>Non-IEEE (On/Off)</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for fee in fees %}
-                    <tr>
-                        <form action="/admin/fees/update/{{ fee.id }}" method="POST">
-                            <td style="font-weight: bold;">{{ fee.category }}</td>
-                            <td>
-                                <input type="text" name="ieee_online" value="{{ fee.ieee_online }}" style="width: 70px;">
-                                <input type="text" name="ieee_offline" value="{{ fee.ieee_offline }}" style="width: 70px;">
-                            </td>
-                            <td>
-                                <input type="text" name="non_ieee_online" value="{{ fee.non_ieee_online }}" style="width: 70px;">
-                                <input type="text" name="non_ieee_offline" value="{{ fee.non_ieee_offline }}" style="width: 70px;">
-                            </td>
-                            <td>
-                                <button type="submit" class="btn-update">Update</button>
-                            </td>
-                        </form>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>IEEE (On/Off)</th>
+                            <th>Non-IEEE (On/Off)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fee in fees %}
+                        <tr>
+                            <form action="/admin/fees/update/{{ fee.id }}" method="POST">
+                                <td style="font-weight: bold; color: #c1121f;">{{ fee.category }}</td>
+                                <td>
+                                    <input type="text" name="ieee_online" value="{{ fee.ieee_online }}" style="width: 75px; margin-bottom: 5px;" placeholder="Online">
+                                    <input type="text" name="ieee_offline" value="{{ fee.ieee_offline }}" style="width: 75px;" placeholder="Offline">
+                                </td>
+                                <td>
+                                    <input type="text" name="non_ieee_online" value="{{ fee.non_ieee_online }}" style="width: 75px; margin-bottom: 5px;" placeholder="Online">
+                                    <input type="text" name="non_ieee_offline" value="{{ fee.non_ieee_offline }}" style="width: 75px;" placeholder="Offline">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn-update">Update</button>
+                                </tr>
+                            </form>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
 

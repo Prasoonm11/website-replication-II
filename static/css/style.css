@@ -2389,3 +2389,28 @@ body {
 .fees-table tbody tr:nth-child(even) {
     background-color: #fafafa;
 }
+
+/* Vertical spacing for Admin Dashboard actions */
+.admin-table td .btn-update {
+    display: block;
+    margin: 0 auto 10px auto;
+    background-color: #c1121f;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    width: 80px;
+}
+
+.admin-table td .btn-delete {
+    display: block;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    width: 80px;
+}

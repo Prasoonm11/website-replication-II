@@ -90,13 +90,17 @@ def seed_production_data():
     """Initializes basic data if the database tables are empty."""
     if not RegistrationFee.query.first():
         fees = [
+            # Indian Participants
             RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
             RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
             RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
+            
+            # Foreign Participants
             RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
             RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
         ]
         db.session.add_all(fees)
+        db.session.commit()
     
     if not ContactInfo.query.first():
         contacts = [
@@ -306,7 +310,7 @@ def reset_committee():
         return f"An error occurred: {e}"
 
 # Add this at the bottom of app.py
-@app.route('/reset_contact')
+@app.route('/reset_all')
 def reset_all():
     # This deletes the existing contact data so the 4 new blocks can be seeded
     ContactInfo.__table__.drop(db.engine)
