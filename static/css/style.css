@@ -2458,3 +2458,33 @@ body {
     border-radius: 5px;
     text-decoration: none;
 }
+
+/* --- Two-Column Tracks Grid --- */
+.tracks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two columns */
+    gap: 10px 30px;
+    list-style: none;
+    padding: 0;
+}
+
+.tracks-grid li {
+    position: relative;
+    padding-left: 20px;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.tracks-grid li::before {
+    content: "•";
+    color: #c1121f;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .tracks-grid {
+        grid-template-columns: 1fr; /* Stacks on mobile */
+    }
+}

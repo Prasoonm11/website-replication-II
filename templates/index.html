@@ -297,6 +297,13 @@
                             </div>
                             {% endfor %}
                         </div>
+                        <div class="submission-buttons">
+                            {% for btn in cfp_buttons %}
+                                <a href="{{ btn.url }}" class="btn btn-primary" target="_blank">
+                                    {{ btn.label }} <i class="fa-solid {{ btn.icon_class }}"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
                     </div>
                     <div id="contact" class="tab-content">
                         <div class="contact-header">

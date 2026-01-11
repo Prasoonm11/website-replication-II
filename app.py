@@ -94,63 +94,47 @@ def load_user(user_id):
 
 # --- Seeding Logic ---
 def seed_production_data():
-    if not RegistrationFee.query.first():
-        fees = [
-            RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
-            RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
-            RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
-            RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
-            RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
-        ]
-        db.session.add_all(fees)
-    
-    if not ContactInfo.query.first():
-        contacts = [
-            ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu\nRegistration: stesi@jaipur.manipal.edu"),
-            ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200"),
-            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan 303007"),
-            ContactInfo(label="Office Hours", value="Monday - Friday: 9:00 AM - 6:00 PM")
-        ]
-        db.session.add_all(contacts)
-
-    if not CFPSection.query.first():
-        s1 = CFPSection(title="Paper Formatting", icon_class="fa-file-lines", sort_order=1)
-        s2 = CFPSection(title="Submission Requirements", icon_class="fa-user-secret", sort_order=2)
-        s3 = CFPSection(title="Conference Tracks", icon_class="fa-list", sort_order=3)
-        db.session.add_all([s1, s2, s3])
-        db.session.commit()
+    with app.app_context():
+        # Registration Fees (All 5 Rows)
+        if not RegistrationFee.query.first():
+            fees = [
+                RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
+                RegistrationFee(category="Academician (Indian)", ieee_online="₹11,000", ieee_offline="₹11,000", non_ieee_online="₹13,000", non_ieee_offline="₹13,000"),
+                RegistrationFee(category="Industry (Indian)", ieee_online="₹13,000", ieee_offline="₹13,000", non_ieee_online="₹15,000", non_ieee_offline="₹15,000"),
+                RegistrationFee(category="Student (Foreign)", ieee_online="$100", ieee_offline="$120", non_ieee_online="$120", non_ieee_offline="$150"),
+                RegistrationFee(category="Academician (Foreign)", ieee_online="$200", ieee_offline="$200", non_ieee_online="$250", non_ieee_offline="$250")
+            ]
+            db.session.add_all(fees)
         
-        db.session.add(CFPPoint(section_id=s1.id, content="IEEE conference format (two-column layout)"))
-        db.session.add(CFPPoint(section_id=s2.id, content="Submit via Microsoft CMT submission system"))
-        db.session.add(CFPPoint(section_id=s3.id, content="Smart Grids & Green Energy"))
+        # Contacts (All 4 Cards)
+        if not ContactInfo.query.first():
+            contacts = [
+                ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu\nRegistration: stesi@jaipur.manipal.edu"),
+                ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200"),
+                ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan 303007"),
+                ContactInfo(label="Office Hours", value="Monday - Friday: 9:00 AM - 6:00 PM")
+            ]
+            db.session.add_all(contacts)
 
-    if not CFPButton.query.first():
-        db.session.add(CFPButton(label="Submit Paper via CMT", url="#", icon_class="fa-arrow-up-right-from-square"))
-        db.session.add(CFPButton(label="Download IEEE Templates", url="#", icon_class="fa-download"))
-    
-    db.session.commit()
-
-    if not CFPSection.query.first():
+        # CFP All 3 Sections (Formatting, Submission, Tracks)
+        if not CFPSection.query.first():
             s1 = CFPSection(title="Paper Formatting", icon_class="fa-file-lines", sort_order=1)
             s2 = CFPSection(title="Submission Requirements", icon_class="fa-user-secret", sort_order=2)
-            # ADDED: Conference Tracks Section
-            s3 = CFPSection(title="Conference Tracks", icon_class="fa-list", sort_order=3) 
-            
+            s3 = CFPSection(title="Conference Tracks", icon_class="fa-list", sort_order=3)
             db.session.add_all([s1, s2, s3])
             db.session.commit()
             
-            # Initial Points for Tracks
-            db.session.add(CFPPoint(section_id=s3.id, content="Smart Grids & Green Energy"))
-            db.session.add(CFPPoint(section_id=s3.id, content="Signal Processing & Intelligent Systems"))
-            db.session.add(CFPPoint(section_id=s3.id, content="IOT and Automation"))
-            
-            # Initial Points for other sections
             db.session.add(CFPPoint(section_id=s1.id, content="IEEE conference format (two-column layout)"))
             db.session.add(CFPPoint(section_id=s2.id, content="Submit via Microsoft CMT submission system"))
+            db.session.add(CFPPoint(section_id=s3.id, content="Smart Grids & Green Energy"))
 
-    db.session.commit()
+        # CFP Editable Buttons
+        if not CFPButton.query.first():
+            db.session.add(CFPButton(label="Submit Paper via CMT", url="#", icon_class="fa-arrow-up-right-from-square"))
+            db.session.add(CFPButton(label="Download IEEE Templates", url="#", icon_class="fa-download"))
+        
+        db.session.commit()
 
-# --- Utility Reset ---
 @app.route('/reset_all')
 def reset_all():
     db.drop_all()
@@ -159,9 +143,9 @@ def reset_all():
         db.session.add(User(username='admin', password_hash=generate_password_hash('12345')))
     seed_production_data()
     db.session.commit()
-    return "Database completely reset and seeded! Go to /admin."
+    return "Database fully reset! CFP sections, 5 Fee rows, and 4 Contact cards are ready."
 
-# --- Public Routes ---
+# --- Routes ---
 @app.route('/')
 def home():
     return render_template('index.html',
@@ -186,7 +170,6 @@ def login():
         flash('Invalid Credentials')
     return render_template('login.html', form=form)
 
-# --- Admin Dashboard ---
 @app.route('/admin')
 @login_required
 def admin():
@@ -200,7 +183,7 @@ def admin():
         cfp_points=CFPPoint.query.all(),
         cfp_buttons=CFPButton.query.all())
 
-# --- Speaker Management ---
+# --- Management Routes ---
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
 def add_speaker():
@@ -209,8 +192,7 @@ def add_speaker():
     if image_file and image_file.filename != '':
         blob_response = put(secure_filename(image_file.filename), image_file.read())
         image_url = blob_response['url']
-    
-    db.session.add(Speaker(name=request.form.get('name'), affiliation=request.form.get('affiliation'), bio=request.form.get('bio'), image_url=image_url))
+    db.session.add(Speaker(name=request.form['name'], affiliation=request.form['affiliation'], bio=request.form['bio'], image_url=image_url))
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -221,7 +203,6 @@ def delete_speaker(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-# --- Important Dates ---
 @app.route('/admin/add_date', methods=['POST'])
 @login_required
 def add_date():
@@ -236,7 +217,6 @@ def delete_date(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-# --- CFP & Fees ---
 @app.route('/admin/fees/update/<int:id>', methods=['POST'])
 @login_required
 def update_fees(id):
@@ -253,6 +233,14 @@ def add_cfp_point():
     db.session.commit()
     return redirect(url_for('admin'))
 
+@app.route('/admin/cfp/point/update/<int:id>', methods=['POST'])
+@login_required
+def update_cfp_point(id):
+    p = CFPPoint.query.get_or_404(id)
+    p.content = request.form['content']
+    db.session.commit()
+    return redirect(url_for('admin'))
+
 @app.route('/admin/cfp/point/delete/<int:id>')
 @login_required
 def delete_cfp_point(id):
@@ -263,8 +251,16 @@ def delete_cfp_point(id):
 @app.route('/admin/cfp/button/update/<int:id>', methods=['POST'])
 @login_required
 def update_cfp_button(id):
-    b = CFPButton.query.get(id)
+    b = CFPButton.query.get_or_404(id)
     b.label, b.url = request.form['label'], request.form['url']
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/contact/update/<int:id>', methods=['POST'])
+@login_required
+def update_contact(id):
+    c = ContactInfo.query.get_or_404(id)
+    c.value = request.form['value']
     db.session.commit()
     return redirect(url_for('admin'))
 

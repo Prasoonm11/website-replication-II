@@ -166,7 +166,51 @@
 
     <div class="admin-dash admin-grid" style="margin-top: 0; padding-top: 0;">
         <section class="admin-section">
-            <h3>Manage Call for Papers Links</h3>
+            <h2>Manage Call for Papers Content</h2>
+
+            {% for section in cfp_sections %}
+            <div class="cfp-admin-group" style="margin-bottom: 2.5rem; border-bottom: 2px solid #eee; padding-bottom: 1.5rem;">
+                <h4 style="color: #c1121f; font-size: 1.4rem; margin-bottom: 1rem;">{{ section.title }}</h4>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Bullet Point Content</th>
+                            <th style="width: 150px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for point in cfp_points if point.section_id == section.id %}
+                        <tr>
+                            <form action="{{ url_for('update_cfp_point', id=point.id) }}" method="POST">
+                                <td>
+                                    <input type="text" name="content" value="{{ point.content }}" style="width: 100%;" required>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn-update" style="margin-bottom: 8px; width: 100%;">Update</button>
+                                    <a href="{{ url_for('delete_cfp_point', id=point.id) }}" class="btn-delete" style="display: block; text-align: center; width: 100%;" onclick="return confirm('Delete this point?')">Delete</a>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                        
+                        <tr style="background-color: #fdf2f2;">
+                            <form action="{{ url_for('add_cfp_point') }}" method="POST">
+                                <input type="hidden" name="section_id" value="{{ section.id }}">
+                                <td>
+                                    <input type="text" name="content" placeholder="Add new bullet point or track..." required style="width: 100%;">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn-save" style="width: 100%; background-color: #28a745; color: white; border: none; padding: 8px; border-radius: 4px;">Add Point</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+
+            <h3 style="margin-top: 3rem;">Manage Call for Papers Buttons</h3>
             <table class="admin-table">
                 <thead>
                     <tr>
