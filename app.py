@@ -145,7 +145,8 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated: return redirect(url_for('admin'))
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -169,14 +170,14 @@ def admin():
         cfp_points=CFPPoint.query.all(),
         cfp_buttons=CFPButton.query.all())
 
-# --- Speaker Management ---
+# --- Management Routes ---
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
 def add_speaker():
     image_file = request.files.get('image')
     image_url = None
     if image_file and image_file.filename != '':
-        blob_response = put(secure_filename(image_file.filename), image_file.read())
+        blob_response = put(secure_filename(image_file.filename), image_file.read(), add_random_suffix=True)
         image_url = blob_response['url']
     db.session.add(Speaker(name=request.form['name'], affiliation=request.form['affiliation'], bio=request.form['bio'], image_url=image_url))
     db.session.commit()
@@ -187,12 +188,10 @@ def add_speaker():
 def edit_speaker(id):
     speaker = Speaker.query.get_or_404(id)
     if request.method == 'POST':
-        speaker.name = request.form['name']
-        speaker.affiliation = request.form['affiliation']
-        speaker.bio = request.form['bio']
+        speaker.name, speaker.affiliation, speaker.bio = request.form['name'], request.form['affiliation'], request.form['bio']
         image_file = request.files.get('image')
         if image_file and image_file.filename != '':
-            blob_response = put(secure_filename(image_file.filename), image_file.read())
+            blob_response = put(secure_filename(image_file.filename), image_file.read(), add_random_suffix=True)
             speaker.image_url = blob_response['url']
         db.session.commit()
         return redirect(url_for('admin'))
@@ -205,7 +204,6 @@ def delete_speaker(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-# --- Committee Management ---
 @app.route('/admin/committee/add', methods=['POST'])
 @login_required
 def add_committee():
@@ -216,9 +214,9 @@ def add_committee():
 @app.route('/admin/committee/update/<int:id>', methods=['POST'])
 @login_required
 def update_committee(id):
-    member = CommitteeMember.query.get_or_404(id)
-    member.category, member.name, member.position = request.form['category'], request.form['name'], request.form['position']
-    member.sort_order = request.form.get('sort_order', 0)
+    m = CommitteeMember.query.get_or_404(id)
+    m.category, m.name, m.position = request.form['category'], request.form['name'], request.form['position']
+    m.sort_order = request.form.get('sort_order', 0)
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -229,7 +227,6 @@ def delete_committee(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
-# --- Data Management ---
 @app.route('/admin/add_date', methods=['POST'])
 @login_required
 def add_date():
@@ -299,7 +296,7 @@ def reset_all():
         db.session.add(User(username='admin', password_hash=generate_password_hash('12345')))
     seed_production_data()
     db.session.commit()
-    return "Database fully reset! Visit /admin."
+    return "Success! All tables recreated and seeded. Go to /admin."
 
 @app.route('/logout')
 def logout():
