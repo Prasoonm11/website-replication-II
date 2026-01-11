@@ -81,30 +81,37 @@
         <section class="admin-section">
             <h2>Manage Conference Committee</h2>
             
-            <h4>Add Member</h4>
-            <form action="/admin/committee/add" method="POST" class="inline-add-form">
-                <input type="text" name="category" placeholder="Category (e.g., Patron)" required>
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="text" name="position" placeholder="Position/Affiliation" required>
-                <button type="submit" class="btn-save">Add</button>
-            </form>
-
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Category</th>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Action</th>
+                        <th style="width: 50px;">Seq</th>
+                        <th>Category (Red)</th>
+                        <th>Name (Bold)</th>
+                        <th>Position (Normal)</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for member in committee %}
                     <tr>
-                        <td>{{ member.category }}</td>
-                        <td>{{ member.name }}</td>
-                        <td>{{ member.position }}</td>
-                        <td><a href="/admin/committee/delete/{{ member.id }}" class="btn-delete">Delete</a></td>
+                        <form action="/admin/committee/update/{{ member.id }}" method="POST">
+                            <td>
+                                <input type="number" name="sort_order" value="{{ member.sort_order }}" style="width: 50px;">
+                            </td>
+                            <td>
+                                <input type="text" name="category" value="{{ member.category }}" style="color: #c1121f; font-weight: bold;">
+                            </td>
+                            <td>
+                                <input type="text" name="name" value="{{ member.name }}" style="font-weight: bold;">
+                            </td>
+                            <td>
+                                <textarea name="position" rows="1">{{ member.position }}</textarea>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn-update">Update</button>
+                                <a href="/admin/committee/delete/{{ member.id }}" class="btn-delete" style="padding: 5px 10px;">Delete</a>
+                            </td>
+                        </form>
                     </tr>
                     {% endfor %}
                 </tbody>

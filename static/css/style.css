@@ -2187,3 +2187,35 @@ body {
         flex-direction: column;
     }
 }
+
+/* ==== COMMITTEE SECTION UPDATES ==== */
+.committee-section h4 {
+    font-size: 1.8rem; /* Larger font */
+    color: #c1121f;    /* Theme Red */
+    font-weight: 700;
+    margin: 2rem 0 1rem 0;
+    border-bottom: none; /* Removed border to match screenshot */
+    text-transform: none;
+}
+
+.committee-member {
+    margin-bottom: 1.5rem;
+}
+
+.member-name {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700; /* Bold Name */
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.member-affiliation {
+    display: block;
+    font-size: 1.05rem;
+    color: #555;      /* Normal weight text */
+    padding-left: 15px;
+    position: relative;
+    border-left: 3px solid #c1121f; /* Red vertical line from image */
+    line-height: 1.4;
+}

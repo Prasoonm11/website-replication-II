@@ -18,10 +18,10 @@ app.config['UPLOAD_FOLDER'] = 'static/images/speakers'
 db_url = os.environ.get('POSTGRES_URL')
 
 if not db_url:
-    # Local fallback
+    # Local fallback for development
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 else:
-    # Vercel Postgres compatibility fix
+    # Vercel Postgres compatibility fix for SQLAlchemy
     if db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
@@ -55,6 +55,7 @@ class CommitteeMember(db.Model):
     category = db.Column(db.String(100), nullable=False) 
     name = db.Column(db.String(150), nullable=False)
     position = db.Column(db.String(200))
+    sort_order = db.Column(db.Integer, default=0) # Added for manual sequencing
 
 class RegistrationFee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -86,7 +87,7 @@ class LoginForm(FlaskForm):
 
 # --- Initialization & Auto-Seeding ---
 def seed_production_data():
-    """Seeds the DB if empty."""
+    """Initializes basic data if the database tables are empty."""
     if not RegistrationFee.query.first():
         fees = [
             RegistrationFee(category="Student (Indian)", ieee_online="₹6,000", ieee_offline="₹8,000", non_ieee_online="₹8,000", non_ieee_offline="₹10,000"),
@@ -100,8 +101,8 @@ def seed_production_data():
     if not ContactInfo.query.first():
         contacts = [
             ContactInfo(label="General Inquiries", value="stesi@jaipur.manipal.edu"),
-            ContactInfo(label="Phone Support", value="+91-141-3999100"),
-            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan")
+            ContactInfo(label="Phone Support", value="+91-141-3999100\n+91-141-3999200"),
+            ContactInfo(label="Conference Venue", value="Manipal University Jaipur, Rajasthan 303007")
         ]
         db.session.add_all(contacts)
     
@@ -117,13 +118,15 @@ with app.app_context():
         db.session.commit()
     seed_production_data()
 
-# --- Routes ---
+# --- Public Routes ---
 @app.route('/')
 def home():
+    # Sort committee by order to ensure Chief Patron appears first as per screenshot
+    committee = CommitteeMember.query.order_by(CommitteeMember.sort_order).all()
     return render_template('index.html', 
                            speakers=Speaker.query.all(), 
                            dates=ImportantDate.query.all(),
-                           committee=CommitteeMember.query.all(),
+                           committee=committee,
                            fees=RegistrationFee.query.all(),
                            cfp=CallForPaper.query.all(),
                            contacts=ContactInfo.query.all())
@@ -145,19 +148,20 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+# --- Admin Dashboard ---
 @app.route('/admin')
 @login_required 
 def admin():
+    committee = CommitteeMember.query.order_by(CommitteeMember.sort_order).all()
     return render_template('admin.html', 
                            speakers=Speaker.query.all(), 
                            dates=ImportantDate.query.all(),
-                           committee=CommitteeMember.query.all(),
+                           committee=committee,
                            fees=RegistrationFee.query.all(),
                            cfp=CallForPaper.query.all(),
                            contacts=ContactInfo.query.all())
 
-# --- Management Routes ---
-
+# --- Speaker Management ---
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
 def add_speaker():
@@ -196,11 +200,28 @@ def delete_speaker(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Committee Management ---
 @app.route('/admin/committee/add', methods=['POST'])
 @login_required
 def add_committee():
-    member = CommitteeMember(category=request.form['category'], name=request.form['name'], position=request.form['position'])
+    member = CommitteeMember(
+        category=request.form['category'], 
+        name=request.form['name'], 
+        position=request.form['position'],
+        sort_order=request.form.get('sort_order', 0)
+    )
     db.session.add(member)
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/committee/update/<int:id>', methods=['POST'])
+@login_required
+def update_committee(id):
+    member = CommitteeMember.query.get_or_404(id)
+    member.category = request.form.get('category')
+    member.name = request.form.get('name')
+    member.position = request.form.get('position')
+    member.sort_order = request.form.get('sort_order', 0)
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -211,6 +232,7 @@ def delete_committee(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Registration Fees Management ---
 @app.route('/admin/fees/update/<int:id>', methods=['POST'])
 @login_required
 def update_fees(id):
@@ -220,6 +242,7 @@ def update_fees(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Call for Papers Management ---
 @app.route('/admin/cfp/update/<int:id>', methods=['POST'])
 @login_required
 def update_cfp(id):
@@ -228,6 +251,7 @@ def update_cfp(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Contact Information Management ---
 @app.route('/admin/contact/update/<int:id>', methods=['POST'])
 @login_required
 def update_contact(id):
@@ -236,6 +260,7 @@ def update_contact(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+# --- Important Dates Management ---
 @app.route('/admin/add_date', methods=['POST'])
 @login_required
 def add_date():
