@@ -161,16 +161,16 @@
                 </aside>
 
                 <article class="content-panel">
-                    <div id="about" class="tab-content active">
-                        <h3>Overview</h3>
-                        <p>The aim of this conference is to present a unified platform for advanced and multi-disciplinary research towards design of smart power and automated systems. As global energy systems transition toward sustainability, the integration of renewable energy sources, electric vehicles (EVs), and battery energy storage systems (BESS) is becoming increasingly crucial.</p>
-                        <p>This conference will provide a platform for exploring emerging technologies, strategies, and policies that enhance grid resilience, efficiency, and reliability. To forge interactions among active researchers, the department of Electrical Engineering, Faculty of Science, Technology and Architecture, Manipal University Jaipur, is proposing to organize a multidisciplinary International Conference on Smart Technologies for Energy, Sustainability & Industry (STESI 2026) on 22nd-23rd July 2026.</p>
-                      
-                        <h3>Aims and Objectives</h3>
-                        <p>This Conference aims to bring together leading academic scientists, researchers, and research scholars to exchange and share their experiences and research results on all aspects of future ready innovations and ideas. It will offer a forum on which all the attendees can address a variety of subject matter for environmental sustainability as well as their knowledge, opportunities, and challenges in the fields of Green Energy, Automation, Electric Vehicle Technology, Intelligent Computing Techniques, and Industry.</p>
-                        <p>Advancements in renewable energy, smart grid technology, micro grids, distributed energy sources, home automation, applications of intelligent computing, robotics & smart machines, and environmental sustainability are among the many fields that make up the Sustainable Energy Development. Energy systems driven by global, social, environmentally friendly factors combined with specialized intelligence will revolutionize the business, industry, and society.</p>
-                        <p>The event will include keynote speeches from renowned experts, technical paper presentations, and panel discussions. It will serve as a platform for interdisciplinary collaboration, fostering innovation in smart grid technologies and sustainable energy solutions.</p>
-                    </div>
+                    <section id="about" class="section">
+                        {% for about in about_content %}
+                        <div class="about-container" style="margin-bottom: 50px;">
+                            <h2 class="section-title" style="color: #c1121f; font-weight: bold;">{{ about.section_name }}</h2>
+                            <div class="rich-text-content">
+                                {{ about.content | safe }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </section>
                     <div id="dates" class="tab-content">
                         <h3>Important Dates</h3>
                         <ul class="timeline-list">

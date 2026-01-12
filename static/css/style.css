@@ -2546,3 +2546,26 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* Container for the side-by-side layout */
+.admin-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Ensure sections don't overflow their columns */
+.admin-section {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+}
+
+/* Responsive adjustment: Stack columns on smaller laptops/tablets */
+@media (max-width: 1200px) {
+    .admin-wrapper {
+        flex-direction: column;
+    }
+    .admin-right-column {
+        position: static;
+        width: 100%;
+    }
+}

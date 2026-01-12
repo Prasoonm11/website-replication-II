@@ -83,6 +83,12 @@ class CFPButton(db.Model):
     url = db.Column(db.String(300), nullable=False)
     icon_class = db.Column(db.String(100))
 
+# --- New Model for Rich Text Sections ---
+class ConferenceAbout(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    section_name = db.Column(db.String(100)) # e.g., "Overview"
+    content = db.Column(db.Text) # Stores HTML from the editor
+
 # --- Forms ---
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -127,6 +133,11 @@ def seed_production_data():
     if not CFPButton.query.first():
         db.session.add(CFPButton(label="Submit Paper via CMT", url="#", icon_class="fa-arrow-up-right-from-square"))
         db.session.add(CFPButton(label="Download Templates", url="#", icon_class="fa-download"))
+    
+
+    if not ConferenceAbout.query.first():
+        db.session.add(ConferenceAbout(section_name="Overview", content="<p>The aim of this conference is to present a unified platform...</p>"))
+        db.session.add(ConferenceAbout(section_name="Aims and Objectives", content="<p>This Conference aims to bring together leading academic scientists...</p>"))
     
     db.session.commit()
 
@@ -292,6 +303,14 @@ def update_cfp_button(id):
 def update_contact(id):
     c = ContactInfo.query.get_or_404(id)
     c.value = request.form['value']
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/admin/about/update/<int:id>', methods=['POST'])
+@login_required
+def update_about(id):
+    about = ConferenceAbout.query.get_or_404(id)
+    about.content = request.form.get('content')
     db.session.commit()
     return redirect(url_for('admin'))
 

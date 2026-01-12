@@ -1,3 +1,4 @@
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,6 +259,39 @@
                 {% endfor %}
             </div>
         </section>
+    </div>
+    <div class="admin-wrapper" style="display: flex; gap: 20px; padding: 20px; align-items: flex-start;">
+    
+        <div class="admin-left-column" style="flex: 1.2; min-width: 0;">
+            <div class="admin-dash" style="margin: 0; padding: 0;">
+                </div>
+        </div>
+
+        <div class="admin-right-column" style="flex: 0.8; position: sticky; top: 20px;">
+            <section class="admin-section" style="height: auto;">
+                <h2 class="admin-title">Manage About Conference</h2>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 1.5rem;">Use this editor to format text with bold, colors, and lists.</p>
+                
+                {% for about in about_content %}
+                <div class="edit-card" style="margin-bottom: 30px;">
+                    <h4 style="color: #c1121f; margin-bottom: 10px;">{{ about.section_name }}</h4>
+                    <form action="{{ url_for('update_about', id=about.id) }}" method="POST">
+                        <textarea name="content" id="editor_{{ about.id }}">{{ about.content | safe }}</textarea>
+                        <button type="submit" class="btn-update-contact" style="width: 100%; margin-top: 15px;">
+                            Save {{ about.section_name }}
+                        </button>
+                    </form>
+                </div>
+                <script>
+                    CKEDITOR.replace('editor_{{ about.id }}', {
+                        height: 250,
+                        removeButtons: 'PasteFromWord' // Optional: clean up toolbar
+                    });
+                </script>
+                {% endfor %}
+            </section>
+            
+            </div>
     </div>
     <div class="footer-bottom">
         <div class="footer-bottom-content">
