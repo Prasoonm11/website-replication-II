@@ -238,27 +238,27 @@
                 </tbody>
             </table>
         </section>
-    </div>
-    <section class="admin-section">
-        <h2 class="admin-title">Manage Contact Information</h2>
-        
-        <div class="admin-grid-container">
-            {% for contact in contacts %}
-            <div class="contact-edit-card">
-                <h4 class="contact-card-title">{{ contact.label }}</h4>
-                <form action="{{ url_for('update_contact', id=contact.id) }}" method="POST">
-                    <div class="form-group">
-                        <label>Content:</label>
-                        <textarea name="value" rows="5" class="admin-textarea" required>{{ contact.value }}</textarea>
-                    </div>
-                    <button type="submit" class="btn-update-contact">
-                        Update {{ contact.label }}
-                    </button>
-                </form>
+        <section class="admin-section">
+            <h2 class="admin-title">Manage Contact Information</h2>
+            
+            <div class="admin-grid-container">
+                {% for contact in contacts %}
+                <div class="contact-edit-card">
+                    <h4 class="contact-card-title">{{ contact.label }}</h4>
+                    <form action="{{ url_for('update_contact', id=contact.id) }}" method="POST">
+                        <div class="form-group">
+                            <label>Content:</label>
+                            <textarea name="value" rows="5" class="admin-textarea" required>{{ contact.value }}</textarea>
+                        </div>
+                        <button type="submit" class="btn-update-contact">
+                            Update {{ contact.label }}
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        </section>
+    </div>
     <div class="footer-bottom">
         <div class="footer-bottom-content">
             <div class="footer-col-left">
