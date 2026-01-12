@@ -179,7 +179,7 @@ def admin():
         contacts=ContactInfo.query.all(),
         cfp_sections=CFPSection.query.order_by(CFPSection.sort_order).all(),
         cfp_points=CFPPoint.query.all(),
-        cfp_buttons=CFPButton.query.all()
+        cfp_buttons=CFPButton.query.all(),
         about_content=ConferenceAbout.query.all())
 
 # --- Speaker Management ---
