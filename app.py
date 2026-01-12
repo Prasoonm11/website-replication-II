@@ -183,6 +183,18 @@ def admin():
         cfp_buttons=CFPButton.query.all(),
         about_content=ConferenceAbout.query.all())
 
+# --- Fixed Important Dates Management ---
+
+@app.route('/admin/edit_date/<int:id>', methods=['POST'])
+@login_required
+def edit_date(id):
+    date_item = ImportantDate.query.get_or_404(id)
+    # We only update the date string as per your HTML form
+    date_item.date_str = request.form.get('date_str')
+    db.session.commit()
+    flash('Date updated successfully!')
+    return redirect(url_for('admin'))
+
 # --- Speaker Management ---
 @app.route('/admin/add_speaker', methods=['POST'])
 @login_required
