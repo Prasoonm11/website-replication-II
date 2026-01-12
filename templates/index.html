@@ -161,16 +161,18 @@
                 </aside>
 
                 <article class="content-panel">
-                    <section id="about" class="section">
+                    <div id="about" class="tab-content active">
                         {% for about in about_content %}
-                        <div class="about-container" style="margin-bottom: 50px;">
-                            <h2 class="section-title" style="color: #c1121f; font-weight: bold;">{{ about.section_name }}</h2>
-                            <div class="rich-text-content">
-                                {{ about.content | safe }}
+                            <div class="about-section" style="margin-bottom: 40px;">
+                                <h2 style="color: #c1121f; font-weight: bold; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                                    {{ about.section_name }}
+                                </h2>
+                                <div class="content-text" style="font-size: 1.1rem; line-height: 1.8; color: #444;">
+                                    {{ about.content | safe }}
+                                </div>
                             </div>
-                        </div>
                         {% endfor %}
-                    </section>
+                    </div>
                     <div id="dates" class="tab-content">
                         <h3>Important Dates</h3>
                         <ul class="timeline-list">
